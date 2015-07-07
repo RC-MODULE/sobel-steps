@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8,00"
+	Name="sobel_mb7707_nm"
+	ProjectGUID="{F1829FDB-E4A1-47F3-9488-F77D34D9843A}"
+	RootNamespace="sobel_mb7707_nm"
+	Keyword="MakeFileProj"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="make DEBUG=y -j4"
+				ReBuildCommandLine="make DEBUG=y -B -j4"
+				CleanCommandLine="make DEBUG=y clean"
+				Output="see makefile"
+				PreprocessorDefinitions="NEURO;_DEBUG"
+				IncludeSearchPath=";$(NEURO)/include;../..;C:\Program Files (x86)\Module\MB7707/nm/include;D:/GIT/nmpp/include;D:/GIT/nmpp/include/nmplv;../../../deps/malloc32"
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="make -j4"
+				ReBuildCommandLine="make -B -j4"
+				CleanCommandLine="make clean"
+				Output="see makefile"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				IncludeSearchPath=";$(NEURO)/include;../..;C:\Program Files (x86)\Module\MB7707/nm/include;D:/GIT/nmpp/include;D:/GIT/nmpp/include/nmplv;../../../deps/malloc32"
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath="../../../deps/malloc32/malloc32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="../../sobel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="./nm_main.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath="../../sobel.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath="about.txt"
+			>
+		</File>
+		<File
+			RelativePath="Makefile"
+			>
+		</File>
+		<File
+			RelativePath="mb7707brd.cfg"
+			>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
