@@ -78,6 +78,7 @@ sobel.cpp:
 И попробуем разместить в них входные и выходные массивы для каждой функции так , чтобы они располагались в разных пулах :
 
 |[code]           |pool1[nmc_data1]   |pool2[nmc_data2] 		|pool3[nmc_data3]  	|pool4[ddr_data0]|Shared[ddr_data1] |
+|:--              |:--                |:--						|:---				|---			|---				|
 |VEC_SubC         |signedImgUpLine    |							|   				|   			|sourceUpLine   	|
 |filter3h         |**signedImgUpLine**|horizontTmpUpLine   		|sobel_weights121   |   			|   				|
 |filter3v         |sobel_weights101v  |horizontTmpUpLine   		|horizontOut   		|   			|   				|
@@ -87,7 +88,7 @@ sobel.cpp:
 |VEC_Abs1         |verticalOut        |                       	|verticalAbs   		|   			|   				|
 |VEC_AddV         |summ               |horizontAbs            	|verticalAbs    	|   			|   				|
 |VEC_ClipCnv_AddC |summ               |vec_tbl_Diagonal_01h_G   |   				|   			|result   			|
-|:--              |:--                |:--						|:---				|---			|---				|
+
 
 
 
