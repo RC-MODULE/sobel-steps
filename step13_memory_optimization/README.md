@@ -16,8 +16,11 @@
 
 
 
+
 |pool0            |pool1              |pool2   					|pool3  			|pool4  |Shared    		|
-|--:              |:--                |:--						|:---				|---	|---			|
+|:--              |:--                |:--						|:---				|---	|---			|
+|pool0            |INTERNAL_MEMORY10  |INTERNAL_MEMORY10		|pool3  			|pool4  |Shared    		|
+|:--              |:--                |:--						|:---				|---	|---			|
 |VEC_SubC         |signedImgUpLine    |horizontTmpUpLine   		|   				|   	|sourceUpLine   |
 |filter3h         |**signedImgUpLine**|horizontTmpUpLine   		|sobel_weights121   |   	|   			|
 |filter3v         |sobel_weights101v  |**horizontAbs**     		|horizontOut   		|   	|   			|
@@ -25,7 +28,7 @@
 |filter3h         |signedImgUpLine    |sobel_weights121v   		|verticalTmpUpLine  |   	|   			|
 |filter3v         |**verticalOut**    |                       	|verticalTmp   		|   	|   			|
 |VEC_Abs1         |verticalOut        |horizontAbs            	|verticalAbs   		|   	|   			|
-|VEC_AddV         |summ               |VEC_TBL_Diagonal_01h_G 	|verticalAbs    	|   	|   			|
+|VEC_AddV         |summ               |vec_tbl_Diagonal_01h_G 	|verticalAbs    	|   	|   			|
 |VEC_ClipCnv_AddC |summ               |                       	|   				|   	|result   		|
 
 
@@ -38,7 +41,7 @@
 
 
 
-В результате данной оптимизации мы получили следующий прирост сокрости: 
+В результате данной оптимизации мы получили следующий прирост скорости: 
 
 - 13109964 clocks per frame
 - 31.61 clocks per pixel
