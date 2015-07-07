@@ -17,8 +17,8 @@ endif
 
 ROOT             = ../../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
-MB7707     = $(ROOT)/deps/mb7707sdk
-NMPROFILER = $(ROOT)/deps/nmprofiler
+MB7707           = $(ROOT)/deps/mb7707sdk
+NMPROFILER       = $(ROOT)/deps/nmprofiler
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/libload" -I$(ROOT)/deps/connector -I$(NMPROFILER)/include

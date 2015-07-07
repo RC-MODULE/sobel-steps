@@ -10,19 +10,13 @@ $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Micr
 .DEFAULT_GOAL := skip
 endif 
 
-
-
-
-
-
-ROOT = ../../..
-NMPP = $(ROOT)/deps/nmpp/..
-MC5103     = $(ROOT)/deps/mc5103sdk
-NMPROFILER = $(ROOT)/deps/nmprofiler
+ROOT             = ../../../..
+MC5103           = $(ROOT)/deps/mc5103sdk
+NMPROFILER       = $(ROOT)/deps/nmprofiler
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL)/include" -I"$(MC5103)/libload" -I$(NMPROFILER)/include -I$(ROOT)/deps/connector
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL)/lib"     -L"$(MC5103)/libload"
+INC_DIRS         = -I"$(VSHELL)/include" -I"$(MC5103)/libload" -I$(NMPROFILER)/include -I$(ROOT)/deps/connector
+LIB_DIRS         = -L"$(VSHELL)/lib"     -L"$(MC5103)/libload"
 SRC_DIRS         = .. 
 TMP_DIR          = Release
 TMP_DIRD         = Debug

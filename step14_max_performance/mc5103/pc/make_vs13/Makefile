@@ -17,12 +17,12 @@ endif
 
 ROOT             = ../../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
-MC5103 = $(ROOT)/deps/mc5103sdk
-NMPROFILER =$(ROOT)/deps/nmprofiler
+MC5103           = $(ROOT)/deps/mc5103sdk
+NMPROFILER       = $(ROOT)/deps/nmprofiler
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector -I$(NMPROFILER)/include
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL)/lib"     -L"$(MC5103)/libload"
+INC_DIRS         = -I"$(VSHELL)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector -I$(NMPROFILER)/include
+LIB_DIRS         = -L"$(VSHELL)/lib"     -L"$(MC5103)/libload"
 SRC_DIRS         = ..
 TMP_DIR          = Release
 TMP_DIRD         = Debug

@@ -17,36 +17,46 @@ int main(int argc, char *argv[])
 	int size  = width*height;
 
 	// Allocate memory for 8-bit source and result images in shared memory
-	int* dst=(int*)malloc32(size/4,0x10);
-	int* src=(int*)malloc32(size/4,0x10);		
+	int* extDst=(int*)malloc32(size/4,EXT_BANK0);
+	int* extSrc=(int*)malloc32(size/4,EXT_BANK0);		
+	
+	int* intSrc=(int*)malloc32(size/4,INT_BANK3);
+	int* intDst=intSrc;		
+	free32(intSrc);
+	
 	
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
-	if (sobel.isReady==false || src ==0 || dst==0){
+	if (sobel.isReady==false || extSrc ==0 || extDst==0 ){
 		ncl_hostSync(0xDEADB00F);	// send error to host
 		return -1;
 	}
 	else 
 		ncl_hostSync(0x600DB00F);	// send ok to host
 		
-	ncl_hostSync((int)src);		// Send source buffer address to host
-	ncl_hostSync((int)dst);		// Send result buffer address to host
+	ncl_hostSync((int)extSrc);		// Send source buffer address to host
+	ncl_hostSync((int)extDst);		// Send result buffer address to host
 		
 	
 	clock_t t0,t1;
 	int counter=0;				// frame counter
 	while(1){					// Start sobel in loop 
 		ncl_hostSync(counter);	// Wait source buffer till is ready 		
+		VEC_Copy(extSrc,intSrc,size);
 		t0=clock();
-		sobel.filter((unsigned char*)src,(unsigned char*)dst);
+		sobel.filter((unsigned char*)intSrc,(unsigned char*)intDst);
+		//sobel.filter((unsigned char*)extSrc,(unsigned char*)extDst);
 		t1=clock();
+		VEC_Copy(intDst,extDst,size);
 		ncl_hostSync(t1-t0);	// Send elapsed time 
 		counter++;
 	}
 	ncl_hostSync(0xDEADB00F);
-	free32(src);
-	free32(dst);
+	
+	free32(extSrc);
+	free32(extDst);
+	
 	return 1; 
 } 
 

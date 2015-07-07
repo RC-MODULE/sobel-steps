@@ -8,7 +8,10 @@ PATH := $(PATH);$(realpath ../gnuwin32/bin)
 
 $(eval OUT=$(shell unzip ))
 ifeq ($(OUT),)
-$(warning WARNING: unzip not found. Goto to /gnuwin32/ folder. Run 'make' and install UNZIP first )
+$(warning ------------------------------------------------------------------------------------------ )
+$(warning WARNING: unzip not found. Download it by 'sobel-steps/gnuwin32/get_unzip.bat' and install  )
+$(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which accessible by %PATH% )
+$(warning ------------------------------------------------------------------------------------------ )
 endif
 
 NMPP_ZIP = nmpp_2015-07-01.zip

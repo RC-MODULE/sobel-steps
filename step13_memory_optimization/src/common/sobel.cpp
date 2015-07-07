@@ -44,9 +44,9 @@ int CBaseSobel::init(int Width, int Height ){
 	wrapSize=size+2*width;
 	isReady	=false;	
 
-	pool1= malloc32(wrapSize/2,0x02);
-	pool2= malloc32(wrapSize/2,0x04);
-	pool3= malloc32(wrapSize/2,0x08);
+	pool1= malloc32(wrapSize/2, INT_BANK1);
+	pool2= malloc32(wrapSize/2, INT_BANK2);
+	pool3= malloc32(wrapSize/2, INT_BANK3);
 
 	signedImgUpLine	 = (nm8s*)pool1;
 	signedImg		 = VEC_Addr(signedImgUpLine,+width);
