@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
 		VEC_Copy(extSrc,intSrc,size);
 		t0=clock();
 		sobel.filter((unsigned char*)intSrc,(unsigned char*)intDst);
-		//sobel.filter((unsigned char*)extSrc,(unsigned char*)extDst);
 		t1=clock();
 		VEC_Copy(intDst,extDst,size);
 		ncl_hostSync(t1-t0);	// Send elapsed time 

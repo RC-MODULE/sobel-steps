@@ -44,8 +44,8 @@ int main()
 		return 0;
 
 	//if(!VS_Bind("//dragon/distrib/streams/video/720x576/bugs.avi"))
-	//if(!VS_Bind("../../../../input/bugs720x576x20.avi"))
-	if(!VS_Bind("../../../../input/Lena176x176.bmp"))
+	if(!VS_Bind("../../../../input/bugs720x576x20.avi"))
+	//if(!VS_Bind("../../../../input/Lena256x240.bmp"))
 	
 		return 0;
 

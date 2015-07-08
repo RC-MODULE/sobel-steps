@@ -42,12 +42,13 @@ int main(int arcg)
 	if(!VS_Init())
 		return 0;
 
-	//if(!VS_Bind("//dragon/distrib/streams/video/720x576/bugs.avi"))
-	if(!VS_Bind("../../../../input/bugs720x576x20.avi"))
+	if(!VS_Bind("../../../../input/Lena224x240.bmp"))
 		return 0;
 
+	
 	int width =VS_GetWidth (VS_SOURCE);
 	int height=VS_GetHeight(VS_SOURCE);
+
 	int size  =width*height;
 
     VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for 8-bit source grayscale image
@@ -78,12 +79,10 @@ int main(int arcg)
 		unsigned t=Connector.Sync(0);
 		Connector.ReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);
 			
-		profiler_print2tbl("../../nm/sobel_mb7707_nmd.map", ReadMemBlock);
+		//profiler_print2tbl("../../nm/sobel_mb7707_nmd.map", ReadMemBlock);
 		printf("\n");
 	
 	
-		if (t==0xDEADB00F)
-			VS_Text("Memory allocation error in sobel!\n");
 		VS_SetData(2, dstImg8);
 		VS_Text("%d clocks per frame, %.2f clocks per pixel, %.2f fps\r\n", t, 1.0*t/size, 320000000.0/t );
 		VS_Draw(VS_DRAW_ALL);
@@ -91,5 +90,8 @@ int main(int arcg)
 
 	delete srcImg8;
 	delete dstImg8;
+
+
+    
     return 0;
 }

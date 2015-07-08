@@ -100,7 +100,7 @@ TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      =../../src/common
-RESOURCES        =Makefile about.txt mc5103brd.cfg
+RESOURCES        =Makefile mc5103brd.cfg
 
 
 
@@ -170,7 +170,7 @@ $(TMP_DIR)/%.asmx: %.c
 
 clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
-	-$(OS_RD) Debug Release Debug
+	-$(OS_RD) Release Debug
  
 cleanall:
 	$(MAKE) clean

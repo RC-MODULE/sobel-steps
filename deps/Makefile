@@ -17,9 +17,9 @@ endif
 NMPP_ZIP = nmpp_2015-07-01.zip
 NMSDK_ZIP= nmsdk306en_20150611.zip
 
-all: download install 
+all: get install 
 
-download: $(NMPP_ZIP) nmprofiler_2015-06-26.zip mb7707_distrib.zip mc5103_distrib.zip $(NMSDK_ZIP) VSHELL_1.0.0.24.zip 
+get: $(NMPP_ZIP) nmprofiler_2015-06-26.zip mb7707_distrib.zip mc5103_distrib.zip $(NMSDK_ZIP) VSHELL_1.0.0.24.zip 
 
 install: nmpp nmprofiler mc5103sdk mb7707sdk vshell
 

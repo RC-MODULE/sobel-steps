@@ -17,13 +17,13 @@ int main(int argc, char *argv[])
 	int size  = width*height;
 
 	// Allocate memory for 8-bit source and result images in shared memory
-	int* dst=(int*)malloc32(size/4,0x10);
-	int* src=(int*)malloc32(size/4,0x10);		
+	int* dst=(int*)malloc32(size/4, EXT_BANK0);
+	int* src=(int*)malloc32(size/4, EXT_BANK0);		
 	
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
-	if (sobel.isReady==false || src ==0 || dst==0){
+	if (sobel.isReady==false) { // || src ==0 || dst==0){
 		ncl_hostSync(0xDEADB00F);	// send error to host
 		return -1;
 	}

@@ -3,7 +3,7 @@
 #include "malloc32.h"
 #include "sobel.h"
 
-void VEC_Add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
+
 
 extern "C" {
 
@@ -19,17 +19,6 @@ extern "C" {
 
 
 
-int sobelH[3]={
-		1,2,1
-//		0, 0,0,
-//		-1,-2,-1
-};
-
-int sobelV[3]={
-		1,0,-1
-//		2, 0,-2,
-//		1,0,-1
-};
 
 CBaseSobel::CBaseSobel(){
 	isReady=false;
@@ -40,13 +29,10 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
-	free32(pool1);
-	free32(pool2);
-	free32(pool3);
+	if (pool1) 	free32(pool1);
+	if (pool2)  free32(pool2);
+	if (pool3) 	free32(pool3);
 }
-
-
-
 
 int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
@@ -55,9 +41,9 @@ int CBaseSobel::init(int Width, int Height ){
 	wrapSize=size+2*width;
 	isReady	=false;	
 
-	pool1= malloc32(wrapSize/2,0x02);
-	pool2= malloc32(wrapSize/2,0x04);
-	pool3= malloc32(wrapSize/2,0x08);
+	pool1= malloc32(wrapSize/2, INT_BANK1);
+	pool2= malloc32(wrapSize/2, INT_BANK2);
+	pool3= malloc32(wrapSize/2, INT_BANK3);
 
 	signedImgUpLine	 = (nm8s*)pool1;
 	signedImg		 = VEC_Addr(signedImgUpLine,+width);
@@ -74,11 +60,15 @@ int CBaseSobel::init(int Width, int Height ){
 	verticalAbs      = (nm16s*)pool3;
 	summ			 = (nm16s*)pool1;
 
-	if (pool1==0 || pool2==0 || pool3==0)
-		return false;
+	isReady= (pool1!=0) && (pool2!=0) && (pool3!=0);
+		
+	if (!isReady){
+		if (pool1)	free32(pool1); pool1=0;
+		if (pool2)	free32(pool2); pool2=0;
+		if (pool3)	free32(pool3); pool3=0;
+	}
 
-	isReady=true;
-	return true;
+	return isReady;
 }
 
 
@@ -86,8 +76,21 @@ int CBaseSobel::init(int Width, int Height ){
 
 
 	
-int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
+int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int customHeight)
 {
+	int height  ;
+	int wrapSize;
+	int size;
+	if (customHeight){
+		wrapSize= customHeight*width;
+		size    = wrapSize;
+		height  = customHeight;
+	} 
+	else {
+		wrapSize= CBaseSobel::wrapSize;
+		size    = CBaseSobel::size;
+		height  = CBaseSobel::height;
+	}
 	
 	nm8u* sourceUpLine=VEC_Addr(source,-width);
 	VEC_SubC((nm8s*)sourceUpLine, 128, (nm8s*)signedImgUpLine, wrapSize);	// Transform dynamic range 0..255 to -128..+127
@@ -106,7 +109,6 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 	VEC_AddV(horizontAbs, verticalAbs,(nm16s*)summ,size);		// Add 
 	VEC_ClipCnv_AddC((nm16s*)summ,8,0,(nm8s*)result, size, VEC_TBL_Diagonal_01h_G);
 	
-	
 	return true;
 }
 
@@ -123,19 +125,27 @@ CSobel::CSobel (int Width, int Height){
 }
 
 int CSobel::init (int Width, int Height){
-	int sliceHeight=30;
-	sliceCount =Height/sliceHeight;
-	CBaseSobel::init(Width, sliceHeight);
+	fullHeight=Height;
+	// try to find maximum slice height to fit in internal memory
+	for(int sliceHeight=(Height+29)/30*30; sliceHeight>=30; sliceHeight-=30){
+		if (CBaseSobel::init(Width, sliceHeight))
+			break;
+	}
 	return isReady;
 }
 
 int CSobel::filter ( const unsigned char *source, unsigned char *result){
-	
-	for(int slice=0; slice<sliceCount; slice++){
-		unsigned char* sliceSrcImg8= VEC_Addr(source,slice*size);
-		unsigned char* sliceDstImg8= VEC_Addr(result,slice*size);
-		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
+	int residualHeight=fullHeight;
+	while (residualHeight>height){
+		CBaseSobel::filter(source, result);
+		source = VEC_Addr(source, size);
+		result = VEC_Addr(result, size);
+		residualHeight-=height;
 	}
+	if (residualHeight>0){
+		CBaseSobel::filter(source, result, residualHeight);
+	}
+	
 	return true;
 
 }

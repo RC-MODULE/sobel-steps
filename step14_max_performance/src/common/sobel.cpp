@@ -76,8 +76,21 @@ int CBaseSobel::init(int Width, int Height ){
 
 
 	
-int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
+int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int customHeight)
 {
+	int height  ;
+	int wrapSize;
+	int size;
+	if (customHeight){
+		wrapSize= customHeight*width;
+		size    = wrapSize;
+		height  = customHeight;
+	} 
+	else {
+		wrapSize= CBaseSobel::wrapSize;
+		size    = CBaseSobel::size;
+		height  = CBaseSobel::height;
+	}
 	
 	nm8u* sourceUpLine=VEC_Addr(source,-width);
 	VEC_SubC((nm8s*)sourceUpLine, 128, (nm8s*)signedImgUpLine, wrapSize);	// Transform dynamic range 0..255 to -128..+127
@@ -96,6 +109,7 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 	VEC_AddV(horizontAbs, verticalAbs,(nm16s*)summ,size);		// Add 
 	VEC_ClipCnv_AddC((nm16s*)summ,8,0,(nm8s*)result, size, VEC_TBL_Diagonal_01h_G);
 	
+	
 	return true;
 }
 
@@ -112,21 +126,27 @@ CSobel::CSobel (int Width, int Height){
 }
 
 int CSobel::init (int Width, int Height){
+	fullHeight=Height;
+	// try to find maximum slice height to fit in internal memory
 	for(int sliceHeight=(Height+29)/30*30; sliceHeight>=30; sliceHeight-=30){
-		sliceCount =(Height+29)/sliceHeight;
-		if (CBaseSobel::init(Width, sliceHeight));
+		if (CBaseSobel::init(Width, sliceHeight))
 			break;
 	}
 	return isReady;
 }
 
 int CSobel::filter ( const unsigned char *source, unsigned char *result){
-	
-	for(int slice=0; slice<sliceCount; slice++){
-		unsigned char* sliceSrcImg8= VEC_Addr(source,slice*size);
-		unsigned char* sliceDstImg8= VEC_Addr(result,slice*size);
-		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
+	int residualHeight=fullHeight;
+	while (residualHeight>height){
+		CBaseSobel::filter(source, result);
+		source = VEC_Addr(source, size);
+		result = VEC_Addr(result, size);
+		residualHeight-=height;
 	}
+	if (residualHeight>0){
+		CBaseSobel::filter(source, result, residualHeight);
+	}
+	
 	return true;
 
 }

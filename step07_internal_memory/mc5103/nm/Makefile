@@ -98,7 +98,7 @@ TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      =../..
-RESOURCES        =Makefile about.txt mc5103brd.cfg
+RESOURCES        =Makefile mc5103brd.cfg
 
 
 

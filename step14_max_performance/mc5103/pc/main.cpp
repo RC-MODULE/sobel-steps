@@ -43,16 +43,13 @@ int main()
 	if(!VS_Init())
 		return 0;
 
-	//if(!VS_Bind("//dragon/distrib/streams/video/720x576/bugs.avi"))
-	//if(!VS_Bind("../../../../input/Lena176x176.bmp"))
 	if(!VS_Bind("../../../../input/Lena224x240.bmp"))
 		return 0;
 
 	
 	int width =VS_GetWidth (VS_SOURCE);
 	int height=VS_GetHeight(VS_SOURCE);
-	
-	//height=210;
+
 	int size  =width*height;
 
     VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for 8-bit source grayscale image
@@ -74,16 +71,15 @@ int main()
 	
 	
 	
-	while(VS_Run())
-	{
-        VS_GetGrayData(VS_SOURCE, srcImg8);
-		VS_SetData(1, srcImg8);
+	while(VS_Run())	{
+        VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
+		VS_SetData(1, srcImg8);				// Put source image in window ?1
 
 
 		Connector.WriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
 		Connector.Sync(0);
 		//... wait while sobel runs on board
-		int t=Connector.Sync(0);
+		unsigned t=Connector.Sync(0);
 		Connector.ReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);
 			
 		profiler_print2tbl("../../nm/sobel_mc5103_nmd.map", ReadMemBlock);

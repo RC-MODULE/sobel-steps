@@ -119,7 +119,6 @@
 		> 
  		</Filter> 
  			<File RelativePath="Makefile" > </File> 
- 			<File RelativePath="about.txt" > </File> 
  		</Files>
 	<Globals>
 	</Globals>

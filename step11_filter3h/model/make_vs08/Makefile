@@ -32,7 +32,7 @@ LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      = ../..
-RESOURCES        =Makefile about.txt
+RESOURCES        =Makefile
 
 # regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
 ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))

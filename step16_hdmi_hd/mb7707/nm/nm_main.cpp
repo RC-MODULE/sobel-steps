@@ -4,27 +4,21 @@
 #include "vdu.h"
 #include "sleep.h"
 #include <time.h>
+#include <nmpli.h>
+#include <stdio.h>
 
 #define ARM2NM(addr)((int*)(((unsigned)addr)>>2))
 #define NM2ARM(addr)((int*)(((unsigned)addr)*4))
 
-int *crt;
-int rowsize;
-char hex8buf[11];
-char *hex8( int x)
-{ int i,j,k;
-for (i=0; i<8; i++)
-{ j=x & 15;
-k=(j>9)? j+=87 : j+=48;
-hex8buf[7-i]=(char)k;
-x>>=4;
-}
-hex8buf[8]=0;
-return hex8buf;
-}
 
 int main(int argc, char *argv[])
 {  
+	// Init VDU
+	unsigned Y0=0xC0000000; 
+	unsigned Y1=0xC0000000; 
+	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 128, 1920*1080*2);
+	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 255, 1920*1080/2);
+	Start_VDU(1920,1080, Y0, Y1, 0) ;
 	
 	
 	//---------- start nm program ------------
@@ -37,14 +31,6 @@ int main(int argc, char *argv[])
 	int width = ncl_hostSync(0);
 	int height= ncl_hostSync(1);
 	int size  = width*height;
-	//-------------------------------
-	// Init VDU
-	unsigned Y0=0xC0000000; 
-	unsigned Y1=0xC0000000; 
-	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 128, width*height*2);
-	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 255, width*height/2);
-	Start_VDU(width,height, Y0, Y1,0 ) ;
-
 
 	// Allocate memory for 8-bit source and result images in shared memory
 	
@@ -69,14 +55,18 @@ int main(int argc, char *argv[])
 		
 	
 	clock_t t0,t1;
+	char str[128];
 	int counter=0;				// frame counter
 	while(1){					// Start sobel in loop 
 		for(int i=0; i<MIN(maxFrames-1,frames); i++){
 			nm8u* src=VEC_Addr(video,i*size);
 			t0=clock();
 			sobel.filter(src,dst);
-			sleep(1000);
 			t1=clock();
+			unsigned t=t1-t0;
+			sprintf(str,"%d clocks per frame, %.2f clocks per pixel, %.2f fps", t, 1.0*t/size, 320000000.0/t);
+			IMG_Print8x15( str, dst, width, 10, 10 , 255, 0);
+			sleep(1000);
 		}
 		counter++;
 	}

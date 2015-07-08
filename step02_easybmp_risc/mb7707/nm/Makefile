@@ -98,7 +98,7 @@ TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      =../..
-RESOURCES        =Makefile about.txt mb7707brd.cfg
+RESOURCES        =Makefile mb7707brd.cfg
 
 #==================== Handle OS Specifics ==========================
 ifeq ($(OS),Windows_NT)

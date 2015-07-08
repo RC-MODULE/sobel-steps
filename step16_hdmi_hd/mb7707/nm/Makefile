@@ -66,10 +66,10 @@ else
   .DEFAULT_GOAL := skip
 endif
 
-ROOT = ../../..
-MB7707  	= $(ROOT)/deps/mb7707sdk
-NMPROFILER 	= $(ROOT)/deps/mprofiler
-NMPP          = $(ROOT)/deps/nmpp
+ROOT             = ../../..
+MB7707  	     = $(ROOT)/deps/mb7707sdk
+NMPROFILER 	     = $(ROOT)/deps/mprofiler
+NMPP             = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
@@ -98,7 +98,7 @@ TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      = ../../src/common
-RESOURCES        =Makefile about.txt mb7707brd.cfg
+RESOURCES        =Makefile mb7707brd.cfg
 
 
 
@@ -168,7 +168,7 @@ $(TMP_DIR)/%.asmx: %.c
 
 clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
-	-$(OS_RD) Debug Release Release Debug
+	-$(OS_RD) Release Debug
  
 cleanall:
 	$(MAKE) clean

@@ -86,7 +86,7 @@ LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=1000000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=1000000 -heap1=32500 -heap2=31500 -heap3=32500 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -98,7 +98,7 @@ TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      = ../../src/common
-RESOURCES        =Makefile about.txt mb7707brd.cfg
+RESOURCES        =Makefile mb7707brd.cfg
 
 
 
@@ -168,7 +168,7 @@ $(TMP_DIR)/%.asmx: %.c
 
 clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
-	-$(OS_RD) Debug Release Release Debug
+	-$(OS_RD) Release Debug
  
 cleanall:
 	$(MAKE) clean

@@ -18,9 +18,9 @@ int main(int argc, char *argv[])
 	int size  = width*height;
 
 	// Allocate memory for 8-bit source and result images in shared memory
+	int* dst=(int*)malloc32(size/4, EXT_BANK0);
+	int* src=(int*)malloc32(size/4, EXT_BANK0);		
 	
-	int* dst=(int*)shared_malloc32(size/4);
-	int* src=(int*)shared_malloc32(size/4);		
 	
 	CSobel sobel(width, height);
 	

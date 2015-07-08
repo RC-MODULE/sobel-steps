@@ -51,11 +51,11 @@ public:
 	CBaseSobel(int Width, int Height);
 	~CBaseSobel();
 	int init(int Width, int Height);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const unsigned char *source, unsigned char *result, int customHeight=0);
 };
 
 class CSobel: public CBaseSobel {
-	int			sliceCount;		// count of slices which source image is split into
+	int fullHeight;
 	
 public:
 	CSobel();
