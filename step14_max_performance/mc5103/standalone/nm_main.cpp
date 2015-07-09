@@ -16,10 +16,6 @@ int main(int argc, char *argv[])
 	int height= pgm_header.height;
 	int size  = width*height;
 
-	// Allocate memory for 8-bit source and result images in shared memory
-	int* extDst=(int*)malloc32(size/4,EXT_BANK0);
-	int* extSrc=(int*)malloc32(size/4,EXT_BANK0);		
-	
 	int* intSrc=(int*)malloc32(size/4,INT_BANK3);
 	int* intDst=intSrc;		
 	free32(intSrc);
@@ -38,8 +34,6 @@ int main(int argc, char *argv[])
 		VEC_SetVal((nm8u*)pgm_header.data, pgm_header.disp+i, pix);
 	}
 
-	free32(extSrc);
-	free32(extDst);
 	return t1-t0; 
 } 
 

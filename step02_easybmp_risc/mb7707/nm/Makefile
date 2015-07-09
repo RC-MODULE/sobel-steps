@@ -140,7 +140,7 @@ all:
 $(TMP_DIR):
 	-mkdir "$(@)"
 
-$(TARGET): $(OBJECTS) 
+$(TARGET): $(TMP_DIR) $(OBJECTS) 
 	$(BUILDER) $(BUILDER_FLAGS) $(OBJECTS) $(LIBS)
 
 $(OUT_DIR): 
