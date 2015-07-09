@@ -74,8 +74,8 @@ NMPP             = $(ROOT)/deps/nmpp
 PROJECT          = sobel_mc5103_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include"   -I../.. -I$(ROOT)/deps/EasyPGM
-SRC_DIRS         = . ../.. $(ROOT)/deps/EasyPGM
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include"   -I../.. -I$(ROOT)/deps/EasyPGM -I../../src/common
+SRC_DIRS         = . ../../src/common ../../src/nm $(ROOT)/deps/EasyPGM
 LIB_DIRS         = -L"$(NEURO)/lib"   -L"$(MC5103)/lib" -L"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
@@ -86,7 +86,7 @@ LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp_nmc3.
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=1000000 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=1000000 -heap1=32500 -heap2=31000 -heap3=32500 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs

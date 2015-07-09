@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8,00"
+	Name="sobel_mc5103_nm"
+	ProjectGUID="{502FEC7E-393D-4397-8F70-5014080F458C}"
+	RootNamespace="sobel_mc5103_nm"
+	Keyword="MakeFileProj"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="make DEBUG=y -j4"
+				ReBuildCommandLine="make DEBUG=y -B -j4"
+				CleanCommandLine="make DEBUG=y clean"
+				Output="see makefile"
+				PreprocessorDefinitions="NEURO;_DEBUG"
+				IncludeSearchPath=";$(NEURO)/include;../../../deps/mc5103sdk/include;../../../deps/nmpp/include;../..;../../../deps/EasyPGM;../../src/common"
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="make -j4"
+				ReBuildCommandLine="make -B -j4"
+				CleanCommandLine="make clean"
+				Output="see makefile"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				IncludeSearchPath=";$(NEURO)/include;../../../deps/mc5103sdk/include;../../../deps/nmpp/include;../..;../../../deps/EasyPGM;../../src/common"
+				ForcedIncludes=""			
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			  <File RelativePath="./nm_main.cpp" > </File>  <File RelativePath="../../src/common/malloc32.cpp" > </File>  <File RelativePath="../../src/common/sobel.cpp" > </File>  <File RelativePath="../../../deps/EasyPGM/easypgm.cpp" > </File>  <File RelativePath="../../src/nm/filter3h.asm" > </File>  <File RelativePath="../../src/nm/filter3v.asm" > </File>  <File RelativePath="../../src/nm/vec_AddAbsV.asm" > </File>  <File RelativePath="../../src/nm/VEC_AddAbsV__nm16s.asm" > </File>  </Filter> 	
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+		>
+		 </Filter> <File RelativePath="Makefile" > </File>  <File RelativePath="mc5103brd.cfg" > </File>  		</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
