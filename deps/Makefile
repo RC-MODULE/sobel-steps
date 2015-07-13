@@ -14,7 +14,7 @@ $(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which acce
 $(warning ------------------------------------------------------------------------------------------ )
 endif
 
-NMPP_ZIP = nmpp_2015-07-01.zip
+NMPP_ZIP = nmpp_2015-07-10.zip
 NMSDK_ZIP= nmsdk306en_20150611.zip
 
 all: get install 
