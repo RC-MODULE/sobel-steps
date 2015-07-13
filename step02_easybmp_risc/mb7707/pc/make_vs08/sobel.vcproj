@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="sobel"
+	Name=""
 	ProjectGUID="{502FEC7E-393D-4397-8F70-5014080F458C}"
-	RootNamespace="sobel"
+	RootNamespace=""
 	>
 	<Platforms>
 		<Platform
@@ -118,9 +118,11 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 		> 
+ 			<File RelativePath="../../../malloc32.h" > </File> 
+ 			<File RelativePath="../../../sobel.h" > </File> 
+ 			<File RelativePath="../../../../deps/connector/pc_connector_mb7707.h" > </File> 
+ 			<File RelativePath="../../../../deps/connector/pc_connector_mc5103.h" > </File> 
  		</Filter> 
- 			<File RelativePath="Makefile" > </File> 
- 			<File RelativePath="about.txt" > </File> 
  		</Files>
 	<Globals>
 	</Globals>

@@ -181,13 +181,17 @@ profile:
 	tclsh $(NMPROFILER)\script\generate_proflist.tcl $(PROJECT).map
 	
 #========================== Visual Studio 8 support ===================
--include vs8.mk
+export ALL_CPP ALL_ASM ALL_C ALL_H
 
-vs8:
-	@$(MAKE) vs8stdout --silent >$(PROJECT).vcproj
+vs8: $(PROJECT).vcproj
 
-vs8stdout:	
-	$(info $(XML))
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk nmc-app --silent >$(@)
+
+vs13: $(PROJECT).vcxproj
+
+$(PROJECT).vcxproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
 
 skip:
 	@echo SDK missing. Compilation is skipped!

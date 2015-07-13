@@ -45,13 +45,13 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 
 #======================== BUILD RULES ====================================
--include vs13.mk
 
-.PHONY: run clean vs8stdout vs13
+
+.PHONY: run clean vs13
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 
-$(TARGETD): $(PROJECT).vcproj $(ALL_CPP)
+$(TARGETD): $(PROJECT).vcxproj $(ALL_CPP)
 	"$(VS120COMNTOOLS)vsvars32" && msbuild $(PROJECT).vcxproj
 
 run: $(TARGETD)
@@ -61,15 +61,17 @@ run: $(TARGETD)
 clean:
 	-rm -f -r .* *.o *.ncb *.ilk $(TARGET) $(TARGETD) *.dep *.ac *.map *.suo *.ncb *.sdf *.htm *.user $(TMP_DIR) $(TMP_DIRD)
 	
-$(PROJECT).vcproj: Makefile
-	$(MAKE) vs13stdout --silent >$(PROJECT).vcxproj
-
-vs13stdout:	
-	$(info $(VC_APP))
-
-vs13: $(PROJECT).vcproj
-
+export HEADER_DIRS
+export INC_DIRS LIB_DIRS
+export LIBS LIBSD
+export ALL_CPP ALL_ASM ALL_C ALL_H
+export TARGET TARGETD
 	
+vs13: $(PROJECT).vcxproj
+
+$(PROJECT).vcxproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs13.mk vc-app --silent >$(@)	
+
 skip:
 	@echo Compilation is skipped!
 	

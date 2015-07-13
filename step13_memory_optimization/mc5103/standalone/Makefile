@@ -177,13 +177,17 @@ cleanall:
 run: $(TARGET)
 	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Test720x576.pgm --send_addr=0x10004000 --recv_file_name=Sobel.pgm --recv_addr=0x10004000 --recv_size=0x103690
 #========================== Visual Studio 8 support ===================
--include vs8.mk
+export ALL_CPP ALL_ASM ALL_C ALL_H
 
-vs8:
-	@$(MAKE) vs8stdout --silent >$(PROJECT).vcproj
+vs8: $(PROJECT).vcproj
 
-vs8stdout:	
-	$(info $(XML))
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk nmc-app --silent >$(@)
+
+vs13: $(PROJECT).vcxproj
+
+$(PROJECT).vcxproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
 
 skip:
 	@echo SDK missing. Compilation is skipped!

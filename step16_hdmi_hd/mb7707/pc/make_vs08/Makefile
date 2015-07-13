@@ -62,13 +62,16 @@ run: $(TARGETD)
 clean:
 	-rm -f -r .* *.o *.ncb *.ilk $(TARGET) $(TARGETD) *.dep *.ac *.map *.suo *.ncb *.user $(TMP_DIR) $(TMP_DIRD)
 	
-$(PROJECT).vcproj: Makefile
-	$(MAKE) vs8stdout --silent >$(PROJECT).vcproj
-
-vs8stdout:	
-	$(info $(VC_APP))
-
+export HEADER_DIRS
+export INC_DIRS LIB_DIRS
+export LIBS LIBSD
+export ALL_CPP ALL_ASM ALL_C ALL_H
+export TARGET TARGETD
+	
 vs8: $(PROJECT).vcproj
+
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk vc-app --silent >$(@)
 
 	
 skip:

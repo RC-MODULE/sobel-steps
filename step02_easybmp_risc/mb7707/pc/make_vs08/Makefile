@@ -35,7 +35,7 @@ LIBS             = mb7707load.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      = $(ROOT)/connector 
+HEADER_DIRS      = ../../.. $(ROOT)/deps/connector 
 RESOURCES        =Makefile
 
 # regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
@@ -45,9 +45,8 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 
 #======================== BUILD RULES ====================================
--include vs8.mk
 
-.PHONY: run clean vs8stdout vs8
+.PHONY: run clean vs8
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 
@@ -60,17 +59,19 @@ run: $(TARGETD)
 	
 clean:
 	-rm -f -r .* *.o *.ncb *.ilk $(TARGET) $(TARGETD) *.dep *.ac *.map *.suo *.ncb *.user $(TMP_DIR) $(TMP_DIRD)
+
 	
-$(PROJECT).vcproj: Makefile
-	$(MAKE) vs8stdout --silent >$(PROJECT).vcproj
-
-vs8stdout:	
-	$(info $(VC_APP))
-
+export HEADER_DIRS
+export INC_DIRS LIB_DIRS
+export LIBS LIBSD
+export ALL_CPP ALL_ASM ALL_C ALL_H
+export TARGET TARGETD
+	
 vs8: $(PROJECT).vcproj
 
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk vc-app --silent >$(@)
 
-	
 skip:
 	@echo Compilation is skipped!
 	

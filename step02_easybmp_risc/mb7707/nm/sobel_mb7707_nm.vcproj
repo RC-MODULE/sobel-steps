@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="sobel_mb7707_nm"
-	ProjectGUID="{502FEC7E-393D-4397-8F70-5014080F458C}"
+	ProjectGUID="{E4E60478-B2C0-45EE-A19D-223A77602389}"
 	RootNamespace="sobel_mb7707_nm"
 	Keyword="MakeFileProj"
 	>
@@ -49,7 +49,7 @@
 				Output="see makefile"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				IncludeSearchPath=";$(NEURO)/include;../..;C:\Program Files (x86)\Module\MB7707/nm/include;D:/GIT/nmpp/include;D:/GIT/nmpp/include/nmplv"
-				ForcedIncludes=""			
+				ForcedIncludes=""
 				AssemblySearchPath=""
 				ForcedUsingAssemblies=""
 				CompileAsManaged=""
@@ -64,13 +64,46 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			  <File RelativePath="./nm_main.cpp" > </File>  <File RelativePath="../../malloc32.cpp" > </File>  <File RelativePath="../../sobel.cpp" > </File>  </Filter> 	
+			<File
+				RelativePath="../../malloc32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="../../sobel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="./nm_main.cpp"
+				>
+			</File>
+		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-		>
-		 <File RelativePath="../../malloc32.h" > </File>  <File RelativePath="../../sobel.h" > </File>  </Filter> <File RelativePath="Makefile" > </File>  <File RelativePath="about.txt" > </File>  <File RelativePath="mb7707brd.cfg" > </File>  		</Files>
+			>
+			<File
+				RelativePath="../../malloc32.h"
+				>
+			</File>
+			<File
+				RelativePath="../../sobel.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath="about.txt"
+			>
+		</File>
+		<File
+			RelativePath="Makefile"
+			>
+		</File>
+		<File
+			RelativePath="mb7707brd.cfg"
+			>
+		</File>
+	</Files>
 	<Globals>
 	</Globals>
 </VisualStudioProject>
