@@ -16,10 +16,10 @@
  * Рекомендуется взять последнюю (бета)версию http://www.module.ru/mb7707/toolchains-win32/nmsdk306en_20150611.zip
 3. Для сборки Makefile-ов необходимо иметь установленный *make*
  * Вариант установки-а: 
- -скачать все необходимые утилиты, в том числе инсталлятор *make*, с помощью скрипта *./sobel-steps/gnuwin32/get-utils.bat* . 
-  в результате должны появиться следующие файлы: *make-3.81.exe unzip-5.51-1.exe coreutils-5.3.0-bin.zip unzip-5.51-1-bin.zip which-2.20-bin.zip *
- -Запустить инсталлятор *make-3.81.exe* 
- -Прописать путь к установленному *make.exe* в %PATH%. 
+ -скачать все необходимые утилиты, в том числе инсталлятор *make*, с помощью скрипта *./sobel-steps/gnuwin32/get-utils.bat*   
+  в результате должны появиться следующие файлы: *make-3.81.exe unzip-5.51-1.exe coreutils-5.3.0-bin.zip unzip-5.51-1-bin.zip which-2.20-bin.zip*  
+ -Запустить инсталлятор *make-3.81.exe*  
+ -Прописать путь к установленному *make.exe* в %PATH%  
  * Вариант установки-b: Самостоятельно *make* можно установить через Setup, скачав с http://gnuwin32.sourceforge.net/packages/make.htm
  * Вариант установки-с: *make* можно вызывать из GCC пакета MinGW for Windows http://sourceforge.net/projects/mingw/  
 4. Для установки дополнительных библиотек и пакетов ПО разработки НТЦ Модуль необходим распаковщик 'unzip'.
