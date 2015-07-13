@@ -66,27 +66,29 @@ else
   .DEFAULT_GOAL := skip
 endif
 
-ROOT             = ../../..
+ROOT = ../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
 MC5103           = $(ROOT)/deps/mc5103sdk
+NMPROFILER       = $(ROOT)/deps/nmprofiler
 NMPP             = $(ROOT)/deps/nmpp
+
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc5103_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include"   -I../.. -I$(ROOT)/deps/EasyPGM
-SRC_DIRS         = . ../.. $(ROOT)/deps/EasyPGM
-LIB_DIRS         = -L"$(NEURO)/lib"   -L"$(MC5103)/lib" -L"$(NMPP)/lib"
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include"  -I"$(NMPP)/include/nmpli" -I"$(NMPROFILER)/include" -I../../src/common -I$(ROOT)/deps/EasyPGM
+SRC_DIRS         = .. ../../src/common ../../src/nm  $(ROOT)/deps/EasyPGM
+LIB_DIRS         = -L"$(NEURO)/lib" -L$(ROOT)/lib -L"$(MC5103)/lib" -L"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
 AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
 AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
-LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
+LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib 
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=1000000 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=1000000 -heap1=32500 -heap2=31000 -heap3=32500 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -97,7 +99,7 @@ BUILDER_FLAGS   += -d0
 TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      =../include .
+HEADER_DIRS      =../../src/common
 RESOURCES        =Makefile mc5103brd.cfg
 
 
@@ -133,6 +135,11 @@ OBJECTS_CPP = $(notdir $(patsubst %.cpp,%.o,$(ALL_CPP)))
 OBJECTS_ASM = $(notdir $(patsubst %.asm,%.o,$(ALL_ASM)))
 OBJECTS_C   = $(notdir $(patsubst %.c,%.o,$(ALL_C)))
 OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM))
+
+export ALL_CPP
+export ALL_ASM
+export ALL_C
+export ALL_H
 
 #======================== BUILD RULES ====================================
 .PHONY:all  clean cleanall kill vs8 vs8stdout skip
@@ -177,13 +184,10 @@ cleanall:
 run: $(TARGET)
 	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_addr=0x10004000 --recv_file_name=Sobel.pgm --recv_addr=0x10004000 --recv_size=0x348a
 #========================== Visual Studio 8 support ===================
--include vs8.mk
+vs8: $(PROJECT).vcproj
 
-vs8:
-	@$(MAKE) vs8stdout --silent >$(PROJECT).vcproj
-
-vs8stdout:	
-	$(info $(XML))
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk nmc-app --silent >$(@)
 
 skip:
 	@echo SDK missing. Compilation is skipped!

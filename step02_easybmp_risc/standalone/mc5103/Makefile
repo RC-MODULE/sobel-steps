@@ -134,6 +134,11 @@ OBJECTS_ASM = $(notdir $(patsubst %.asm,%.o,$(ALL_ASM)))
 OBJECTS_C   = $(notdir $(patsubst %.c,%.o,$(ALL_C)))
 OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM))
 
+export ALL_CPP
+export ALL_ASM
+export ALL_C
+export ALL_H
+
 #======================== BUILD RULES ====================================
 .PHONY:all  clean cleanall kill vs8 vs8stdout skip
 
@@ -177,13 +182,10 @@ cleanall:
 run: $(TARGET)
 	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_addr=0x10004000 --recv_file_name=Sobel.pgm --recv_addr=0x10004000 --recv_size=0x348a
 #========================== Visual Studio 8 support ===================
--include vs8.mk
+vs8: $(PROJECT).vcproj
 
-vs8:
-	@$(MAKE) vs8stdout --silent >$(PROJECT).vcproj
-
-vs8stdout:	
-	$(info $(XML))
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk nmc-app --silent >$(@)
 
 skip:
 	@echo SDK missing. Compilation is skipped!

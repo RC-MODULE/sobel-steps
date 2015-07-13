@@ -16,23 +16,25 @@ int main(int argc, char *argv[])
 	int height= pgm_header.height;
 	int size  = width*height;
 
-	// Allocate memory for 8-bit source and result images in shared memory
-	int* src=(int*)malloc32(size/4); if (src ==0 ) return -1;		
-	int* dst=(int*)malloc32(size/4); if (dst ==0 ) return -1;
-		
-	VEC_Copyua((nm8s*)pgm_header.data, pgm_header.disp, (nm8s*) src, size);
+	int* intSrc=(int*)malloc32(size/4,INT_BANK3);
+	int* intDst=intSrc;		
+	free32(intSrc);
 	
+	VEC_Copyua((nm8s*)pgm_header.data, pgm_header.disp, (nm8s*) intSrc, size);
+	
+
+	CSobel sobel(width, height);
+	if (!sobel.isReady) return -1;
 	clock_t t0=clock();
-	sobel((unsigned char*)src,(unsigned char*)dst,width,height);
+	sobel.filter((unsigned char*)intSrc,(unsigned char*)intDst);
 	clock_t t1=clock();
 
 	for(int i=0; i<size; i++){
-		int pix=VEC_GetVal((nm8u*)dst,i);
+		int pix=VEC_GetVal((nm8u*)intDst,i);
 		VEC_SetVal((nm8u*)pgm_header.data, pgm_header.disp+i, pix);
 	}
 
-	free32(src);
-	free32(dst);
 	return t1-t0; 
 } 
 
+// return is 138000  138000/224/240 = 2,566964285714 ticks per pixel
