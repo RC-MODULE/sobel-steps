@@ -29,7 +29,7 @@
   -Установить *unzip-5.51-1.exe* либо в текущую директорию */sobel-steps/gnuwin32/*, либо в любую другую с добавлением соответствующего пути к *unzip* в %PATH%
 5. Makefile поддерживает кроссплатформенную сборку под Windows 7/Windows XP/Linux,  поэтому для обеспечения совместимости также могут потребоваться unix-утилиты (*which,rm,mkdir*):  
  * Вариант установки -a:  
-  -скачать с помощью скрипта */sobel-steps/gnuwin32/get-utils.bat*
+  -скачать с помощью скрипта */sobel-steps/gnuwin32/get-utils.bat*  
   -распаковать с помощью */sobel-steps/gnuwin32/unzip-utils.bat* в текущую директорию */sobel-steps/gnuwin32/*
  * Вариант установки -b:  
   -скачать и установить дистрибутивы со страниц http://gnuwin32.sourceforge.net/packages/which.htm и http://gnuwin32.sourceforge.net/packages/coreutils.htm
