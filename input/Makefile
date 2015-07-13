@@ -1,6 +1,10 @@
 -include proxy.mk
 # http_proxy = http://username:password@proxy:80/
 
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+endif
+
 all: bugs720x576x20.avi disney1920x1080x8.avi bugs720x576.avi disney1920x1080.avi
 
 bugs720x576x20.avi:

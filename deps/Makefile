@@ -3,6 +3,9 @@ SHELL = cmd
 -include proxy.mk
 #http_proxy ?=http://username:passwordw@proxy:80/
 
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+endif
 
 PATH := $(PATH);$(realpath ../gnuwin32/bin)
 

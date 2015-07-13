@@ -10,6 +10,10 @@ $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Mic
 .DEFAULT_GOAL := skip
 endif 
 
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+endif
+
 
 
 

@@ -10,6 +10,10 @@ $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Micr
 .DEFAULT_GOAL := skip
 endif 
 
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+endif
+
 
 
 
