@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="sobel"
+	Name=""
 	ProjectGUID="{502FEC7E-393D-4397-8F70-5014080F458C}"
-	RootNamespace="sobel"
+	RootNamespace=""
 	>
 	<Platforms>
 		<Platform
@@ -123,8 +123,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 		> 
  		</Filter> 
- 			<File RelativePath="Makefile" > </File> 
- 			<File RelativePath="about.txt" > </File> 
  		</Files>
 	<Globals>
 	</Globals>

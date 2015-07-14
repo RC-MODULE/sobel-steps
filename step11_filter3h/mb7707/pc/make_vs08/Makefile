@@ -19,7 +19,7 @@ endif
 
 
 
-ROOT             = ../../..
+ROOT             = ../../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)/..
 MB7707           = $(ROOT)/deps/mb7707sdk
 NMPROFILER       = $(ROOT)/deps/nmprofiler
@@ -46,9 +46,9 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 
 #======================== BUILD RULES ====================================
--include vs8.mk
 
-.PHONY: run clean vs8stdout vs8
+
+.PHONY: run clean 
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 

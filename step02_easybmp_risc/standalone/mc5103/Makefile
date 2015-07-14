@@ -74,7 +74,7 @@ NMPP             = $(ROOT)/deps/nmpp
 PROJECT          = sobel_mc5103_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include"   -I../.. -I$(ROOT)/deps/EasyPGM
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
 LIB_DIRS         = -L"$(NEURO)/lib"   -L"$(MC5103)/lib" -L"$(NMPP)/lib"
 TMP_DIR          = Release
@@ -97,7 +97,7 @@ BUILDER_FLAGS   += -d0
 TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      =../include .
+HEADER_DIRS      =../..
 RESOURCES        =Makefile mc5103brd.cfg
 
 
@@ -107,9 +107,7 @@ RESOURCES        =Makefile mc5103brd.cfg
 ifeq ($(OS),Windows_NT)
   SHELL = cmd
 endif
-OS_WHICH= which
-OS_RM   = rm -f -r
-OS_RD   = rm -f -r
+
 
 
 #=================== SOURCE & OBJECTS COLLECTION ===========================
@@ -169,8 +167,8 @@ $(TMP_DIR)/%.asmx: %.c
 	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
 
 clean:
-	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
-	-$(OS_RD) Debug Release
+	-rm -f -r *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
+	-rm -f -r Debug Release
  
 cleanall:
 	$(MAKE) clean

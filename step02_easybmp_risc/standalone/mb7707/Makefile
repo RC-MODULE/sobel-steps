@@ -66,6 +66,11 @@ else
   .DEFAULT_GOAL := skip
 endif
 
+
+ifndef MB7707_MAC
+$(warning*** WARNING: 'MB7707_MAC' environment variable is not defined! Loading abs-file on MB7707 board is not possible. )
+endif 
+
 ROOT             = ../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
 MB7707           = $(ROOT)/deps/mb7707sdk
@@ -74,8 +79,8 @@ NMPP             = $(ROOT)/deps/nmpp
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I../..  -I"$(MB7707)/include" -I"$(NMPP)/include"
-SRC_DIRS         = . ../.. 
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
+SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
 LIB_DIRS         = -L"$(NEURO)/lib" -L"$(MB7707)/lib" -L"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
@@ -111,6 +116,11 @@ endif
 
 .SUFFIXES:
 
+
+
+
+
+
 # regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
 ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 ALL_ASM =$(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
@@ -123,6 +133,8 @@ OBJECTS_CPP = $(notdir $(patsubst %.cpp,%.o,$(ALL_CPP)))
 OBJECTS_ASM = $(notdir $(patsubst %.asm,%.o,$(ALL_ASM)))
 OBJECTS_C   = $(notdir $(patsubst %.c,%.o,$(ALL_C)))
 OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM))
+
+
 
 #======================== BUILD RULES ====================================
 .PHONY:all  clean cleanall kill vs8 vs8stdout skip
@@ -157,12 +169,17 @@ $(TMP_DIR)/%.asmx: %.c
 	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
 
 clean:
-	-rm -f -r *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
+	-rm -f -r *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
 	-rm -f -r Debug Release
  
 cleanall:
 	$(MAKE) clean
 	$(MAKE) clean DEBUG=y
+	
+run: $(TARGET)
+	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) 
+	
+#	--send_file_name=$(ROOT)/input/Lena224x240.pgm --send_addr=0x10004000 --recv_file_name=Sobel.pgm --recv_addr=0x10004000 --recv_size=0x348a
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
 
@@ -176,5 +193,6 @@ vs13: $(PROJECT).vcxproj
 $(PROJECT).vcxproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
 
+	
 skip:
 	@echo SDK missing. Compilation is skipped!

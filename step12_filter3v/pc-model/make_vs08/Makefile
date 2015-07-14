@@ -19,8 +19,8 @@ endif
 
 
 
-ROOT = ../../..
-NMPP = $(ROOT)/deps/nmpp
+ROOT             = ../../..
+NMPP             = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/include -I"$(VSHELL)/include" -I../../src/common
@@ -41,9 +41,9 @@ RESOURCES        =Makefile
 ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 ALL_C   =$(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
 #======================== BUILD RULES ====================================
--include vs8.mk
 
-.PHONY: run clean vs8stdout vs8
+
+.PHONY: run clean 
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 

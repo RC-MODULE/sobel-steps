@@ -109,9 +109,7 @@ RESOURCES        =Makefile mc5103brd.cfg
 ifeq ($(OS),Windows_NT)
   SHELL = cmd
 endif
-OS_WHICH= which
-OS_RM   = rm -f -r
-OS_RD   = rm -f -r
+
 
 
 #=================== SOURCE & OBJECTS COLLECTION ===========================
@@ -174,8 +172,8 @@ $(TMP_DIR)/%.asmx: %.c
 	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
 
 clean:
-	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
-	-$(OS_RD) Debug Release
+	-rm -f -r *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
+	-rm -f -r Debug Release
  
 cleanall:
 	$(MAKE) clean

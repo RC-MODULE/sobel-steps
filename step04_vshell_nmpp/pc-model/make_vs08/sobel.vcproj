@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="sobel"
+	Name=""
 	ProjectGUID="{502FEC7E-393D-4397-8F70-5014080F458C}"
-	RootNamespace="sobel"
+	RootNamespace=""
 	>
 	<Platforms>
 		<Platform
@@ -122,8 +122,6 @@
  			<File RelativePath="../../malloc32.h" > </File> 
  			<File RelativePath="../../sobel.h" > </File> 
  		</Filter> 
- 			<File RelativePath="Makefile" > </File> 
- 			<File RelativePath="about.txt" > </File> 
  		</Files>
 	<Globals>
 	</Globals>

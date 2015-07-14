@@ -43,9 +43,9 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 
 #======================== BUILD RULES ====================================
--include vs8.mk
 
-.PHONY: run clean vs8stdout vs8
+
+.PHONY: run clean 
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 

@@ -1,3 +1,5 @@
+#define PGM_OK 0
+
 struct s_pgm_header{
 	int width;
 	int height;
@@ -8,3 +10,5 @@ struct s_pgm_header{
 };
 
 int read_pgm_header(void* addr32, s_pgm_header* header);
+
+

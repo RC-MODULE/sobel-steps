@@ -42,9 +42,9 @@ RESOURCES        =Makefile
 ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 ALL_C   =$(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
 #======================== BUILD RULES ====================================
--include vs8.mk
 
-.PHONY: run clean vs8stdout vs8
+
+.PHONY: run clean 
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 

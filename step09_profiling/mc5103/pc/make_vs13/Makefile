@@ -19,7 +19,7 @@ endif
 
 
 
-ROOT             = ../../..
+ROOT             = ../../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)/..
 MC5103           = $(ROOT)/deps/mc5103sdk
 NMPROFILER       = $(ROOT)/deps/nmprofiler
