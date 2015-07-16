@@ -24,32 +24,32 @@
 #### Настройка  и сборка проекта 
 Сборка и запуск проекта осуществляется через Makefile.
 в Makefile  указываем необходимые пути к заголовочным файлам и библиотекам:  
-'''mk
+```mk
 INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 LIB_DIRS         = -L"$(NEURO)/lib" -L"$(MB7707)/lib" -L"$(NMPP)/lib"
-'''
+```
 Указываем библиотеки
-'''mk
+```mk
 LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
-'''
+```
 Исходники указываются в виде относительных путей. Все имеющиеся *.c и *.cpp файлы в этих каталогах будут автоматически подключены в проект
-'''mk
+```mk
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
-'''
+```
 
 Запуск приложения осуществляется командой *make run*
-'''mk
+```mk
 run: $(TARGET)
 	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_addr=0x10000000 --recv_file_name=Sobel.pgm --recv_addr=0x10000000 --recv_size=0x348a
-'''
+```
 > MB7707_MAC - необходимо заранее установить соответственно адресу вашей сетевой карты. По возможности рекко
 
 В конфигурационном файле (mb7707brd.cfg) резервируем область разделяемой памяти в 4MB для передачи изображения загрузчиком начиная с 0x10000000 по 0x10100000:
-'''
+```
 	EXTERNAL_MEM_PGM: 	at 	0x10000000, 	len = 0x10100000;	// 4 MB
 	EXTERNAL_MEMORY0: 	at 	0x10100000, 	len = 0x01F00000;	// 128MB-EM0-DDR 	(ARM:0x40000000	0x7fffffff) 
 	EXTERNAL_MEMORY1: 	at 	0x30000000, 	len = 0x02000000;	// 128MB-EM1-DDR 	(ARM:0xc0000000	0xffffffff) 
-'''
+```
 
 
 
@@ -77,12 +77,12 @@ run: $(TARGET)
 
 #### Создаем host-приложение
 Аналогично прописываем пути в Makefile для хост приложения
-'''
+```
 INC_DIRS         = -I"$(MB7707)/pc/include" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
 LIB_DIRS         = -L"$(MB7707)/pc/lib"
 SRC_DIRS         = .. $(ROOT)/deps/EasyBMP
 LIBS             = mb7707load.lib
-'''
+```
 Работу с bmp файлами осуществляем через библиотеку EasyBMP
 Доступ к плате для удобства осуществляется через класс C_PC_Connector_mb7707 , на вход конструктора которого необходимо передать имя исполняемого плата и MAC адрес сетевого контролера к которому подсоединена плата 
 
