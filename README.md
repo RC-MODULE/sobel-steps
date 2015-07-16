@@ -10,14 +10,15 @@
 Для обеспечения работоспособности данной сборки требуется: 
 
 1. SDK для хост-машины: (на выбор)
- * Visual Studio 2005
- * Visual Studio 2013 Express
+ * [Visual Studio 2005 Express](http://apdubey.blogspot.ru/2009/04/microsoft-visual-studio-2005-express.html)
+ * [Visual Studio 2013 Express](https://www.microsoft.com/en-US/download/details.aspx?id=44914)
 2. Установить NMSDK 
  * Рекомендуется взять последнюю (бета)версию http://www.module.ru/mb7707/toolchains-win32/nmsdk306en_20150611.zip
 3. Для сборки Makefile-ов необходимо иметь установленный *make*
  * Вариант установки-а:  
  -скачать все необходимые утилиты, в том числе инсталлятор *make*, с помощью скрипта *./sobel-steps/gnuwin32/get-utils.bat*   
-  в результате должны появиться следующие файлы: *make-3.81.exe unzip-5.51-1.exe coreutils-5.3.0-bin.zip unzip-5.51-1-bin.zip which-2.20-bin.zip*  
+  в результате должны появиться следующие файлы:  
+  *make-3.81.exe unzip-5.51-1.exe coreutils-5.3.0-bin.zip unzip-5.51-1-bin.zip which-2.20-bin.zip*  
  -Запустить инсталлятор *make-3.81.exe*  
  -Прописать путь к установленному *make.exe* в %PATH%  
  * Вариант установки-b:  
@@ -57,6 +58,7 @@
 ```cpp
   unsigned char MAC_ADDRESS[] = {0x1a, 0x2b, 0x3c, 0x4d, 0x5e, 0x6f};
 ```	
+4. Убедиться, что перемычка на плате MB77.07 установлена (Загрузка OS Linux - не производится). 
 
 
 

@@ -1,7 +1,7 @@
 SHELL = cmd
 
 -include proxy.mk
-#http_proxy ?=http://username:passwordw@proxy:80/
+#http_proxy ?=http://username:password@proxy:80/
 
 ifeq ($(OS),Windows_NT)
   SHELL = cmd
