@@ -24,21 +24,21 @@
 #### Настройка  и сборка проекта 
 Сборка и запуск проекта осуществляется через Makefile.
 в Makefile  указываем необходимые пути к заголовочным файлам и библиотекам:  
-'''
+'''mk
 INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 LIB_DIRS         = -L"$(NEURO)/lib" -L"$(MB7707)/lib" -L"$(NMPP)/lib"
 '''
 Указываем библиотеки
-'''
+'''mk
 LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
 '''
 Исходники указываются в виде относительных путей. Все имеющиеся *.c и *.cpp файлы в этих каталогах будут автоматически подключены в проект
-'''
+'''mk
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
 '''
 
 Запуск приложения осуществляется командой *make run*
-'''
+'''mk
 run: $(TARGET)
 	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_addr=0x10000000 --recv_file_name=Sobel.pgm --recv_addr=0x10000000 --recv_size=0x348a
 '''
