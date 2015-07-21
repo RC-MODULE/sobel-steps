@@ -66,27 +66,32 @@ else
   .DEFAULT_GOAL := skip
 endif
 
+
+ifndef MB7707_MAC
+$(warning*** WARNING: 'MB7707_MAC' environment variable is not defined! Loading abs-file on MB7707 board is not possible. )
+endif 
+
 ROOT             = ../../..
 PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
-MC5103           = $(ROOT)/deps/mc5103sdk
+MB7707           = $(ROOT)/deps/mb7707sdk
 NMPP             = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
-PROJECT          = sobel_mc5103_nm
+PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
-LIB_DIRS         = -L"$(NEURO)/lib"   -L"$(MC5103)/lib" -L"$(NMPP)/lib"
+LIB_DIRS         = -L"$(NEURO)/lib" -L"$(MB7707)/lib" -L"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
 AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
 AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
-LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
+LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=1000000 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=1000000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -98,10 +103,7 @@ TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
 HEADER_DIRS      =../..
-RESOURCES        =Makefile mc5103brd.cfg
-
-
-
+RESOURCES        =Makefile mb7707brd.cfg
 
 #==================== Handle OS Specifics ==========================
 ifeq ($(OS),Windows_NT)
@@ -175,11 +177,9 @@ cleanall:
 	$(MAKE) clean DEBUG=y
 	
 run: $(TARGET)
-	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240_aligned.pgm --send_sect=.data_source_pgm.bss --recv_file_name=Sobel.pgm --recv_sect=.data_result_pgm.bss --recv_size=0x348a
+	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_source_pgm.bss --recv_file_name=Sobel.pgm --recv_sect=.data_result_pgm.bss  --recv_size=0x348a
 	
-#$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Test720x576.pgm --send_sect=.data_source_pgm.bss --recv_file_name=Sobel.pgm --recv_sect=.data_result_pgm.bss --recv_size=0x65420
-	
-
+#		$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240_aligned.pgm --recv_size=0x348a
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
 

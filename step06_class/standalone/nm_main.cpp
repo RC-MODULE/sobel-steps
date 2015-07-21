@@ -24,8 +24,9 @@ int main()
 	nm8u* dst=VEC_Addr((nm8u*)dst_pgm_file,dst_pgm_header_len);
 	
 	// Sobel filtration
+	CBaseSobel sobel(width, height);
 	clock_t t0=clock();
-	sobel(src, dst, width, height);
+	sobel.filter(src,dst);
 	clock_t t1=clock();
 
 	return t1-t0; 

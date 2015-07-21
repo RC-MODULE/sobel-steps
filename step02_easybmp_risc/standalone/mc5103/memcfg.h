@@ -1,2 +1,0 @@
-#define EXCH_ZONE 0x10004000
-#define EXCH_SIZE 0xFC000

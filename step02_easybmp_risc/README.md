@@ -37,6 +37,11 @@ LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
 ```
 
+Указываем опции линкера и размеры куч:
+```mk
+BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=554432 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
+```
+
 Запуск приложения осуществляется командой *make run* согласно правилу:
 ```mk
 run: $(TARGET)
@@ -101,11 +106,12 @@ void* malloc32(unsigned size_int32 )
 #endif
 }
 ```
+>Выделение памяти будет происходить из секции *heap* во внешний памяти согласно конфигурационному файлу.
+>Запуск программы осуществляется через *make run* их папки mb7707/pc/make_vs08 или mb7707/pc/make_vs13 в зависимости от версии Visual Studio.
 
-Запуск программы осуществляется через *make run* их папки mb7707/pc/make_vs08 или mb7707/pc/make_vs13 в зависимости от версии Visual Studio.
 В результате исполнения в этой же папке должен появиться dst.bmp
 
-Производительность: 
+#### Производительность: 
 - 1203625826 clocks per frame 
 - 14247 clocks per pixel
 - 0.265863 fps
