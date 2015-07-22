@@ -20,6 +20,12 @@
 #define PROGRAM "../../nm/sobel_mc5103_nm.abs"
 #endif
 
+#pragma data_section ".data_shared_src.bss"
+	long long src_pgm_file[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long long dst_pgm_file[1920*1080/8+64/8];
+	
+	
 PL_Access* access;
 int ReadMemBlock(void* host_dst, unsigned nmc_addr, unsigned size32){
 	return PL_ReadMemBlock(access,(PL_Word*)host_dst, (PL_Addr)nmc_addr, size32);

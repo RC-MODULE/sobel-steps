@@ -3,7 +3,11 @@
 #include "malloc32.h"
 #include <time.h>
 
-
+#pragma data_section ".data_shared_src.bss"
+	long extDst[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long extSrc[1920*1080/8+64/8];
+	
 int main(int argc, char *argv[])
 {  
 	//---------- start nm program ------------
@@ -17,10 +21,6 @@ int main(int argc, char *argv[])
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-	// Allocate memory for 8-bit source and result images in shared memory
-	int* extDst=(int*)malloc32(size/4,EXT_BANK0);
-	int* extSrc=(int*)malloc32(size/4,EXT_BANK0);		
-	
 	int* intSrc=(int*)malloc32(size/4,INT_BANK3);
 	int* intDst=intSrc;		
 	free32(intSrc);
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
-	if (sobel.isReady==false || extSrc ==0 || extDst==0 ){
+	if (sobel.isReady==false || intSrc ==0 ){
 		ncl_hostSync(0xDEADB00F);	// send error to host
 		return -1;
 	}
@@ -44,11 +44,11 @@ int main(int argc, char *argv[])
 	int counter=0;				// frame counter
 	while(1){					// Start sobel in loop 
 		ncl_hostSync(counter);	// Wait source buffer till is ready 		
-		VEC_Copy(extSrc,intSrc,size);
+		VEC_Copy((nm8u*)extSrc,(nm8u*)intSrc,size);
 		t0=clock();
 		sobel.filter((unsigned char*)intSrc,(unsigned char*)intDst);
 		t1=clock();
-		VEC_Copy(intDst,extDst,size);
+		VEC_Copy((nm8u*)intDst,(nm8u*)extDst,size);
 		ncl_hostSync(t1-t0);	// Send elapsed time 
 		counter++;
 	}

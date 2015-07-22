@@ -91,7 +91,7 @@ LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=1000000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=10000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -177,7 +177,7 @@ cleanall:
 	$(MAKE) clean DEBUG=y
 	
 run: $(TARGET)
-	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_source_pgm.bss --recv_file_name=Sobel.pgm --recv_sect=.data_result_pgm.bss  --recv_size=0x348a
+	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss  --recv_size=0x348a
 	
 #		$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240_aligned.pgm --recv_size=0x348a
 #========================== Visual Studio 8 support ===================
