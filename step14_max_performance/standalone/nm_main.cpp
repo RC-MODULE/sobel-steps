@@ -5,9 +5,10 @@
 #include "malloc32.h"
 
 #pragma data_section ".data_shared_src.bss"
-	long long src_pgm_file[1920*1080/8+64/8];
+	long src_pgm_file[1920*1080/8+64/8];
 #pragma data_section ".data_shared_dst.bss"
-	long long dst_pgm_file[1920*1080/8+64/8];
+	long dst_pgm_file[1920*1080/8+64/8];
+	
 
 	
 
