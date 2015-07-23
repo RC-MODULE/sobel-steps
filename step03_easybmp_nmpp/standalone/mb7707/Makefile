@@ -150,7 +150,7 @@ all:
 $(TMP_DIR):
 	-mkdir "$(@)"
 
-$(TARGET): $(TMP_DIR) $(OBJECTS) 
+$(TARGET): $(TMP_DIR) $(OBJECTS) Makefile
 	$(BUILDER) $(BUILDER_FLAGS) $(OBJECTS) $(LIBS)
 
 $(OUT_DIR): 
@@ -177,9 +177,8 @@ cleanall:
 	$(MAKE) clean DEBUG=y
 	
 run: $(TARGET)
-	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_source_pgm.bss --recv_file_name=Sobel.pgm --recv_sect=.data_result_pgm.bss  --recv_size=0x348a
-	
-#		$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240_aligned.pgm --recv_size=0x348a
+	$(MB7707)/bin/mb7707run -i -a$(MB7707_MAC) $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss  --recv_size=0x348a
+
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
 

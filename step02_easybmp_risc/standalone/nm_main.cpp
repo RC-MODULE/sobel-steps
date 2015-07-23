@@ -3,10 +3,10 @@
 #include "nmplv.h"
 #include "easypgm.h"
 
-#pragma data_section ".data_source_pgm.bss"
-	long long src_pgm_file[1920*1080/8+8];
-#pragma data_section ".data_result_pgm.bss"
-	long long dst_pgm_file[1920*1080/8+8];
+#pragma data_section ".data_shared_src.bss"
+	long long src_pgm_file[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long long dst_pgm_file[1920*1080/8+64/8];
 	
 int main()
 {  

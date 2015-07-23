@@ -138,7 +138,7 @@ all:
 $(TMP_DIR):
 	-mkdir "$(@)"
 
-$(TARGET): $(TMP_DIR) $(OBJECTS) 
+$(TARGET): $(TMP_DIR) $(OBJECTS) Makefile
 	$(BUILDER) $(BUILDER_FLAGS) $(OBJECTS) $(LIBS)
 
 $(OUT_DIR): 
