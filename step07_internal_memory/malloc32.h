@@ -8,7 +8,7 @@
 #define EXT_BANK0 16 
 #define EXT_BANK1 32 
 #define SHARED_MEM EXT_BANK0
-#define WRAP_SIZE 1920/2+2
+#define WRAP_SIZE (1920/2+2)
 
 void* malloc32 (unsigned size_int32 );
 void* malloc32 (unsigned size_int32, unsigned bank_mask);

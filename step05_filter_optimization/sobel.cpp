@@ -26,7 +26,7 @@ bool sobel( const unsigned char *source, unsigned char *result, int width, int h
 	CSIG_FIR<nm8s,nm16s> FIR121(3,malloc32,free32);
 	CSIG_FIR<nm8s,nm16s> FIR101(3,malloc32,free32);
 	
-	
+
 
 	if (horizontTmp==0 || horizontOut==0 || verticalOut==0)
 		return false;
@@ -60,7 +60,7 @@ bool sobel( const unsigned char *source, unsigned char *result, int width, int h
 
 	VEC_Cnv((nm16s*)verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
 
-	
+
 	wrap_free32(horizontTmp);
 	free32(horizontOut);
 	free32(verticalOut);

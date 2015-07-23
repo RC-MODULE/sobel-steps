@@ -29,7 +29,7 @@ int main()
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
-	if (sobel.isReady==false || src ==0 || dst==0){
+	if (sobel.isReady==false){
 		ncl_hostSync(0xDEADB00F);	// send error to host
 		return -1;
 	}
