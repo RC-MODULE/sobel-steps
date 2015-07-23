@@ -4,9 +4,9 @@
 #include <time.h>
 
 #pragma data_section ".data_shared_src.bss"
-	long extDst[1920*1080/8+64/8];
-#pragma data_section ".data_shared_dst.bss"
 	long extSrc[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long extDst[1920*1080/8+64/8];
 	
 int main(int argc, char *argv[])
 {  

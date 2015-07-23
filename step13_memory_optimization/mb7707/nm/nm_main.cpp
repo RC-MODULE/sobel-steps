@@ -3,7 +3,11 @@
 #include "malloc32.h"
 #include <time.h>
 
-
+#pragma data_section ".data_shared_src.bss"
+	long src[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long dst[1920*1080/8+64/8];
+	
 int main(int argc, char *argv[])
 {  
 	//---------- start nm program ------------
@@ -17,15 +21,11 @@ int main(int argc, char *argv[])
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-	// Allocate memory for 8-bit source and result images in shared memory
-	int* dst=(int*)malloc32(size/4, EXT_BANK0);
-	int* src=(int*)malloc32(size/4, EXT_BANK0);		
-	
 	
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
-	if (sobel.isReady==false || src ==0 || dst==0){
+	if (sobel.isReady==false) { 
 		ncl_hostSync(0xDEADB00F);	// send error to host
 		return -1;
 	}
