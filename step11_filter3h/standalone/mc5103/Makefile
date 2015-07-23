@@ -86,7 +86,7 @@ LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp_nmc3.
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=100000 -heap1=32500 -heap2=32000 -heap3=30000 -full_names -o$(TARGET) $(LIB_DIRS) 
+BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=2000000 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS) 
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -175,10 +175,7 @@ cleanall:
 	$(MAKE) clean DEBUG=y
 	
 run: $(TARGET)
-	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240_aligned.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss --recv_size=0x348a
-	
-#$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Test720x576.pgm --send_sect=.data_source_pgm.bss --recv_file_name=Sobel.pgm --recv_sect=.data_result_pgm.bss --recv_size=0x65420
-	
+	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss --recv_size=0x348a
 
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H

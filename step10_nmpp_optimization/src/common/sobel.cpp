@@ -4,8 +4,6 @@
 #include "sobel.h"
 
 void VEC_Add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
-
-
 int sobelH[3]={
 		1,2,1
 //		0, 0,0,
@@ -32,8 +30,6 @@ CBaseSobel::~CBaseSobel(){
 	free32(horizontOut);
 	free32(verticalOut);
 }
-
-
 
 
 int CBaseSobel::init(int Width, int Height ){

@@ -29,8 +29,6 @@ CBaseSobel::~CBaseSobel(){
 }
 
 
-
-
 int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
@@ -59,8 +57,6 @@ int CBaseSobel::init(int Width, int Height ){
 	return true;
 
 }
-
-
 	
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 {

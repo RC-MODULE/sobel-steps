@@ -3,8 +3,6 @@
 #include "malloc32.h"
 #include "sobel.h"
 
-
-
 extern "C" {
 
 	extern long long sobel_weights121[24];
@@ -15,10 +13,6 @@ extern "C" {
 	void filter3h( const char *source,  short *result, int size, void* weights);
 	void filter3v( const short *source, short *result, int width, int height, void* weights);
 };
-
-
-
-
 
 CBaseSobel::CBaseSobel(){
 	isReady=false;
@@ -70,10 +64,6 @@ int CBaseSobel::init(int Width, int Height ){
 
 	return isReady;
 }
-
-
-
-
 
 	
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int customHeight)

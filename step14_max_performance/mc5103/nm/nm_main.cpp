@@ -1,3 +1,4 @@
+#include "mc5103_load.h"
 #include "sobel.h"
 #include "malloc32.h"
 #include <time.h>
@@ -7,9 +8,7 @@
 #pragma data_section ".data_shared_dst.bss"
 	long extDst[1920*1080/8+64/8];	
 
-int ncl_hostSync(int value); 	
-
-int main(int argc, char *argv[])
+int main()
 {  
 	//---------- start nm program ------------
 	int fromHost=ncl_hostSync(0xC0DE6406);		// send handshake to host
@@ -22,7 +21,7 @@ int main(int argc, char *argv[])
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-	int* intSrc=(int*)malloc32(size/4,INT_BANK3);
+int* intSrc=(int*)malloc32(size/4,INT_BANK3);
 	int* intDst=intSrc;		
 	free32(intSrc);
 	

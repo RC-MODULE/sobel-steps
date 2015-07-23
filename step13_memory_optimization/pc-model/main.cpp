@@ -11,8 +11,6 @@
 #include "VShell.h"
 #include "sobel.h"
 #include "malloc32.h"
-
-
 int main()
 {
 	if(!VS_Init())	// Init vshell
@@ -44,8 +42,6 @@ int main()
 		VS_SetData(2, dstImg8);
 		VS_Draw(VS_DRAW_ALL);
 	}
-
-
     
 	wrap_free32(srcImg8);	// Free source image buffer 
 	free32(dstImg8);	  	// Free result image buffer 

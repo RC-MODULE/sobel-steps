@@ -2,9 +2,12 @@
 #include "sobel.h"
 #include "malloc32.h"
 #include <time.h>
-
-
-int main(int argc, char *argv[])
+#pragma data_section ".data_shared_src.bss"
+	long src[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long dst[1920*1080/8+64/8];
+	
+int main()
 {  
 	//---------- start nm program ------------
 	int fromHost=ncl_hostSync(0xC0DE6406);		// send handshake to host
@@ -16,10 +19,6 @@ int main(int argc, char *argv[])
 	int width = ncl_hostSync(0);
 	int height= ncl_hostSync(1);
 	int size  = width*height;
-
-	// Allocate memory for 8-bit source and result images in shared memory
-	int* src=(int*)malloc32(size/4);		
-	int* dst=(int*)malloc32(size/4);
 	
 	// Check memory allocation
 	if (src ==0 || dst==0){
@@ -45,8 +44,7 @@ int main(int argc, char *argv[])
 		counter++;
 	}
 	ncl_hostSync(0xDEADB00F);
-	free32(src);
-	free32(dst);
+
 	return 1; 
 } 
 

@@ -9,9 +9,7 @@
 
 #define ARM2NM(addr)((int*)(((unsigned)addr)>>2))
 #define NM2ARM(addr)((int*)(((unsigned)addr)*4))
-
-
-int main(int argc, char *argv[])
+int main()
 {  
 	// Init VDU
 	unsigned Y0=0xC0000000; 
@@ -32,7 +30,7 @@ int main(int argc, char *argv[])
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-	// Allocate memory for 8-bit source and result images in shared memory
+// Allocate memory for 8-bit source and result images in shared memory
 	
 	nm8u* dst=(nm8u*)ARM2NM(0xC0000000);	// VDU DDR
 	int frames=0;// number of loaded frames in DDR

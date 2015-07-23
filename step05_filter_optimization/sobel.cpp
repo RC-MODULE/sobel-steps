@@ -61,8 +61,6 @@ bool sobel( const unsigned char *source, unsigned char *result, int width, int h
 	VEC_Cnv((nm16s*)verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
 
 	
-
-
 	wrap_free32(horizontTmp);
 	free32(horizontOut);
 	free32(verticalOut);

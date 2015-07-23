@@ -9,8 +9,6 @@
 #include "VShell.h"
 #include "pc_connector_mc5103.h"
 
-
-
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mc5103_nmd.abs"
 #else

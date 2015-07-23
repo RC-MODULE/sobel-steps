@@ -9,8 +9,6 @@
 #include "VShell.h"
 #include "pc_connector_mb7707.h"
 
-
-
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mb7707_nmd.abs"
 #else

@@ -32,11 +32,7 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 	}
 
 }
-
-
 int main(){
-
-
 	BMP srcBMP;
 	srcBMP.ReadFromFile("../../../input/lena.bmp");
 	BMP dstBMP(srcBMP);

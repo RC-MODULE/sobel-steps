@@ -8,7 +8,7 @@
 #pragma data_section ".data_shared_dst.bss"
 	long dst[1920*1080/8+64/8];
 	
-int main(int argc, char *argv[])
+int main()
 {  
 	//---------- start nm program ------------
 	int fromHost=ncl_hostSync(0xC0DE6406);		// send handshake to host
@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-	
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
@@ -47,8 +46,7 @@ int main(int argc, char *argv[])
 		counter++;
 	}
 	ncl_hostSync(0xDEADB00F);
-	free32(src);
-	free32(dst);
+
 	return 1; 
 } 
 

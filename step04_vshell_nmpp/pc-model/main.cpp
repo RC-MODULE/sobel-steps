@@ -11,8 +11,6 @@
 #include "sobel.h"
 #include "malloc32.h"
 
-
-
 int main()
 {
 	if(!VS_Init())

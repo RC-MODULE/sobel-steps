@@ -16,10 +16,6 @@ extern "C" {
 	void filter3v( const short *source, short *result, int width, int height, void* weights);
 };
 
-
-
-
-
 CBaseSobel::CBaseSobel(){
 	isReady=false;
 }
@@ -34,8 +30,6 @@ CBaseSobel::~CBaseSobel(){
 	free32(horizontOut);
 	free32(verticalOut);
 }
-
-
 
 
 int CBaseSobel::init(int Width, int Height ){
@@ -54,8 +48,6 @@ int CBaseSobel::init(int Width, int Height ){
 
 	horizontOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
 	verticalOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
-
-
 
 	if (signedImgUpLine==0 || horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
 		return false;

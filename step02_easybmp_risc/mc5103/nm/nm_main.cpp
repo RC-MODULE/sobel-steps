@@ -3,7 +3,7 @@
 #include "sobel.h"
 #include "malloc32.h"
 
-int main(int argc, char *argv[])
+int main()
 {  
 	//cache_enable();
 	//---------- start nm programm ------------
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	int height= ncl_hostSync(1);	// barrier sync / get image height from host
 	int size  = width*height;
 
-	// Allocate memory for 8-bit source and result images in shared memory
+// Allocate memory for 8-bit source and result images in shared memory
 	int* src=(int*)malloc32(size/4);		
 	int* dst=(int*)malloc32(size/4); 
 		
@@ -38,8 +38,7 @@ int main(int argc, char *argv[])
 	clock_t t1=clock();
 	ncl_hostSync(t1-t0);	// Send elapsed time 
 		
-	free32(src);
-	free32(dst);
+
 	return 1; 
 } 
 

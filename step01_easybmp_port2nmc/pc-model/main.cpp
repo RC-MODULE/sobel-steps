@@ -7,12 +7,8 @@
 *
 *    Copyright (c) 2015 RC Module Inc.
 ******************************************************************************/
-
-
 #include "sobel.h"
 #include "EasyBMP.h"
-
-
 void BMP2graydata(BMP& bmp, unsigned char* data){
 	int k=0;
 	int width =bmp.TellWidth();

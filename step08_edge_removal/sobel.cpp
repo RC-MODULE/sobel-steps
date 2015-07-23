@@ -30,8 +30,6 @@ CBaseSobel::~CBaseSobel(){
 }
 
 
-
-
 int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;

@@ -9,8 +9,6 @@
 #undef  MEM 
 #define MEM(addr)  (*((unsigned volatile*)(ARM2NM(addr))))
 
-
-
 #ifdef I2C_IRQ
 
 #ifdef I2C_0

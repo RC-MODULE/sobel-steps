@@ -8,6 +8,4 @@ void filter3h ( const char *source, short *result, int size, void* weights){
 	
 	
 }
-
-
 };

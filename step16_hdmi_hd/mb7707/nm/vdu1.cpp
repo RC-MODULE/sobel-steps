@@ -3,8 +3,6 @@
 #include <time.h>
 #include <stdio.h>
 #include "i2c_func.h"
-
-
 void Init_Cache();
 void Init_VIC();
 void Init_DDR_EM0();
@@ -28,8 +26,6 @@ void Init_HDMI_Phys(){
     MEM(0x2003c000) = 0x00002ac1;	 
 }
 
-
-
 int Init_HDMI(){
 
     unsigned prescale = 0x6b;     // prescale for 54 MHz
@@ -49,8 +45,6 @@ int Init_HDMI(){
 	return ret;    
 }                  
     
-
-
 void Init_VDU(int W, int H , unsigned Y0, unsigned U0,  unsigned V0, unsigned Y1, unsigned U1,  unsigned V1, int offset )
 { unsigned *p;
    MEM(0x8017300c)=0x1 ;     //сброс ВК
@@ -109,8 +103,6 @@ MEM(0x80173478)=0; //0x5ac00cb;
 MEM(0x8017347c)=0x00000000; // матрица преобразования цветов
 MEM(0x80173480)=0x00040000; // из YCbCr в YCbCr
 MEM(0x80173484)=0x10000000;
-
-
 
 // OSD filter & headers	
 MEM(0x80173700)= 0x00000000;  // адрес заголовка 0

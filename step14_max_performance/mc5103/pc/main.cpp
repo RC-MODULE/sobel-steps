@@ -80,8 +80,6 @@ int main()
 	while(VS_Run())	{
         VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
 		VS_SetData(1, srcImg8);				// Put source image in window ?1
-
-
 		Connector.WriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
 		Connector.Sync(0);
 		//... wait while sobel runs on board
@@ -99,8 +97,6 @@ int main()
 
 	delete srcImg8;
 	delete dstImg8;
-
-
     
     return 0;
 }

@@ -10,8 +10,6 @@
 
 #include "pc_connector_mb7707.h"
 #include "EasyBMP.h"
-
-
 void BMP2graydata(BMP& bmp, unsigned char* data){
 	int k=0;
 	int width =bmp.TellWidth();
@@ -42,8 +40,6 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 		}
 	}
 }
-
-
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mb7707_nmd.abs"
 #else
@@ -85,8 +81,6 @@ int main()
 	int ok;
 	ok=Connector.Sync(width);		// Send width to nmc
 	ok=Connector.Sync(height);		// Send height to nmc
-
-
 	ok=Connector.Sync(0);			// Get	status of memory allocation from nm
 	if (ok!=0x600DB00F){
 		printf("Memory allocation error!");

@@ -12,8 +12,6 @@ extern "C" {
 
 	void filter3h ( const char *source, short *result, int size, void* weights);
 }
-
-
 // here was: int sobelH[3]={
 //		1,2,1
 //		0, 0,0,
@@ -40,8 +38,6 @@ CBaseSobel::~CBaseSobel(){
 	free32(horizontOut);
 	free32(verticalOut);
 }
-
-
 
 
 int CBaseSobel::init(int Width, int Height ){

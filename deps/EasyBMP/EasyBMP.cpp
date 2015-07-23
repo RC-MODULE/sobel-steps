@@ -139,8 +139,6 @@ bool BMP::SetPixel( int i, int j, RGBApixel NewPixel )
  Pixels[i][j] = NewPixel;
  return true;
 }
-
-
 bool BMP::SetColor( int ColorNumber , RGBApixel NewColor )
 {
  using namespace std;

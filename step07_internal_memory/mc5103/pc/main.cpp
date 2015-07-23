@@ -12,8 +12,6 @@
 #include "time.h"
 #include "stdio.h"
 #include "pc_connector_mc5103.h"
-
-
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mc5103_nmd.abs"
 #else
@@ -69,8 +67,6 @@ int main()
 	{
         VS_GetGrayData(VS_SOURCE, srcImg8);
 		VS_SetData(1, srcImg8);
-
-
 		Connector.WriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
 		Connector.Sync(0);
 		//... wait while sobel runs on board
@@ -84,8 +80,6 @@ int main()
 
 	delete srcImg8;
 	delete dstImg8;
-
-
     
     return 0;
 }

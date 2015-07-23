@@ -3,8 +3,6 @@
 #include <time.h>
 #include <stdio.h>
 #include "i2c_func.h"
-
-
 void Init_Cache();
 void Init_VIC();
 void Init_DDR_EM0();
@@ -13,8 +11,6 @@ void Init_DDR_EM1();
 #define ARM2NM(arm_location) ((arm_location)>>2)
 #undef  MEM 
 #define MEM(addr)  (*((unsigned volatile*)(ARM2NM(addr))))
-
-
 
 void Init_HDMI_Phys(){
     MEM(0x2003c000) = 0x00000000; // 800f0000h
@@ -25,8 +21,6 @@ void Init_HDMI_Phys(){
     MEM(0x2003c000) = 0x00000001;
     MEM(0x2003c000) = 0x00002ac1;
 } // Init_HDMI_Phys
-
-
 
 int Init_HDMI()
 {  unsigned prescale = 0x6b;      		 // prescale for 54 MHz
@@ -48,8 +42,6 @@ int Init_HDMI()
 	return ret;    
 } // Init_HDMI
     
-
-
 void Init_VDU(int W, int H , unsigned Y0, unsigned U0,  unsigned V0, unsigned Y1, unsigned U1,  unsigned V1 )
 {
 	MEM(0x8017300c)=0x1 ;     //сброс Контроллера Video

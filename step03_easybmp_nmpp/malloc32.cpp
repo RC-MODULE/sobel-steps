@@ -42,8 +42,6 @@ void free32(void* p)
 }
 
 
-
-
 void* wrap_malloc32 (unsigned size_int32)
 {
 	int* wrap=(int*)malloc32(size_int32+WRAP_SIZE*2);
