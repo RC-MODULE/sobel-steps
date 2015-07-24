@@ -23,7 +23,7 @@ int main()
 	int height=VS_GetHeight(VS_SOURCE);	// Get height of video frame
 	int size  =width*height;
 
-    VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit source image
+	VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit source image
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit result image
 
 	unsigned char* srcImg8=(unsigned char*) wrap_malloc32(size/4);	// Allocate source image buffer with guard fields of two rows
