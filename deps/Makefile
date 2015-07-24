@@ -17,7 +17,7 @@ $(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which acce
 $(warning ------------------------------------------------------------------------------------------ )
 endif
 
-NMPP_ZIP = nmpp_2015-07-10.zip
+NMPP_ZIP = nmpp_2015-07-24.zip
 NMSDK_ZIP= nmsdk306en_20150611.zip
 
 all: get install 
@@ -44,7 +44,7 @@ vshell: VSHELL_1.0.0.24.zip
 
 	
 $(NMPP_ZIP):
-	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	wget http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@)
 
 nmprofiler_2015-06-26.zip:
 	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)

@@ -38,13 +38,13 @@ int CBaseSobel::init(int Width, int Height ){
 
 	isReady	=false;	
 
-	horizontTmpUpLine = (nm16s*)internal_malloc32((size+2*width)/2);
+	horizontTmpUpLine = (nm16s*)malloc32((size+2*width)/2);
 	horizontTmp= (nm16s*)VEC_Addr(horizontTmpUpLine,width);
-	horizontOut= (nm16s*)internal_malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut= (nm16s*)internal_malloc32(size/2);	// Allocate temporary buffer
+	horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
+	verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
 
-	FIR121.init(3,internal_malloc32,free32);
-	FIR101.init(3,internal_malloc32,free32);
+	FIR121.init(3,malloc32,free32);
+	FIR101.init(3,malloc32,free32);
 
 	if (horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
 		return false;

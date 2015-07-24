@@ -26,7 +26,7 @@ int main()
 	nm8u* dst=VEC_Addr((nm8u*)dst_pgm_file,dst_pgm_header_len);
 
 	// allocate in/out buffer in internal memory
-	nm8u* intSrc=(nm8u*)malloc32(width*height/4,INT_BANK3);
+	nm8u* intSrc=(nm8u*)malloc32(width*height/4,HEAP_3);
 	nm8u* intDst=intSrc;		
 	free32(intSrc);
 	if (intSrc==0) return -1;
