@@ -83,7 +83,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
    	<ClCompile Include="../main.cpp" /> 
- 	<ClCompile Include="../../malloc32.cpp" /> 
  	<ClCompile Include="../../sobel.cpp" /> 
  	<ClCompile Include="../../../deps/EasyBMP/EasyBMP.cpp" /> 
    </ItemGroup>

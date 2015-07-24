@@ -118,7 +118,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 		> 
- 			<File RelativePath="../../../malloc32.h" > </File> 
  			<File RelativePath="../../../sobel.h" > </File> 
  			<File RelativePath="../../../../deps/connector/pc_connector_mb7707.h" > </File> 
  			<File RelativePath="../../../../deps/connector/pc_connector_mc5103.h" > </File> 

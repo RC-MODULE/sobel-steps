@@ -11,6 +11,10 @@
 #include "VShell.h"
 #include "sobel.h"
 #include "malloc32.h"
+
+void* wrap_malloc32 (unsigned size_int32);
+void wrap_free32(void* p);
+
 int main()
 {
 	if(!VS_Init())	// Init vshell

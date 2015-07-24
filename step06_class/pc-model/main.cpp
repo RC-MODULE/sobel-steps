@@ -12,6 +12,21 @@
 #include "sobel.h"
 #include "malloc32.h"
 
+#define WRAP_SIZE (1920/2+2)
+
+void* wrap_malloc32 (unsigned size_int32)
+{
+	int* wrap=(int*)malloc32(size_int32+WRAP_SIZE*2);
+	if  (wrap==0) return 0;
+	int* goods=wrap+WRAP_SIZE;
+	return goods;	
+}
+
+void wrap_free32(void* p)
+{
+	if (p)	free((int*)p-WRAP_SIZE);
+}
+
 int main()
 {
 	if(!VS_Init())	// Init vshell
