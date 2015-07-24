@@ -21,7 +21,7 @@ int main()
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-int* intSrc=(int*)malloc32(size/4,INT_BANK3);
+int* intSrc=(int*)malloc32(size/4,HEAP_3);
 	int* intDst=intSrc;		
 	free32(intSrc);
 	
