@@ -2,6 +2,7 @@
 #include "nmpls.h"
 #include "malloc32.h"
 #include "sobel.h"
+#pragma code_section ".text_sobel"
 
 extern "C" {
 

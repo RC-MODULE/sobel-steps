@@ -15,10 +15,8 @@ int main()
 
 	// parse pgm header	
 	int src_pgm_header_len=read_pgm_header(src_pgm_file,width,height);
-	if (src_pgm_header_len==0){
-		width=128;	// use default value if pgm-header is invalid
-		height=128;	// use default value if pgm-header is invalid
-	}
+	if (src_pgm_header_len==0) return -1;
+	
 	nm8u* src=VEC_Addr((nm8u*)src_pgm_file,src_pgm_header_len);
 	int dst_pgm_header_len=save_pgm_header(dst_pgm_file,width,height," Created By RC-Module(2015)");
 	nm8u* dst=VEC_Addr((nm8u*)dst_pgm_file,dst_pgm_header_len);

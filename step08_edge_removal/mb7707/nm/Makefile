@@ -86,7 +86,7 @@ LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=2000000 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=25000 -heap1=32500 -heap2=32500 -heap3=32500 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs

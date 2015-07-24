@@ -21,11 +21,6 @@ int main()
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-// Allocate memory for 8-bit source and result images in shared memory
-	
-	int* dst=(int*)shared_malloc32(size/4);
-	int* src=(int*)shared_malloc32(size/4);		
-	
 	
 	// Check memory allocation
 	if (src ==0 || dst==0){

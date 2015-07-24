@@ -2,6 +2,7 @@
 #include "nmpls.h"
 #include "malloc32.h"
 #include "sobel.h"
+#pragma code_section ".text_sobel"
 
 void VEC_Add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
 int sobelH[3]={

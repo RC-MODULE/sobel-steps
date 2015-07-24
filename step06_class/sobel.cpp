@@ -2,6 +2,8 @@
 #include "nmpls.h"
 #include "malloc32.h"
 #include "sobel.h"
+#pragma code_section ".text_sobel"
+
 int sobelH[3]={
 		1,2,1
 //		0, 0,0,

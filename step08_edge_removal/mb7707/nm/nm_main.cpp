@@ -21,15 +21,10 @@ int main()
 	int height= ncl_hostSync(1);
 	int size  = width*height;
 
-// Allocate memory for 8-bit source and result images in shared memory
-	
-	int* dst=(int*)shared_malloc32(size/4);
-	int* src=(int*)shared_malloc32(size/4);		
-	
 	CSobel sobel(width, height);
 	
 	// Check memory allocation
-	if (sobel.isReady==false || src ==0 || dst==0){
+	if (sobel.isReady==false){
 		ncl_hostSync(0xDEADB00F);	// send error to host
 		return -1;
 	}
