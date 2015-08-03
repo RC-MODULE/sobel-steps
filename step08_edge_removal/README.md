@@ -41,12 +41,13 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 
 	
 В результате полосы исчезли :
-![Рис.1](http://i11.pixs.ru/storage/5/6/2/noedgejpg_8617812_17737562.jpg "Внешний вид оболочки VSELL и результат обработки")
+![Рис.1](http://i11.pixs.ru/storage/5/6/2/noedgejpg_8617812_17737562.jpg)
 
-но за счет обработки краевых эффектов производительность чуть снизилась:
-- 18564196 clocks per frame ,
-- 44.76 clocks per pixel, 
-- 17.24 fps
+но за счет обработки краевых эффектов производительность чуть снизилась на 1%:
+- 2848800 clocks per frame 
+- 6.87 clocks per pixel
+- 112.33 fps
+
 
 
 
