@@ -48,10 +48,8 @@ int CBaseSobel::init(int Width, int Height){
 	if (horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
 		return false;
 
-	if (FIR121.setWeights(sobelH)==0)
-		return false;
 
-	if (FIR101.setWeights(sobelV)==0)
+	if (FIR121.setWeights(sobelH)==0 || FIR101.setWeights(sobelV)==0)
 		return false;
 
 	isReady=true;

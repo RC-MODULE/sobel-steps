@@ -76,7 +76,7 @@ int main(int arcg)
 		if (t==0xDEADB00F)
 			VS_Text("Memory allocation error in sobel!\n");
 		VS_SetData(2, dstImg8);
-		VS_Text("%u clocks per frame , %.2f clocks per pixel, %.2f fps", t, 1.0*t/size, 320000000.0/t );
+		VS_Text("%u clocks per frame , %.2f clocks per pixel, %.2f fps\r\n", t, 1.0*t/size, 320000000.0/t );
 		VS_Draw(VS_DRAW_ALL);
 	}
 

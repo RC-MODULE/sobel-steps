@@ -1,8 +1,12 @@
 #include <time.h>
 #include "mc5103_load.h"
 #include "sobel.h"
-#include "malloc32.h"
 
+#pragma data_section ".data_shared_src.bss"
+	long src[1920*1080/8+64/8];
+#pragma data_section ".data_shared_dst.bss"
+	long dst[1920*1080/8+64/8];
+	
 int main()
 {  
 	//cache_enable();
@@ -16,11 +20,7 @@ int main()
 	int width = ncl_hostSync(0);	// barrier sync / get image width  from host
 	int height= ncl_hostSync(1);	// barrier sync / get image height from host
 	int size  = width*height;
-
-// Allocate memory for 8-bit source and result images in shared memory
-	int* src=(int*)malloc32(size/4);		
-	int* dst=(int*)malloc32(size/4); 
-		
+	
 	// Check memory allocation
 	if (src ==0 || dst==0){
 		ncl_hostSync(0xDEADB00F);	// barrier sync/ send error to host
@@ -37,8 +37,7 @@ int main()
 	sobel((unsigned char*)src,(unsigned char*)dst,width,height);
 	clock_t t1=clock();
 	ncl_hostSync(t1-t0);	// Send elapsed time 
-		
-
+	
 	return 1; 
 } 
 

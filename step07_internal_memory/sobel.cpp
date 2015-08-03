@@ -25,6 +25,7 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
+	free32(signedImg);
 	free32(horizontTmpUpLine);
 	free32(horizontOut);
 	free32(verticalOut);
@@ -35,18 +36,22 @@ int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
-
+	wrapSize=size+2*width;
 	isReady	=false;	
 
-	horizontTmpUpLine = (nm16s*)malloc32((size+2*width)/2);
-	horizontTmp= (nm16s*)VEC_Addr(horizontTmpUpLine,width);
-	horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
+	signedImg		= (nm8s*)malloc32(wrapSize/4);
+	
+	horizontTmpUpLine= (nm16s*)malloc32(wrapSize/2); 
+	horizontTmp		 = VEC_Addr(horizontTmpUpLine, width); 
+	horizontTmpDnLine= VEC_Addr(horizontTmpUpLine, width*2);
+
+	horizontOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
+	verticalOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
 
 	FIR121.init(3,malloc32,free32);
 	FIR101.init(3,malloc32,free32);
 
-	if (horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
+	if (signedImg==0 || horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
 		return false;
 
 	if (FIR121.setWeights(sobelH)==0)
@@ -62,18 +67,18 @@ int CBaseSobel::init(int Width, int Height ){
 	
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 {
-	VEC_SubC((nm8s*)source,128,(nm8s*)result,size);	// Transform dynamic range 0..255 to -128..+127
+	VEC_SubC((nm8s*)source,128,(nm8s*)signedImg,size);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-	FIR121.filter((nm8s*)result, horizontTmp, size);
-	VEC_SubV(VEC_Addr(horizontTmp,-width), VEC_Addr(horizontTmp,width), horizontOut, size);
+	FIR121.filter((nm8s*)signedImg, horizontTmp, size);
+	VEC_SubV(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
 	
 	// vertical edge selection 
-	FIR101.filter((nm8s*)result, horizontTmp, size);
-	nm16s* lines[4]={VEC_Addr(horizontTmp,-width),
-							horizontTmp,
-							horizontTmp,
-					VEC_Addr(horizontTmp,width)};
+	FIR101.filter((nm8s*)signedImg, horizontTmp, size);
+	nm16s* lines[4]={horizontTmpUpLine,
+					horizontTmp,
+					horizontTmp,
+					horizontTmpDnLine};
 	VEC_Add4V(lines, verticalOut, size); 
 
 	VEC_Abs(horizontOut, horizontOut,size);	// Calculate absolute value 

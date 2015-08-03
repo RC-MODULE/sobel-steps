@@ -34,7 +34,9 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 }
 int main(){
 	BMP srcBMP;
-	srcBMP.ReadFromFile("../../../input/lena.bmp");
+	//srcBMP.ReadFromFile("../../../input/lena.bmp");
+	srcBMP.ReadFromFile("../../../input/Bikesgray.bmp");
+	
 	BMP dstBMP(srcBMP);
 
 	int width =srcBMP.TellWidth();

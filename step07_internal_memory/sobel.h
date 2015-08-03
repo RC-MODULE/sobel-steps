@@ -18,9 +18,11 @@
 
 
 class CBaseSobel {
-
+	
+	nm8s*  signedImg;
 	nm16s* horizontTmpUpLine;
 	nm16s* horizontTmp;
+	nm16s* horizontTmpDnLine;
 	nm16s* horizontOut;	// Allocate temporary buffer 
 	nm16s* verticalOut;	// Allocate temporary buffer
 

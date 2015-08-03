@@ -15,24 +15,20 @@ int sobelV[9]={
 
 bool sobel( const unsigned char *source, unsigned char *result, int width,int height)
 {
-	nm16s* horizontOut;
-	nm16s* verticalOut;
 	CIMG_FIR<nm8s,nm16s> horizontFIR(3, 3, malloc32, (t_free_func)free);	// Init filter for horizontal edge detection
 	CIMG_FIR<nm8s,nm16s> verticalFIR(3, 3, malloc32, (t_free_func)free);	// Init filter for vertical   edge detection
-	int size=width*height;
+	if (horizontFIR.SetWeights(sobelH, width)==0 || verticalFIR.SetWeights(sobelV, width)==0) 
+		return false;	
 	
-	horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
+	int size=width*height;
+	nm16s* horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
+	nm16s* verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
+	if (horizontOut==0 || verticalOut==0){
+		free32(horizontOut);
+		free32(verticalOut);
+		return false;
+	}
 
-	if (horizontOut==0 || verticalOut==0)
-		return false;
-
-	if (horizontFIR.SetWeights(sobelH, width)==0)
-		return false;
-			
-	if (verticalFIR.SetWeights(sobelV, width)==0)
-		return false;
-			
 	VEC_SubC((nm8s*)source, 128, (nm8s*)source, size);	// Transform dynamic range 0..255 to -128..+127
 
 	horizontFIR.Filter((nm8s*)source, horizontOut, width, height);	// horizontal edge detection
@@ -45,7 +41,7 @@ bool sobel( const unsigned char *source, unsigned char *result, int width,int he
 	VEC_ClipPowC(verticalOut, 8, verticalOut, size);// Thresh function to leave pixels in 0..255 range
 	VEC_Cnv(verticalOut, (nm8s*)result, size);		// Convert from 16-bit packed data to 8-bit packed data
 	
-	free(horizontOut);
-	free(verticalOut);
+	free32(horizontOut);
+	free32(verticalOut);
 	return true;
 }
