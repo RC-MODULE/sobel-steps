@@ -100,7 +100,7 @@ CSobel::CSobel (int Width, int Height){
 }
 
 int CSobel::init (int Width, int Height){
-	int sliceHeight=30;
+	int sliceHeight=60;
 	sliceCount =Height/sliceHeight;
 	CBaseSobel::init(Width, sliceHeight);
 	return isReady;
