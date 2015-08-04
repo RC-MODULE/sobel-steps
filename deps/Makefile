@@ -5,7 +5,22 @@ SHELL = cmd
 
 ifeq ($(OS),Windows_NT)
   SHELL = cmd
+  OS_UNZIP = unzip
+  OS_SDK_MC5103 = mc5103_distrib_v_01_01_x32.zip
+  OS_SDK_MB7707 = mb7707_distrib_v_01_02_x32.zip
+  OS_NMSDK = nmsdk306en_20150611.zip
+  OS_VSHELL= VSHELL_1.0.0.24.zip
+else
+  OS_UNZIP = gunzip
+  OS_SDK_MC5103 = mc5103_distrib_v_01_01.tar.gz
+  OS_SDK_MB7707 = mb7707_distrib_v_01_00.tar.gz
+  OS_NMSDK = module-nmc-20140702.tar.gz
+  OS_VSHELL=
 endif
+
+NMPP = nmpp_2015-07-24.zip
+NMPROFILER= nmprofiler_2015-06-26.zip
+
 
 PATH := $(PATH);$(realpath ../gnuwin32/bin)
 
@@ -17,49 +32,47 @@ $(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which acce
 $(warning ------------------------------------------------------------------------------------------ )
 endif
 
-NMPP_ZIP = nmpp_2015-07-24.zip
-NMSDK_ZIP= nmsdk306en_20150611.zip
 
 all: get install 
 
-get: $(NMPP_ZIP) nmprofiler_2015-06-26.zip mb7707_distrib.zip mc5103_distrib.zip $(NMSDK_ZIP) VSHELL_1.0.0.24.zip 
+get: $(NMPP) $(NMPROFILER)  $(OS_SDK_MB7707) $(OS_SDK_MC5103) $(OS_NMSDK) $(OS_VSHELL)
 
 install: nmpp nmprofiler mc5103sdk mb7707sdk vshell
 
-nmprofiler: nmprofiler_2015-06-26.zip
+nmprofiler: $(NMPROFILER)
 	unzip $(<)
 
-nmpp: $(NMPP_ZIP)
+nmpp: $(NMPP)
 	unzip $(<)
 	
-mc5103sdk: mc5103_distrib.zip
-	unzip $(<)
+mc5103sdk: $(OS_SDK_MC5103)
+	$(OS_UNZIP) $(<) -d mc5103sdk
 	
-mb7707sdk: mb7707_distrib.zip
-	unzip $(<)
+mb7707sdk: $(OS_SDK_MB7707)
+	$(OS_UNZIP) $(<) -d mb7707sdk
 
-vshell: VSHELL_1.0.0.24.zip
+vshell: $(OS_VSHELL)
 	unzip $(<)
 	VSHELL_1.0.0.24.exe
 
 	
-$(NMPP_ZIP):
+$(NMPP):
 	wget http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@)
 
-nmprofiler_2015-06-26.zip:
+$(NMPROFILER):
 	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
-mb7707_distrib.zip:
-	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
+$(OS_SDK_MB7707):
+	wget http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
-mc5103_distrib.zip:
-	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
+$(OS_SDK_MC5103):
+	wget http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
-VSHELL_1.0.0.24.zip:
+$(OS_VSHELL):
 	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
-$(NMSDK_ZIP):	
-	wget http://www.module.ru/mb7707/toolchains-win32/$(@)
+$(OS_NMSDK):	
+	wget http://www.module.ru/mb7707/toolchains-neuromatrix/$(@)
 	
 clean:
 	-rd /Q /S nmpp
