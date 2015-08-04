@@ -1,4 +1,6 @@
-SHELL = cmd
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+endif
 
 .DEFAULT_GOAL = all
 

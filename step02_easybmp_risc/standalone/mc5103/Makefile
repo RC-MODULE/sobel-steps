@@ -66,8 +66,14 @@ else
   .DEFAULT_GOAL := skip
 endif
 
+#==================== Handle OS Specifics ==========================
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+  PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
+endif
+
+
 ROOT             = ../../..
-PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
 MC5103           = $(ROOT)/deps/mc5103sdk
 NMPP             = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
@@ -76,13 +82,13 @@ OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
 INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
-LIB_DIRS         = -L"$(NEURO)/lib"   -L"$(MC5103)/lib" -L"$(NMPP)/lib"
+LIB_DIRS         = -L"$(NEURO)/lib"   -L$(MC5103)/lib -L"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
 AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
 AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
-LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
+LIBS             =  ./mc5103lib.lib libint05.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
@@ -103,10 +109,6 @@ RESOURCES        =Makefile mc5103brd.cfg
 
 
 
-#==================== Handle OS Specifics ==========================
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-endif
 
 
 

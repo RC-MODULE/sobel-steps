@@ -71,8 +71,13 @@ ifndef MB7707_MAC
 $(warning*** WARNING: 'MB7707_MAC' environment variable is not defined! Loading abs-file on MB7707 board is not possible. )
 endif 
 
+#==================== Handle OS Specifics ==========================
+ifeq ($(OS),Windows_NT)
+  SHELL = cmd
+  PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
+endif
+
 ROOT             = ../../..
-PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)
 MB7707           = $(ROOT)/deps/mb7707sdk
 NMPP             = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
@@ -105,10 +110,7 @@ endif
 HEADER_DIRS      =../..
 RESOURCES        =Makefile mb7707brd.cfg
 
-#==================== Handle OS Specifics ==========================
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-endif
+
 
 
 
