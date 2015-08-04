@@ -25,7 +25,7 @@ else
   OS_RM = rm -d -r
 endif
 
-NMPP = nmpp_2015-07-24.zip
+NMPP = nmpp_2015-08-04.zip
 NMPROFILER= nmprofiler_2015-06-26.zip
 
 
