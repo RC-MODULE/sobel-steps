@@ -76,7 +76,7 @@ OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
 INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
-LIB_DIRS         = -L"$(NEURO)/lib"   -L"$(MC5103)/lib" -L"$(NMPP)/lib"
+LIB_DIRS         = -l"$(NEURO)/lib"   -l"$(MC5103)/lib" -l"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
