@@ -10,22 +10,9 @@ $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Micr
 .DEFAULT_GOAL := skip
 endif 
 
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
-
-
-
-
-
-
 ROOT             = ../../../..
-MB7707           = $(ROOT)/deps/mb7707sdk#--------------  target & input dirs -------------------
+include $(ROOT)/env.mk
+#--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/libload" -I$(ROOT)/deps/connector 
 LIB_DIRS         = -L"$(VSHELL)/lib"     -L"$(MB7707)/libload"

@@ -10,24 +10,10 @@ $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Mic
 .DEFAULT_GOAL := skip
 endif 
 
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
-
-
-
-
-
-
 ROOT             = ../../../..
+include $(ROOT)/env.mk
 
-MC5103           = $(ROOT)/deps/mc5103sdk
-NMPROFILER       = $(ROOT)/deps/nmprofiler
+
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(VSHELL)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector -I$(NMPROFILER)/include

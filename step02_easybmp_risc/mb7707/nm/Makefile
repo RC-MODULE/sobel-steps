@@ -60,16 +60,10 @@
 #
 #============== PROJECT & BUILD CONFIGURATION ==========
 #
-ifdef NEURO
-else 
-  $(error *** ERROR: 'NEURO' environment variable is not defined! NMSDK might not have installed correctly. )
-  .DEFAULT_GOAL := skip
-endif
+
 
 ROOT             = ../../..
-
-MB7707           = $(ROOT)/deps/mb7707sdk
-NMPP             = $(ROOT)/deps/nmpp
+include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
@@ -100,15 +94,7 @@ endif
 HEADER_DIRS      =../..
 RESOURCES        =Makefile mb7707brd.cfg
 
-#==================== Handle OS Specifics ==========================
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
+
 
 
 
@@ -130,7 +116,7 @@ OBJECTS_C   = $(notdir $(patsubst %.c,%.o,$(ALL_C)))
 OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM))
 
 #======================== BUILD RULES ====================================
-.PHONY:all  clean cleanall kill vs8 vs8stdout skip
+.PHONY:all  clean skip
 
 .DEFAULT_GOAL=default
 default: $(TMP_DIR) $(OUT_DIR)  $(TARGET)
@@ -181,5 +167,4 @@ vs13: $(PROJECT).vcxproj
 $(PROJECT).vcxproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
 
-skip:
-	@echo SDK missing. Compilation is skipped!
+

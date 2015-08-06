@@ -1,11 +1,4 @@
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
+include env.mk
 
 .DEFAULT_GOAL = all
 

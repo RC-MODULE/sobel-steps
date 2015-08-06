@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;../../../../deps/mb7707sdk/libload;../../../../deps/connector;../../../../deps/EasyBMP</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;C:\Program Files (x86)\Module\MB7707 SDK/libload;../../../../deps/connector;../../../../deps/EasyBMP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>mb7707load.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;../../../../deps/mb7707sdk/libload</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;C:\Program Files (x86)\Module\MB7707 SDK/libload</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,14 +70,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;../../../../deps/mb7707sdk/libload;../../../../deps/connector;../../../../deps/EasyBMP</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;C:\Program Files (x86)\Module\MB7707 SDK/libload;../../../../deps/connector;../../../../deps/EasyBMP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>;../../../../deps/mb7707sdk/libload</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;C:\Program Files (x86)\Module\MB7707 SDK/libload</AdditionalLibraryDirectories>
       <AdditionalDependencies>mb7707load.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

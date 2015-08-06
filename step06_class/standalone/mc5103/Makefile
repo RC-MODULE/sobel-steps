@@ -60,16 +60,10 @@
 #
 #============== PROJECT & BUILD CONFIGURATION ==========
 #
-ifdef NEURO
-else 
-  $(error *** ERROR: 'NEURO' environment variable is not defined! NMSDK might not have installed correctly. )
-  .DEFAULT_GOAL := skip
-endif
+
 
 ROOT             = ../../..
-
-MC5103           = $(ROOT)/deps/mc5103sdk
-NMPP             = $(ROOT)/deps/nmpp
+include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc5103_nm
 OUT_DIR          = .
@@ -103,15 +97,7 @@ RESOURCES        =Makefile mc5103brd.cfg
 
 
 
-#==================== Handle OS Specifics ==========================
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
+
 
 
 
@@ -140,7 +126,7 @@ OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM
 
 
 #======================== BUILD RULES ====================================
-.PHONY:all  clean cleanall kill vs8 vs8stdout skip
+.PHONY:all  clean skip
 
 .DEFAULT_GOAL=default
 default: $(TMP_DIR) $(OUT_DIR)  $(TARGET)
@@ -175,12 +161,9 @@ clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
 	-$(OS_RD) Debug Release
  
-cleanall:
-	$(MAKE) clean
-	$(MAKE) clean DEBUG=y
-	
+
 run: $(TARGET)
-	$(MC5103)/bin/mc5103run $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss --recv_size=0x348a
+	mc5103run  $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss --recv_size=0x348a
 
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
@@ -196,5 +179,4 @@ $(PROJECT).vcxproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
 
 	
-skip:
-	@echo SDK missing. Compilation is skipped!
+

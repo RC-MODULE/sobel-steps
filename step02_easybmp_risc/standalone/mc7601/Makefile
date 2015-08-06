@@ -60,17 +60,11 @@
 #
 #============== PROJECT & BUILD CONFIGURATION ==========
 #
-ifdef NEURO
-else 
-  $(error *** ERROR: 'NEURO' environment variable is not defined! NMSDK might not have installed correctly. )
-  .DEFAULT_GOAL := skip
-endif
+
 
 
 ROOT             = ../../..
-
-MC7601           = $(ROOT)/deps/mc7601sdk
-NMPP             = $(ROOT)/deps/nmpp
+include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc7601_nm
 OUT_DIR          = .
@@ -101,15 +95,7 @@ endif
 HEADER_DIRS      =../..
 RESOURCES        =Makefile mc7601brd.cfg
 
-#==================== Handle OS Specifics ==========================
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
+
 
 
 
@@ -138,7 +124,7 @@ OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM
 
 
 #======================== BUILD RULES ====================================
-.PHONY:all  clean cleanall kill vs8 vs8stdout skip
+.PHONY:all  clean skip
 
 .DEFAULT_GOAL=default
 default: $(TMP_DIR) $(OUT_DIR)  $(TARGET)
@@ -173,10 +159,7 @@ clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
 	-$(OS_RD) Debug Release
  
-cleanall:
-	$(MAKE) clean
-	$(MAKE) clean DEBUG=y
-	
+
 run: $(TARGET)
 	$(MC7601)/bin/mc6901run $(TARGET) 
 	
@@ -195,5 +178,4 @@ $(PROJECT).vcxproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
 
 	
-skip:
-	@echo SDK missing. Compilation is skipped!
+

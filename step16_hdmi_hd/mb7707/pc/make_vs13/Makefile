@@ -10,22 +10,9 @@ $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Mic
 .DEFAULT_GOAL := skip
 endif 
 
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
-
-
-
-
-
-
 ROOT             = ../../../..
-MB7707           = $(ROOT)/deps/mb7707sdkNMPROFILER       = $(ROOT)/deps/nmprofiler
+include $(ROOT)/env.mk
+
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/libload" -I$(ROOT)/deps/connector -I$(NMPROFILER)/include

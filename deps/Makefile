@@ -43,7 +43,7 @@ all: get install
 
 get: $(NMPP) $(NMPROFILER)  $(OS_SDK_MB7707) $(OS_SDK_MC5103) $(OS_NMSDK) $(OS_VSHELL)
 
-install: nmpp nmprofiler mc5103sdk mb7707sdk $(OS_VSHELL)
+install: nmpp nmprofiler 
 
 nmprofiler: $(NMPROFILER)
 	unzip $(<)
@@ -65,7 +65,7 @@ $(OS_VSHELL):
 
 	
 $(NMPP):
-	wget http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@)
+	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
 
 $(NMPROFILER):
 	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)

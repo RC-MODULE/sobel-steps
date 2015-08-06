@@ -1,14 +1,6 @@
 -include proxy.mk
 # http_proxy = http://username:password@proxy:80/
-
-ifeq ($(OS),Windows_NT)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
-endif
+include $(ROOT)/env.mk
 
 all: bugs720x576x20.avi disney1920x1080x8.avi bugs720x576.avi disney1920x1080.avi
 
