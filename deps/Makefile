@@ -12,6 +12,7 @@ ifeq ($(OS),Windows_NT)
   OS_UNZIP = unzip 
   OS_TODIR = -d
   OS_RM = rd /Q /S 
+  OS_MKDIR = md
   PATH := $(PATH);$(realpath ../gnuwin32/bin)
   
 else

@@ -12,6 +12,11 @@ endif
 
 ifeq ($(OS),Windows_NT)
   SHELL = cmd
+  OS_RM = del /Q
+  OS_RD = rd /Q /S 
+else
+  OS_RM = rm -f -r
+  OS_RD = rm -d -r
 endif
 
 
@@ -20,9 +25,7 @@ endif
 
 
 ROOT             = ../../../..
-PATH            := $(realpath $(ROOT))/deps/gnuwin32/bin;$(PATH)/..
-MB7707           = $(ROOT)/deps/mb7707sdk
-NMPROFILER       = $(ROOT)/deps/nmprofiler
+MB7707           = $(ROOT)/deps/mb7707sdkNMPROFILER       = $(ROOT)/deps/nmprofiler
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/libload" -I$(ROOT)/deps/connector -I$(NMPROFILER)/include
@@ -60,7 +63,8 @@ run: $(TARGETD)
 	$(TARGETD)
 	
 clean:
-	-rm -f -r .* *.o *.ncb *.ilk $(TARGET) $(TARGETD) *.dep *.ac *.map *.suo *.ncb *.user $(TMP_DIR) $(TMP_DIRD)
+	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user
+	-$(OS_RD) $(TMP_DIR) $(TMP_DIRD)
 	
 export HEADER_DIRS
 export INC_DIRS LIB_DIRS

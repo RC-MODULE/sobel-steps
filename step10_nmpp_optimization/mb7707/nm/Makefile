@@ -103,6 +103,11 @@ RESOURCES        =Makefile mb7707brd.cfg
 #==================== Handle OS Specifics ==========================
 ifeq ($(OS),Windows_NT)
   SHELL = cmd
+  OS_RM = del /Q
+  OS_RD = rd /Q /S 
+else
+  OS_RM = rm -f -r
+  OS_RD = rm -d -r
 endif
 
 
@@ -162,7 +167,7 @@ $(TMP_DIR)/%.asmx: %.c
 	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
 
 clean:
-	-rm -f -r *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
+	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
 	-rm -f -r Release Debug
  
 cleanall:
