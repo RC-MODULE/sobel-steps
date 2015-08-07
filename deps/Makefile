@@ -1,4 +1,4 @@
-
+-include ../env.mk
 -include proxy.mk
 #http_proxy ?=http://username:password@proxy:80/
 
@@ -63,22 +63,26 @@ $(OS_VSHELL):
 
 	
 $(NMPP):
-	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	
+#	$(OS_WGET) http://downloads.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe
+	
+
 
 $(NMPROFILER):
-	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
 $(OS_SDK_MB7707):
-	wget http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
 $(OS_SDK_MC5103):
-	wget http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
 $(OS_VSHELL):
-	wget http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
 $(OS_NMSDK):	
-	wget http://www.module.ru/mb7707/toolchains-neuromatrix/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/toolchains-neuromatrix/$(@)
 	
 clean:
 	-$(OS_RM) nmpp

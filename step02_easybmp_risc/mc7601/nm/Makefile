@@ -44,27 +44,25 @@
 ###############################################################################################
 
 #============== PROJECT & BUILD CONFIGURATION ==========
-#
-
 ROOT             = ../../..
 include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
-PROJECT          = sobel_mc7601_nm
+PROJECT          = sobel_mc5103_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
-SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
-LIB_DIRS         = -L"$(NEURO)/lib" -L"$(MC7601)/lib" -L"$(NMPP)/lib"
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MC7601)/include" -I"$(NMPP)/include"   -I../..
+SRC_DIRS         = . ../..
+LIB_DIRS         = -l"$(NEURO)/lib"   -l"$(MC7601)/lib" -l"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
-AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
-AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
+AS_FLAGS         = -soc -nm2ms  $(INC_DIRS)
+AS_FLAGS_C2ASM   = -soc -nm2ms  $(INC_DIRS)
 LIBS             = libint_soc.lib mc7601_LL_NM.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=554432 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=2000000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -75,8 +73,8 @@ BUILDER_FLAGS   += -d0
 TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      =../..
-RESOURCES        =Makefile mc7601brd.cfg
+HEADER_DIRS      =../include .
+RESOURCES        =Makefile mc5103brd.cfg
 
 #=================== SOURCE & OBJECTS COLLECTION ===========================
 
@@ -128,14 +126,12 @@ $(TMP_DIR)/%.asmx: %.c
 	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
 
 clean:
-	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
+	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
 	-$(OS_RD) Debug Release
  
-
-run: $(TARGET)
-	$(MC7601)/bin/mc7601run $(TARGET) 
-	
-#	--send_file_name=$(ROOT)/input/Lena224x240.pgm --send_addr=0x10004000 --recv_file_name=Sobel.pgm --recv_addr=0x10004000 --recv_size=0x348a
+cleanall:
+	$(MAKE) clean
+	$(MAKE) clean DEBUG=y
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
 
@@ -148,6 +144,4 @@ vs13: $(PROJECT).vcxproj
 
 $(PROJECT).vcxproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
-
-	
 

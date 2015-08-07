@@ -8,23 +8,22 @@ $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Mic
 .DEFAULT_GOAL := skip
 endif 
 
-ROOT             = ../../..
+ROOT             = ../../../..
 include $(ROOT)/env.mk
-NMPP = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL)/include" -I../..
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL)/lib"
-SRC_DIRS         = .. ../..
+INC_DIRS         = -I"$(MC7601)/include" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
+LIB_DIRS         = -L"$(MC7601)/lib"
+SRC_DIRS         = .. $(ROOT)/deps/EasyBMP
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT).exe
-LIBS             = vshell32.lib  nmpp_vs13.lib
-LIBSD            = $(subst vs13,vs13d,$(LIBS))
+LIBS             = mc7601_ll_pc.lib
+LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      = ../..
+HEADER_DIRS      = $(ROOT)/connector 
 RESOURCES        =Makefile
 
 # regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
@@ -42,6 +41,7 @@ $(TARGETD): $(PROJECT).vcxproj $(ALL_CPP)
 	"$(VS120COMNTOOLS)vsvars32" && msbuild $(PROJECT).vcxproj
 
 run: $(TARGETD)
+	$(MAKE) -C ../../nm DEBUG=y
 	$(TARGETD)
 
 clean:

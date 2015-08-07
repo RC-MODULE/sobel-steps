@@ -3,28 +3,27 @@
 # TOP_LEVEL points to root directory of NMPP and should be exported from parent Makefile or set manualy in toplevel.mk (for local usage)
 .SUFFIXES:
 
-ifndef VS120COMNTOOLS
-$(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Microsoft Visual Studio 13  might not have installed correctly. )
+ifndef VS80COMNTOOLS
+$(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Microsoft Visual Studio 8  might not have installed correctly. )
 .DEFAULT_GOAL := skip
 endif 
 
-ROOT             = ../../..
+ROOT             = ../../../..
 include $(ROOT)/env.mk
-NMPP = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL)/include" -I../..
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL)/lib"
-SRC_DIRS         = .. ../..
+INC_DIRS         = -I"$(MC7601)/libload" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
+LIB_DIRS         = -L"$(MC7601)/libload"
+SRC_DIRS         = .. $(ROOT)/deps/EasyBMP
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT).exe
-LIBS             = vshell32.lib  nmpp_vs13.lib
-LIBSD            = $(subst vs13,vs13d,$(LIBS))
+LIBS             = mc7601_ll_pc.lib
+LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      = ../..
+HEADER_DIRS      = $(ROOT)/connector 
 RESOURCES        =Makefile
 
 # regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
@@ -34,16 +33,17 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 #======================== BUILD RULES ====================================
 
-.PHONY: run clean vs13
+.PHONY: run clean 
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 
-$(TARGETD): $(PROJECT).vcxproj $(ALL_CPP)
-	"$(VS120COMNTOOLS)vsvars32" && msbuild $(PROJECT).vcxproj
+$(TARGETD): $(PROJECT).vcproj $(ALL_CPP)
+	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(PROJECT).vcproj
 
 run: $(TARGETD)
+	$(MAKE) -C ../../nm DEBUG=y
 	$(TARGETD)
-
+	
 clean:
 	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user
 	-$(OS_RD) $(TMP_DIR) $(TMP_DIRD)
@@ -54,11 +54,12 @@ export LIBS LIBSD
 export ALL_CPP ALL_ASM ALL_C ALL_H
 export TARGET TARGETD
 	
-vs13: $(PROJECT).vcxproj
+vs8: $(PROJECT).vcproj
 
-$(PROJECT).vcxproj: Makefile
-	make --file=$(ROOT)/deps/projector/vs13.mk vc-app --silent >$(@)	
+$(PROJECT).vcproj: Makefile
+	make --file=$(ROOT)/deps/projector/vs8.mk vc-app --silent >$(@)
 
+	
 skip:
 	@echo Compilation is skipped!
 	
