@@ -1,7 +1,7 @@
 NMPP             = $(ROOT)/deps/nmpp
 NMPROFILER       = $(ROOT)/deps/nmprofiler
 MB7707_MAC       ?= 1A-2B-3C-4D-5E-6F
-http_proxy        = http://user:pass@proxy:80/
+#http_proxy        = http://user:pass@proxy:80/
 
 ifeq ($(OS),Windows_NT)
   MC5103 = C:\Program Files (x86)\Module\MC5103 SDK
