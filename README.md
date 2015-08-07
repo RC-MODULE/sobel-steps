@@ -35,7 +35,7 @@
  - **Wget for Windows**. Скачать [setup](http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-setup.exe). Домашняя страница http://gnuwin32.sourceforge.net/packages/wget.htm
  - **UnZip for Windows** Скачать [setup](http://gnuwin32.sourceforge.net/downlinks/unzip.php). Домашняя страница http://gnuwin32.sourceforge.net/packages/unzip.htm  
    Установленные утилиты должны быть доступны через переменную окружения PATH.  
-  >Пути к **wget** и **unzip** можно не прописывать в PATH если при их установке была указана папка <install_sobel_path>/sobel-steps/gnuwin32
+> Пути к **wget** и **unzip** можно не прописывать в PATH если при их установке была указана папка <install_sobel_path>/sobel-steps/gnuwin32
 3. Установленное ПО поддержки плат (MC5103,МВ77.07,МС7601..)  
   >Версии ПО (NMSDK, библиотеки загрузки и обмена), на котором тестировался данный проект, 
   >скачиваются в папку <install_sobel_path>/sobel-steps/deps  командой **make get-sdk** 
@@ -46,17 +46,19 @@
  
 ##Загрузка библиотек и видеороликов 
  
-1. При сборке проектов используются следующие компоненты разработки НТЦ Модуль:
+При сборке проектов используются следующие компоненты разработки НТЦ Модуль:
  * NMPP  - Библиотека поддержки базовых векторно-матричных функций на процессорах семейства NeuroMatrix
  * NMPROFILER - библиотека для профилирования функций на NMC
  * VSHELL - Программный модуль , представляющий графическую оболочку и API для вывода графики и изображений. 
   
-  Из корневой папки <install_sobel_path>/sobel-steps/  
+  Из корневой папки <install_sobel_path>/sobel-steps/:  
 - Закачать компоненты командой **make get-libs**
 - Произвести установку NMPP и NMPROFILER командой **make install** .   
   В папке <install_sobel_path>/sobel-steps/deps должны распаковаться соответствующие библиотеки.
 - Установку VSHELL необходимо произвести самостоятельно запуском дистрибутива из папки <install_sobel_path>/sobel-steps/deps
-2. В качестве тестовых данных используются изображения в формате bmp, pgm и видеоролики .
+
+
+  В качестве тестовых данных используются изображения в формате bmp, pgm и видеоролики .
 - Тестовые видео-ролики загружаются отдельно в папку  <install_sobel_path>/sobel-steps/input командой **make get-avi**
   
 > Для скачивания через прокси может потребоваться определить переменную  http_proxy        = http://user:pass@proxy:80/ в <install_sobel_path>/sobel-steps/env.mk
