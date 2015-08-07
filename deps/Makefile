@@ -29,7 +29,6 @@ endif
 NMPP = nmpp_2015-08-05.zip
 NMPROFILER= nmprofiler_2015-06-26.zip
 
-
 $(eval OUT=$(shell unzip ))
 ifeq ($(OUT),)
 $(warning ------------------------------------------------------------------------------------------ )
@@ -37,7 +36,6 @@ $(warning WARNING: unzip not found. Download it by 'sobel-steps/gnuwin32/get_unz
 $(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which accessible by %PATH% )
 $(warning ------------------------------------------------------------------------------------------ )
 endif
-
 
 all: get install 
 

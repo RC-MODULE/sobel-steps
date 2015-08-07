@@ -3,8 +3,6 @@
 # TOP_LEVEL points to root directory of NMPP and should be exported from parent Makefile or set manualy in toplevel.mk (for local usage)
 .SUFFIXES:
 
-
-
 ifndef VS120COMNTOOLS
 $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Microsoft Visual Studio 13  might not have installed correctly. )
 .DEFAULT_GOAL := skip
@@ -34,9 +32,7 @@ ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 ALL_C   =$(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
 ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
-
 #======================== BUILD RULES ====================================
-
 
 .PHONY: run clean vs13
 

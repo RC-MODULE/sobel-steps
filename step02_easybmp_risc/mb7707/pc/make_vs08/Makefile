@@ -3,8 +3,6 @@
 # TOP_LEVEL points to root directory of NMPP and should be exported from parent Makefile or set manualy in toplevel.mk (for local usage)
 .SUFFIXES:
 
-
-
 ifndef VS80COMNTOOLS
 $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Microsoft Visual Studio 8  might not have installed correctly. )
 .DEFAULT_GOAL := skip
@@ -32,7 +30,6 @@ RESOURCES        =Makefile
 ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 ALL_C   =$(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
 ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
-
 
 #======================== BUILD RULES ====================================
 
