@@ -2,7 +2,10 @@
 # http_proxy = http://username:password@proxy:80/
 include ../env.mk
 
+
 all: bugs720x576x20.avi disney1920x1080x8.avi bugs720x576.avi disney1920x1080.avi
+
+get-avi: all
 
 bugs720x576x20.avi:
 	@echo Copying $(@) [11MB] from WAN ...

@@ -37,9 +37,11 @@ $(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which acce
 $(warning ------------------------------------------------------------------------------------------ )
 endif
 
-all: get install 
+all: get-libs get-sdk install 
 
-get: $(NMPP) $(NMPROFILER)  $(OS_SDK_MB7707) $(OS_SDK_MC5103) $(OS_NMSDK) $(OS_VSHELL)
+get-libs: $(NMPP) $(NMPROFILER)  $(OS_VSHELL)
+
+get-sdk:$(OS_SDK_MB7707) $(OS_SDK_MC5103) $(OS_NMSDK)
 
 install: nmpp nmprofiler 
 

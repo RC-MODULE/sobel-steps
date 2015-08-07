@@ -2,9 +2,18 @@ include env.mk
 
 .DEFAULT_GOAL = all
 
-install:
-	$(MAKE) -C /gnuwin32
-	$(MAKE) -C /deps
+install: 
+	$(MAKE) -C deps install
+
+get-libs:
+	$(MAKE) -C deps get-libs
+
+get-sdk:
+	$(MAKE) -C deps get-sdk
+	
+get-avi:
+	$(MAKE) -C input 
+	
 	
 clean:
 	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs08 clean
