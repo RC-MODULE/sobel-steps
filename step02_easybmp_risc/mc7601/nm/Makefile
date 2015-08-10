@@ -62,7 +62,7 @@ LIBS             = libint_soc.lib mc7601_LL_NM.lib libc05.lib cppnew05.lib nmpp_
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=2000000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=2000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs

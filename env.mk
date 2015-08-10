@@ -11,7 +11,7 @@ ifeq ($(OS),Windows_NT)
   SHELL = cmd
   OS_RM = del /Q
   OS_RD = rd /Q /S 
-  PATH := $(MC5103)/bin);$(MB7707)/bin;$(PATH)  
+  PATH := $(MC5103)/bin);$(MB7707)/bin;$(PATH)
   OS_WGET = wget
   #powershell netsh winhttp import proxy source=ie; Import-Module bitstransfer; start-bitstransfer -source 
 else
