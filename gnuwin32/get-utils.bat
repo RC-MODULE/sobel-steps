@@ -1,4 +1,4 @@
-set http_proxy=http://landysh:pSYzMTZB@proxy:80/
+set http_proxy=http://uesr:pass@proxy:80/
 set OS_WGET=wget
 rem set OS_WGET=powershell netsh winhttp import proxy source=ie; Import-Module bitstransfer; start-bitstransfer -source 
 rem %OS_WGET% http://downloads.sourceforge.net/project/gnuwin32/make/3.81/make-3.81.exe || @ echo "ERROR: Open ./get-utils.bat and modify 'http_proxy' with your valid internet settings" && exit /B
