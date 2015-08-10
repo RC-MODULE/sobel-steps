@@ -6,7 +6,8 @@ ifeq ($(OS),Windows_NT)
   OS_SDK_MC5103 = mc5103_distrib_v_01_01_x32.zip
   OS_SDK_MB7707 = mb7707_distrib_v_01_02_x32.zip
   OS_NMSDK = nmsdk306en_20150611.zip
-  OS_VSHELL= VSHELL_1.0.0.24.zip
+  OS_VSHELL32= VSHELL32_1.0.0.26.exe
+  #VSHELL32_1.0.0.24.zip
 
   SHELL = cmd
   OS_UNZIP = unzip 
@@ -19,7 +20,7 @@ else
   OS_SDK_MC5103 = mc5103_distrib_v_01_01.tar.gz
   OS_SDK_MB7707 = mb7707_distrib_v_01_00.tar.gz
   OS_NMSDK = module-nmc-20140702.tar.gz
-  OS_VSHELL=
+  OS_VSHELL32=
   
   OS_UNZIP = tar xvzf 
   OS_TODIR = -C
@@ -39,7 +40,7 @@ endif
 
 all: get-libs get-sdk install 
 
-get-libs: $(NMPP) $(NMPROFILER)  $(OS_VSHELL)
+get-libs: $(NMPP) $(NMPROFILER)  $(OS_VSHELL32)
 
 get-sdk:$(OS_SDK_MB7707) $(OS_SDK_MC5103) $(OS_NMSDK)
 
@@ -59,9 +60,9 @@ mb7707sdk: $(OS_SDK_MB7707)
 	mkdir $(@)
 	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
 
-$(OS_VSHELL): 
+$(OS_VSHELL32): 
 	unzip $(<)
-	VSHELL_1.0.0.24.exe
+	VSHELL32_1.0.0.24.exe
 
 	
 $(NMPP):
@@ -80,7 +81,7 @@ $(OS_SDK_MB7707):
 $(OS_SDK_MC5103):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
-$(OS_VSHELL):
+$(OS_VSHELL32):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
 $(OS_NMSDK):	

@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;C:\Program Files (x86)\Module\VSHELL/include;C:\Program Files (x86)\Module\MB7707 SDK/libload;../../../../deps/connector;../../../../deps/nmprofiler/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;C:\Program Files (x86)\Module\VSHELL_32/include;C:\Program Files (x86)\Module\MB7707 SDK/libload;../../../../deps/connector;../../../../deps/nmprofiler/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>vshell.lib;mb7707load.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;C:\Program Files (x86)\Module\VSHELL/lib;C:\Program Files (x86)\Module\MB7707 SDK/libload</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vshell32.lib;mb7707load.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\Program Files (x86)\Module\VSHELL_32/lib;C:\Program Files (x86)\Module\MB7707 SDK/libload</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,15 +70,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;C:\Program Files (x86)\Module\VSHELL/include;C:\Program Files (x86)\Module\MB7707 SDK/libload;../../../../deps/connector;../../../../deps/nmprofiler/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;C:\Program Files (x86)\Module\VSHELL_32/include;C:\Program Files (x86)\Module\MB7707 SDK/libload;../../../../deps/connector;../../../../deps/nmprofiler/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>;C:\Program Files (x86)\Module\VSHELL/lib;C:\Program Files (x86)\Module\MB7707 SDK/libload</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vshell.lib;mb7707load.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\Program Files (x86)\Module\VSHELL_32/lib;C:\Program Files (x86)\Module\MB7707 SDK/libload</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vshell32.lib;mb7707load.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

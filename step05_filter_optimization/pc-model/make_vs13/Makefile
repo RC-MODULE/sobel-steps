@@ -12,14 +12,14 @@ ROOT             = ../../..
 include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/include -I"$(VSHELL)/include" -I../..
-LIB_DIRS         = -L"$(NMPP)/lib"     -L$(ROOT)/lib     -L"$(VSHELL)/lib"
+INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/include -I"$(VSHELL32)/include" -I../..
+LIB_DIRS         = -L"$(NMPP)/lib"     -L$(ROOT)/lib     -L"$(VSHELL32)/lib"
 SRC_DIRS         = .. ../.. 
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT).exe
-LIBS             = vshell.lib  nmpp_vs13.lib
+LIBS             = vshell32.lib  nmpp_vs13.lib
 LIBSD            = $(subst vs13,vs13d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--

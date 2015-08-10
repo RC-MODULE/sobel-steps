@@ -13,8 +13,8 @@ include $(ROOT)/env.mk
 NMPP = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL)/include" -I../..
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL)/lib"
+INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I../..
+LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"
 SRC_DIRS         = .. ../..
 TMP_DIR          = Release
 TMP_DIRD         = Debug

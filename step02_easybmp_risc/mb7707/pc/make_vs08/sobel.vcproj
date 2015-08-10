@@ -121,6 +121,7 @@
  			<File RelativePath="../../../sobel.h" > </File> 
  			<File RelativePath="../../../../deps/connector/pc_connector_mb7707.h" > </File> 
  			<File RelativePath="../../../../deps/connector/pc_connector_mc5103.h" > </File> 
+ 			<File RelativePath="../../../../deps/connector/pc_connector_mc7901.h" > </File> 
  		</Filter> 
  		</Files>
 	<Globals>

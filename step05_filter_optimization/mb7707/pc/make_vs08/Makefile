@@ -12,14 +12,14 @@ ROOT             = ../../../..
 include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/libload" -I$(ROOT)/deps/connector
-LIB_DIRS         = -L"$(VSHELL)/lib"     -L"$(MB7707)/libload"
+INC_DIRS         = -I"$(VSHELL32)/include" -I"$(MB7707)/libload" -I$(ROOT)/deps/connector
+LIB_DIRS         = -L"$(VSHELL32)/lib"     -L"$(MB7707)/libload"
 SRC_DIRS         = .. 
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT)d.exe
-LIBS             = vshell.lib mb7707load.lib
+LIBS             = vshell32.lib mb7707load.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--

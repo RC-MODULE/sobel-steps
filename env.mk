@@ -7,7 +7,7 @@ ifeq ($(OS),Windows_NT)
   MC5103 = C:\Program Files (x86)\Module\MC5103 SDK
   MB7707 = C:\Program Files (x86)\Module\MB7707 SDK
   MC7601 = c:\Program Files (x86)\Module\MC7601_SDK
-  VSHELL ?= $(VSHELL32)
+  VSHELL32 ?= $(VSHELL32)
   SHELL = cmd
   OS_RM = del /Q
   OS_RD = rd /Q /S 

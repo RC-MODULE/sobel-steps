@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;$(NMPP)/include;C:\Program Files (x86)\Module\VSHELL32/include;../..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;$(NMPP)/include;C:\Program Files (x86)\Module\VSHELL_32/include;../..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>vshell32.lib;;nmpp_vs13d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;$(NMPP)/lib;C:\Program Files (x86)\Module\VSHELL32/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;$(NMPP)/lib;C:\Program Files (x86)\Module\VSHELL_32/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,14 +70,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;$(NMPP)/include;C:\Program Files (x86)\Module\VSHELL32/include;../..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;$(NMPP)/include;C:\Program Files (x86)\Module\VSHELL_32/include;../..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>;$(NMPP)/lib;C:\Program Files (x86)\Module\VSHELL32/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;$(NMPP)/lib;C:\Program Files (x86)\Module\VSHELL_32/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>vshell32.lib;;nmpp_vs13.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

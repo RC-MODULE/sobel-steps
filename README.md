@@ -41,8 +41,9 @@
   >скачиваются в папку <install_sobel_path>/sobel-steps/deps  командой **make get-sdk** 
 4. При работе с отладочными модулями используются управляющие хост-программы, разработанные на С++ в среде Microsoft Visual Studio (2005 или 2013):
  * [Visual Studio 2005 Express](http://apdubey.blogspot.ru/2009/04/microsoft-visual-studio-2005-express.html)
- * [Visual Studio 2013 Express](https://www.microsoft.com/en-US/download/details.aspx?id=44914)
-  > Для сборки standalone-проектов Visual Studio не требуется 
+ * [Visual Studio 2013 Express](https://www.microsoft.com/en-US/download/details.aspx?id=44914)  
+> Для сборки standalone-проектов Visual Studio не требуется
+
  
 ##Загрузка библиотек и видеороликов 
  

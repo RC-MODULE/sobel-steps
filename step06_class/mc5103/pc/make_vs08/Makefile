@@ -11,14 +11,14 @@ endif
 ROOT             = ../../../..
 include $(ROOT)/env.mk#--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL)/lib"     -L"$(MC5103)/libload"
+INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector
+LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"     -L"$(MC5103)/libload"
 SRC_DIRS         = .. 
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT)d.exe
-LIBS             = vshell.lib mc5103load.lib
+LIBS             = vshell32.lib mc5103load.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--

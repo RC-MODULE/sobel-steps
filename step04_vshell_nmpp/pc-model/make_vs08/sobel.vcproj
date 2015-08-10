@@ -29,7 +29,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=";../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL/include;../.." 
+				AdditionalIncludeDirectories=";../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL_32/include;../.." 
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE;"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -44,11 +44,11 @@
 		
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vshell.lib nmpp_vs80.lib "
+				AdditionalDependencies="vshell32.lib nmpp_vs80.lib "
 				OutputFile="Release/sobel.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=";../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL/lib"
+				AdditionalLibraryDirectories=";../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL_32/lib"
 				ProgramDatabaseFile=".\Release/tmp.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -69,7 +69,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL/include;../.." 	
+				AdditionalIncludeDirectories=";../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL_32/include;../.." 	
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE;"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
@@ -92,11 +92,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vshell.lib nmpp_vs80d.lib"
+				AdditionalDependencies="vshell32.lib nmpp_vs80d.lib"
 				OutputFile="Debug/sobeld.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=";../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL/lib"
+				AdditionalLibraryDirectories=";../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL_32/lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile=".\Debug/tmp.pdb"

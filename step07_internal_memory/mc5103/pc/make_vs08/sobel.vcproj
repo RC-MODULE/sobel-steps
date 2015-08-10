@@ -29,7 +29,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=";../../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL/include;C:\Program Files (x86)\Module\MC5103 SDK/libload;../../../../deps/connector" 
+				AdditionalIncludeDirectories=";../../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL_32/include;C:\Program Files (x86)\Module\MC5103 SDK/libload;../../../../deps/connector" 
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE;"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -44,11 +44,11 @@
 		
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mc5103load.lib vshell.lib "
+				AdditionalDependencies="mc5103load.lib vshell32.lib "
 				OutputFile="Release/sobel.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=";../../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL/lib;C:\Program Files (x86)\Module\MC5103 SDK/libload"
+				AdditionalLibraryDirectories=";../../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL_32/lib;C:\Program Files (x86)\Module\MC5103 SDK/libload"
 				ProgramDatabaseFile=".\Release/tmp.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -69,7 +69,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";../../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL/include;C:\Program Files (x86)\Module\MC5103 SDK/libload;../../../../deps/connector" 	
+				AdditionalIncludeDirectories=";../../../../deps/nmpp/include;C:\Program Files (x86)\Module\VSHELL_32/include;C:\Program Files (x86)\Module\MC5103 SDK/libload;../../../../deps/connector" 	
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE;"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
@@ -92,11 +92,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mc5103load.lib vshell.lib"
+				AdditionalDependencies="mc5103load.lib vshell32.lib"
 				OutputFile="Debug/sobel.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=";../../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL/lib;C:\Program Files (x86)\Module\MC5103 SDK/libload"
+				AdditionalLibraryDirectories=";../../../../deps/nmpp/lib;C:\Program Files (x86)\Module\VSHELL_32/lib;C:\Program Files (x86)\Module\MC5103 SDK/libload"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile=".\Debug/tmp.pdb"
