@@ -29,7 +29,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=";C:\Program Files (x86)\Module\MC5103 SDK/libload;../../../../deps/connector;../../../../deps/EasyBMP" 
+				AdditionalIncludeDirectories=";C:\Program Files (x86)\Module\MC7601 SDK/include;../../../../deps/connector;../../../../deps/EasyBMP" 
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE;"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -44,11 +44,11 @@
 		
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mc5103load.lib "
+				AdditionalDependencies="mc7601_ll_pc.lib "
 				OutputFile="Release/sobel.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=";C:\Program Files (x86)\Module\MC5103 SDK/libload"
+				AdditionalLibraryDirectories=";C:\Program Files (x86)\Module\MC7601 SDK/lib"
 				ProgramDatabaseFile=".\Release/tmp.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -69,7 +69,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";C:\Program Files (x86)\Module\MC5103 SDK/libload;../../../../deps/connector;../../../../deps/EasyBMP" 	
+				AdditionalIncludeDirectories=";C:\Program Files (x86)\Module\MC7601 SDK/include;../../../../deps/connector;../../../../deps/EasyBMP" 	
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE;"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
@@ -92,11 +92,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mc5103load.lib"
+				AdditionalDependencies="mc7601_ll_pc.lib"
 				OutputFile="Debug/sobel.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=";C:\Program Files (x86)\Module\MC5103 SDK/libload"
+				AdditionalLibraryDirectories=";C:\Program Files (x86)\Module\MC7601 SDK/lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile=".\Debug/tmp.pdb"

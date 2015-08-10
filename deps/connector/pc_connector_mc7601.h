@@ -1,4 +1,4 @@
-#include "MC7601_LL_Host.h"
+#include "mc7601_ll_host.h"
 
 #include "connector.h"
 #include "crtdbg.h"

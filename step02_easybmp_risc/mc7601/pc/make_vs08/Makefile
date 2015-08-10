@@ -12,8 +12,8 @@ ROOT             = ../../../..
 include $(ROOT)/env.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(MC7601)/libload" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
-LIB_DIRS         = -L"$(MC7601)/libload"
+INC_DIRS         = -I"$(MC7601)/include" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
+LIB_DIRS         = -L"$(MC7601)/lib"
 SRC_DIRS         = .. $(ROOT)/deps/EasyBMP
 TMP_DIR          = Release
 TMP_DIRD         = Debug
