@@ -3,22 +3,14 @@ include environment.mk
 
 
 .DEFAULT_GOAL = all
-all: download build
-	
-	
-download: 
+all: install steps avi
+
+install:
 	$(MAKE) -C deps
-	$(MAKE) -C input
 
-get-libs:
-	$(MAKE) -C deps get-libs
-
-get-sdk:
-	$(MAKE) -C deps get-sdk
-	
-get-avi:
+avi:
 	$(MAKE) -C input 
-	
+
 	
 clean:
 	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs08 clean
@@ -146,7 +138,7 @@ clean:
 	$(MAKE) -C step16_hdmi_hd\mb7707\pc\make_vs08  clean
 	$(MAKE) -C step16_hdmi_hd\mb7707\pc\make_vs13  clean
 
-build:
+steps:
 	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs08
 	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs13
 	$(MAKE) -C step01_easybmp_port2nmc\pc-model\make_vs08 
