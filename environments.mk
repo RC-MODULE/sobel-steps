@@ -8,16 +8,18 @@ ifeq ($(OS),Windows_NT)
   MB7707 ?= C:\Program Files (x86)\Module\MB7707 SDK
   MC7601 ?= c:\Program Files (x86)\Module\MC7601 SDK
   VSHELL32 ?= $(VSHELL32)
-  SHELL = cmd
-  OS_RM = del /Q
-  OS_RD = rd /Q /S 
-  PATH := $(MC5103)/bin);$(MB7707)/bin;$(PATH)
+  SHELL   = cmd
+  OS_RM   = del /Q
+  OS_RD   = rd /Q /S 
   OS_WGET = wget
+  OS_WHICH=$(windir)/system32/where
+  PATH := $(MC5103)/bin);$(MB7707)/bin;$(PATH)
   #powershell netsh winhttp import proxy source=ie; Import-Module bitstransfer; start-bitstransfer -source 
 else
-  OS_RM = rm -f -r
-  OS_RD = rm -d -r
+  OS_RM   = rm -f -r
+  OS_RD   = rm -d -r
   OS_WGET = wget
+  OS_WHICH=which
 endif
 
 
