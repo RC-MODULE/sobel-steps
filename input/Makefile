@@ -1,7 +1,14 @@
--include proxy.mk
+ROOT = ..
+-include $(ROOT)/environment.mk
+-include $(ROOT)/proxy.mk
 # http_proxy = http://username:password@proxy:80/
-include ../env.mk
 
+
+$(eval OUT=$(shell wget ))
+ifeq ($(OUT),)
+$(info -------------------------------------------------------------------)
+$(error ERROR: wget not found. Install setup wget from http://gnuwin32.sourceforge.net/packages/wget.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
+endif
 
 all: bugs720x576x20.avi disney1920x1080x8.avi bugs720x576.avi disney1920x1080.avi
 

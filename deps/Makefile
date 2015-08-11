@@ -1,94 +1,115 @@
--include ../env.mk
--include proxy.mk
+ROOT = ..
+-include $(ROOT)/environment.mk
+-include $(ROOT)/proxy.mk
 #http_proxy ?=http://username:password@proxy:80/
 
-ifeq ($(OS),Windows_NT)
-  OS_SDK_MC5103 = mc5103_distrib_v_01_01_x32.zip
-  OS_SDK_MB7707 = mb7707_distrib_v_01_02_x32.zip
-  OS_NMSDK = nmsdk306en_20150611.zip
-  OS_VSHELL32= VSHELL32_1.0.0.26.exe
-  #VSHELL32_1.0.0.24.zip
 
-  SHELL = cmd
-  OS_UNZIP = unzip 
-  OS_TODIR = -d
-  OS_RM = rd /Q /S 
-  OS_MKDIR = md
-  PATH := $(PATH);$(realpath ../gnuwin32/bin)
-  
-else
-  OS_SDK_MC5103 = mc5103_distrib_v_01_01.tar.gz
-  OS_SDK_MB7707 = mb7707_distrib_v_01_00.tar.gz
-  OS_NMSDK = module-nmc-20140702.tar.gz
-  OS_VSHELL32=
-  
-  OS_UNZIP = tar xvzf 
-  OS_TODIR = -C
-  OS_RM = rm -d -r
+$(eval OUT=$(shell wget ))
+ifeq ($(OUT),)
+$(info -------------------------------------------------------------------)
+$(error ERROR: wget not found. Install setup wget from http://gnuwin32.sourceforge.net/packages/wget.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
 endif
 
-NMPP = nmpp_2015-08-05.zip
-NMPROFILER= nmprofiler_2015-06-26.zip
 
 $(eval OUT=$(shell unzip ))
 ifeq ($(OUT),)
-$(warning ------------------------------------------------------------------------------------------ )
-$(warning WARNING: unzip not found. Download it by 'sobel-steps/gnuwin32/get_unzip.bat' and install  )
-$(warning WARNING: Install to sobel-steps/gnuwin32/ or another folder which accessible by %PATH% )
-$(warning ------------------------------------------------------------------------------------------ )
+$(info -------------------------------------------------------------------)
+$(error ERROR: unzip not found. Install setup unzip from http://gnuwin32.sourceforge.net/packages/unzip.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
 endif
 
-all: get-libs get-sdk install 
 
-get-libs: $(NMPP) $(NMPROFILER)  $(OS_VSHELL32)
 
-get-sdk:$(OS_SDK_MB7707) $(OS_SDK_MC5103) $(OS_NMSDK)
+ifeq ($(OS),Windows_NT)
+  OS_SDK_MC5103_PACK = mc5103_distrib_v_01_01_x32.zip
+  OS_SDK_MB7707_PACK = mb7707_distrib_v_01_02_x32.zip
+  OS_SDK_MC7601_PACK = mc7601_distrib_non_official.zip
+  OS_NMSDK_PACK      = nmsdk306en_20150611.zip
+  OS_VSHELL32_PACK   = VSHELL32.ZIP
+  OS_VSHELL32_DIST   = VSHELL32_1.0.0.26.exe
+  
+  OS_UNZIP = unzip 
+  OS_TODIR = -d
+  PATH := $(PATH);$(realpath ../gnuwin32/bin)
+  
+else
+  OS_SDK_MC5103_PACK = mc5103_distrib_v_01_01.tar.gz
+  OS_SDK_MB7707_PACK = mb7707_distrib_v_01_00.tar.gz
+  OS_NMSDK_PACK      = module-nmc-20140702.tar.gz
 
-install: nmpp nmprofiler 
+  OS_UNZIP = tar xvzf 
+  OS_TODIR = -C
+endif
 
-nmprofiler: $(NMPROFILER)
-	unzip $(<)
+NMPP_PACK       = nmpp_2015-08-05.zip
+NMPROFILER_PACK = nmprofiler_2015-06-26.zip
 
-nmpp: $(NMPP)
-	unzip $(<)
+
+all: get-libs get-sdk install-libs install-sdk  
+
+get-libs: $(NMPP_PAK) $(NMPROFILER_PACK) $(VSHELL32_PACK) $(OS_VSHELL32_DIST)
+
+get-sdk:$(OS_SDK_MB7707_PACK) $(OS_SDK_MC5103_PACK) $(OS_SDK_MC7601_PACK) $(OS_NMSDK_PACK) 
+
+install-libs: nmpp nmprofiler vshell32
+
+install-sdk:  mc5103sdk mb7707sdk mc7601sdk nmsdk
+
+#------------------------- unpacking of packages --------------------
+
+nmprofiler: $(NMPROFILER_PACK)
+	$(OS_UNZIP) $(<)
+
+nmpp: $(NMPP_PACK)
+	$(OS_UNZIP) $(<)
 	
-mc5103sdk: $(OS_SDK_MC5103)
+mc5103sdk: $(OS_SDK_MC5103_PACK)
 	mkdir $(@)
 	$(OS_UNZIP) $(<) $(OS_TODIR) $(@)
 	
-mb7707sdk: $(OS_SDK_MB7707)
+mb7707sdk: $(OS_SDK_MB7707_PACK)
 	mkdir $(@)
 	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
 
-$(OS_VSHELL32): 
-	unzip $(<)
-	VSHELL32_1.0.0.24.exe
+mc7601sdk: $(OS_SDK_MC7601_PACK)
+	mkdir $(@)
+	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
 
+nmsdk: $(OS_NMSDK_PACK)
+	mkdir $(@)
+	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
+
+vshell32: $(OS_VSHELL32_PACK)
+	-mkdir $(@)
+	$(OS_UNZIP) $(<) 
 	
-$(NMPP):
+#------------------------- getting depended packs from www.module.ru --------------------
+	
+$(NMPP_PACK):
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
+
+$(NMPROFILER_PACK):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
-#	$(OS_WGET) http://downloads.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe
-	
-
-
-$(NMPROFILER):
-	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
-	
-$(OS_SDK_MB7707):
+$(OS_SDK_MB7707_PACK):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
-$(OS_SDK_MC5103):
+$(OS_SDK_MC5103_PACK):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
 
-$(OS_VSHELL32):
+$(OS_SDK_MC7601_PACK):
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
+	
+$(OS_VSHELL32_PACK):
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
+
+$(OS_VSHELL32_DIST):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
 	
-$(OS_NMSDK):	
+$(OS_NMSDK_PACK):	
 	$(OS_WGET) http://www.module.ru/mb7707/toolchains-neuromatrix/$(@)
 	
+#------------------------------------------------------------------------------------	
 clean:
-	-$(OS_RM) nmpp
-	-$(OS_RM) nmprofiler
-	-$(OS_RM) mc5103sdk
-	-$(OS_RM) mb7707sdk
+	-$(OS_RM) *.zip *.exe
+	-$(OS_RD) mb7707sdk mc5103sdk mc7601sdk nmpp nmprofiler nmsdk vshell32 
+	

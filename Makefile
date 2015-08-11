@@ -1,9 +1,14 @@
-include env.mk
+include environment.mk
+
+
 
 .DEFAULT_GOAL = all
-
-install: 
-	$(MAKE) -C deps install
+all: download build
+	
+	
+download: 
+	$(MAKE) -C deps
+	$(MAKE) -C input
 
 get-libs:
 	$(MAKE) -C deps get-libs
@@ -141,7 +146,7 @@ clean:
 	$(MAKE) -C step16_hdmi_hd\mb7707\pc\make_vs08  clean
 	$(MAKE) -C step16_hdmi_hd\mb7707\pc\make_vs13  clean
 
-all:
+build:
 	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs08
 	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs13
 	$(MAKE) -C step01_easybmp_port2nmc\pc-model\make_vs08 

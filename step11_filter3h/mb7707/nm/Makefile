@@ -47,7 +47,7 @@
 #
 
 ROOT = ../../..
-include $(ROOT)/env.mk
+include $(ROOT)/environment.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .

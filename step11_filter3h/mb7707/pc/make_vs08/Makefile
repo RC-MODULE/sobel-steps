@@ -9,7 +9,7 @@ $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Micr
 endif 
 
 ROOT             = ../../../..
-include $(ROOT)/env.mk
+include $(ROOT)/environment.mk
 
 #--------------  target & input dirs -------------------
 PROJECT          = sobel

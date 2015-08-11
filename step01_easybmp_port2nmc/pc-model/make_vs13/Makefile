@@ -9,7 +9,7 @@ $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Mic
 endif 
 
 ROOT             = ../../..
-include $(ROOT)/env.mk
+include $(ROOT)/environment.mk
 NMPP = $(ROOT)/deps/nmpp
 #--------------  target & input dirs -------------------
 PROJECT          = sobel

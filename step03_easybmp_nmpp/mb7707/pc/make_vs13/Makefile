@@ -9,7 +9,7 @@ $(warning *** WARNING: 'VS120COMNTOOLS' environment variable is not defined! Mic
 endif 
 
 ROOT             = ../../../..
-include $(ROOT)/env.mk
+include $(ROOT)/environment.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(MB7707)/libload" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP

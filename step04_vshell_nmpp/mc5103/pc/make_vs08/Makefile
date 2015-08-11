@@ -9,7 +9,8 @@ $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Micr
 endif 
 
 ROOT             = ../../../..
-include $(ROOT)/env.mk#--------------  target & input dirs -------------------
+include $(ROOT)/environment.mk
+#--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector
 LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"     -L"$(MC5103)/libload"

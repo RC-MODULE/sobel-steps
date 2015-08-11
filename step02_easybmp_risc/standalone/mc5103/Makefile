@@ -49,7 +49,7 @@
 #==================== Handle OS Specifics ==========================
 
 ROOT             = ../../..
-include $(ROOT)/env.mk
+include $(ROOT)/environment.mk
 
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc5103_nm
