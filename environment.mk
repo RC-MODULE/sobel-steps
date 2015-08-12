@@ -17,9 +17,9 @@ ifeq ($(OS),Windows_NT)
   OS_RD    = rd /Q /S 
   OS_WHICH =$(windir)/system32/where
  #OS_WGET  = wget
-  OS_WGET  = powershell -file $(ROOT)/wget.ps1 
+  OS_WGET  = powershell  -ExecutionPolicy Bypass -file $(ROOT)/wget.ps1 
  #OS_UNZIP = unzip 
-  OS_UNZIP = powershell -file $(ROOT)/unzip.ps1 
+  OS_UNZIP = powershell  -ExecutionPolicy Bypass -file $(ROOT)/unzip.ps1 
   OS_TODIR = -d
 else
   OS_RM    = rm -f -r
