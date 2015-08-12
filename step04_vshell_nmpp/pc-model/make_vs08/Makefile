@@ -10,7 +10,7 @@ endif
 
 ROOT             = ../../..
 include $(ROOT)/environment.mk
-NMPP = $(ROOT)/deps/nmpp
+
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I../..
