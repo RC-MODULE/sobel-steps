@@ -46,7 +46,7 @@ all: get-libs get-sdk install-libs install-sdk
 
 get: get-libs get-sdk
 
-get-libs: $(NMPP_PAK) $(NMPROFILER_PACK) $(VSHELL32_PACK) $(OS_VSHELL32_DIST)
+get-libs: $(NMPROFILER_PACK) $(NMPP_PAK) $(VSHELL32_PACK) $(OS_VSHELL32_DIST)
 
 get-sdk:$(OS_SDK_MB7707_PACK) $(OS_SDK_MC5103_PACK) $(OS_SDK_MC7601_PACK) $(OS_NMSDK_PACK) 
 
