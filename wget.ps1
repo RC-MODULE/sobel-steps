@@ -1,13 +1,18 @@
 param ($url=$Args[0])
+$filename = [System.IO.Path]::GetFileName($url)
 $webclient = new-object System.Net.WebClient
 $isDirect=$webClient.Proxy.IsBypassed("http://module.ru")
-if ($isDirect){}
+if ($isDirect){
+	Import-Module BitsTransfer
+	Start-BitsTransfer -DisplayName $filename -Source $url -Destination $filename 
+	}
 else {
-#$proxy = new-object System.Net.WebProxy "proxy:80"
 	netsh winhttp import proxy source=ie
 	$creds=Get-Credential
 	$webclient.Proxy.Credentials=$creds
+	$webclient.DownloadFile($url,$filename)
 }
+#$proxy = new-object System.Net.WebProxy "proxy:80"
 #$proxy.Credentials = $creds
 #$proxy.Credentials = New-Object System.Net.NetworkCredential ($env:USERNAME, $env:PASSWORD)
 #$proxy = [System.Net.WebRequest]::GetSystemWebProxy()
@@ -15,6 +20,7 @@ else {
 #$proxy.useDefaultCredentials = $true
 
 #$webclient.proxy=$proxy
-$filename = [System.IO.Path]::GetFileName($url)
-$webclient.DownloadFile($url,$filename)
+
+
 #$webclient.DownloadFile( "http://savepic.ru/7691336.png","7691336.png")
+
