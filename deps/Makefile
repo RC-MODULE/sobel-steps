@@ -4,18 +4,18 @@ ROOT = ..
 #http_proxy ?=http://username:password@proxy:80/
 
 
-$(eval OUT=$(shell wget ))
-ifeq ($(OUT),)
-$(info -------------------------------------------------------------------)
-$(error ERROR: wget not found. Install setup wget from http://gnuwin32.sourceforge.net/packages/wget.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
-endif
-
-
-$(eval OUT=$(shell unzip ))
-ifeq ($(OUT),)
-$(info -------------------------------------------------------------------)
-$(error ERROR: unzip not found. Install setup unzip from http://gnuwin32.sourceforge.net/packages/unzip.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
-endif
+#$(eval OUT=$(shell wget ))
+#ifeq ($(OUT),)
+#$(info -------------------------------------------------------------------)
+#$(error ERROR: wget not found. Install setup wget from http://gnuwin32.sourceforge.net/packages/wget.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
+#endif
+#
+#
+#$(eval OUT=$(shell unzip ))
+#ifeq ($(OUT),)
+#$(info -------------------------------------------------------------------)
+#$(error ERROR: unzip not found. Install setup unzip from http://gnuwin32.sourceforge.net/packages/unzip.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
+#endif
 
 
 
@@ -27,8 +27,7 @@ ifeq ($(OS),Windows_NT)
   OS_VSHELL32_PACK   = VSHELL32.ZIP
   OS_VSHELL32_DIST   = VSHELL32_1.0.0.26.exe
   
-  OS_UNZIP = unzip 
-  OS_TODIR = -d
+ 
   PATH := $(PATH);$(realpath ../gnuwin32/bin)
   
 else
@@ -36,8 +35,7 @@ else
   OS_SDK_MB7707_PACK = mb7707_distrib_v_01_00.tar.gz
   OS_NMSDK_PACK      = module-nmc-20140702.tar.gz
 
-  OS_UNZIP = tar xvzf 
-  OS_TODIR = -C
+ 
 endif
 
 NMPP_PACK       = nmpp_2015-08-05.zip
@@ -45,6 +43,8 @@ NMPROFILER_PACK = nmprofiler_2015-06-26.zip
 
 
 all: get-libs get-sdk install-libs install-sdk  
+
+get: get-libs get-sdk
 
 get-libs: $(NMPP_PAK) $(NMPROFILER_PACK) $(VSHELL32_PACK) $(OS_VSHELL32_DIST)
 
@@ -79,16 +79,23 @@ nmsdk: $(OS_NMSDK_PACK)
 	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
 
 vshell32: $(OS_VSHELL32_PACK)
-	-mkdir $(@)
 	$(OS_UNZIP) $(<) 
 	
 #------------------------- getting depended packs from www.module.ru --------------------
-	
+setup:
+	$(OS_WGET) https://htmlweb.ru/download/sinonim.rar
+
+png:	
+	$(OS_WGET) http://savepic.ru/7691336.png
+
+zip:
+	$(OS_UNZIP) nmprofiler_2015-06-26.zip 
+
 $(NMPP_PACK):
-	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@) 
 
 $(NMPROFILER_PACK):
-	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@)
+	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/$(@) 
 	
 $(OS_SDK_MB7707_PACK):
 	$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/boards/$(@)
