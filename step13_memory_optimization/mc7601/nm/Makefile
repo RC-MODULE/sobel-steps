@@ -46,25 +46,25 @@
 #============== PROJECT & BUILD CONFIGURATION ==========
 #
 
-ROOT = ../../..
+ROOT             = ../../..
 include $(ROOT)/environment.mk
 #--------------  target & input dirs -------------------
-PROJECT          = sobel_mb7707_nm
+PROJECT          = sobel_mc7601_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include"  -I"$(NMPROFILER)/include" -I../../src/common
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MC7601)/include" -I"$(NMPP)/include"   -I"$(NMPROFILER)/include" -I../../src/common
 SRC_DIRS         = . ../../src/common ../../src/nm  
-LIB_DIRS         = -l"$(NEURO)/lib" -l"$(MB7707)/lib" -l"$(NMPP)/lib"
+LIB_DIRS         = -l"$(NEURO)/lib"   -l"$(MC7601)/lib" -l"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
-AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
-AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
-LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
+AS_FLAGS         = -soc -nm2ms  $(INC_DIRS)
+AS_FLAGS_C2ASM   = -soc -nm2ms  $(INC_DIRS)
+LIBS             = mc7601_LL_NM.lib libint_soc.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=18000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=15000 -heap1=32500 -heap2=30000 -heap3=32500 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
@@ -75,8 +75,8 @@ BUILDER_FLAGS   += -d0
 TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      = ../../src/common
-RESOURCES        =Makefile mb7707brd.cfg
+HEADER_DIRS      =../../src/common
+RESOURCES        =Makefile mc5103brd.cfg
 
 #=================== SOURCE & OBJECTS COLLECTION ===========================
 
@@ -131,10 +131,9 @@ clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
 	-$(OS_RD) Debug Release
  
-
-profile:	
-	tclsh $(NMPROFILER)\script\generate_proflist.tcl $(PROJECT).map
-	
+cleanall:
+	$(MAKE) clean
+	$(MAKE) clean DEBUG=y
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
 
@@ -147,4 +146,3 @@ vs13: $(PROJECT).vcxproj
 
 $(PROJECT).vcxproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs13.mk nmc-app --silent >$(@)
-

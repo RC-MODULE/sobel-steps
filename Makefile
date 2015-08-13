@@ -28,7 +28,11 @@ clean:
 	$(MAKE) -C step02_easybmp_risc\mc5103\nm  clean
 	$(MAKE) -C step02_easybmp_risc\mc5103\pc\make_vs08  clean
 	$(MAKE) -C step02_easybmp_risc\mc5103\pc\make_vs13  clean
+	$(MAKE) -C step02_easybmp_risc\mc7601\nm  clean
+	$(MAKE) -C step02_easybmp_risc\mc7601\pc\make_vs08  clean
+	$(MAKE) -C step02_easybmp_risc\mc7601\pc\make_vs13  clean
 	$(MAKE) -C step03_easybmp_nmpp\standalone\mb7707 clean
+	$(MAKE) -C step03_easybmp_nmpp\standalone\mc7601 clean
 	$(MAKE) -C step03_easybmp_nmpp\standalone\mc5103 clean
 	$(MAKE) -C step03_easybmp_nmpp\mb7707\nm  clean
 	$(MAKE) -C step03_easybmp_nmpp\mb7707\pc\make_vs08  clean
@@ -148,12 +152,16 @@ steps:
 	$(MAKE) -C step01_easybmp_port2nmc\pc-model\make_vs13 
 	$(MAKE) -C step02_easybmp_risc\mb7707\nm 
 	$(MAKE) -C step02_easybmp_risc\standalone\mb7707
+	$(MAKE) -C step02_easybmp_risc\standalone\mc7601
 	$(MAKE) -C step02_easybmp_risc\standalone\mc5103
 	$(MAKE) -C step02_easybmp_risc\mb7707\pc\make_vs08 
 	$(MAKE) -C step02_easybmp_risc\mb7707\pc\make_vs13 
 	$(MAKE) -C step02_easybmp_risc\mc5103\nm 
 	$(MAKE) -C step02_easybmp_risc\mc5103\pc\make_vs08 
 	$(MAKE) -C step02_easybmp_risc\mc5103\pc\make_vs13 
+	$(MAKE) -C step02_easybmp_risc\mc7601\nm 
+	$(MAKE) -C step02_easybmp_risc\mc7601\pc\make_vs08 
+	$(MAKE) -C step02_easybmp_risc\mc7601\pc\make_vs13 
 	$(MAKE) -C step03_easybmp_nmpp\standalone\mb7707
 	$(MAKE) -C step03_easybmp_nmpp\standalone\mc5103
 	$(MAKE) -C step03_easybmp_nmpp\mb7707\nm 
@@ -248,6 +256,9 @@ steps:
 	$(MAKE) -C step13_memory_optimization\mb7707\nm 
 	$(MAKE) -C step13_memory_optimization\mb7707\pc\make_vs08 
 	$(MAKE) -C step13_memory_optimization\mb7707\pc\make_vs13 
+	$(MAKE) -C step13_memory_optimization\mc7601\nm 
+	$(MAKE) -C step13_memory_optimization\mc7601\pc\make_vs08 
+	$(MAKE) -C step13_memory_optimization\mc7601\pc\make_vs13 
 	$(MAKE) -C step13_memory_optimization\mc5103\nm 
 	$(MAKE) -C step13_memory_optimization\mc5103\pc\make_vs08 
 	$(MAKE) -C step13_memory_optimization\mc5103\pc\make_vs13 

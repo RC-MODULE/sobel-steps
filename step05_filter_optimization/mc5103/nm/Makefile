@@ -129,7 +129,7 @@ $(TMP_DIR)/%.asmx: %.c
 
 clean:
 	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb 
-	-rm -f -r Release Debug
+	-$(OS_RD) Debug Release
  
 cleanall:
 	$(MAKE) clean

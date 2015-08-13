@@ -45,23 +45,20 @@
 */sobel-steps/deps* и дальше вызываются оттуда. При этом никаких изменений переменных окружения в системе не требуется и не производится.
 Локальное переопределение переменных производится в файле */sobel-steps/environment.mk*
  
-Скачать и установить все необходимые компоненты можно командой командой
+Скачать и установить все необходимые компоненты можно командой командами
 ```bat
+make download 
 make install
 ```
 
-> Для скачивания через прокси необходимо создать файл */sobel-steps/proxy.mk* и определить в нем переменную 
-```mak 
- http_proxy = http://user:pass@proxy:80/ 
-```
-
-
-
 Для корректного исполнения сборочных Makefile-скриптов под Windows необходимо, чтобы были установлены следующие утилиты:
 - **Make for Windows**. [Скачать инсталлятор](http://gnuwin32.sourceforge.net/downlinks/make.php). Домашняя страница: http://gnuwin32.sourceforge.net/packages/make.htm
+
+
+> Альтернативными утилитами для скачивания и распаковки под Windows могут являться **wget** и **unzip**.
+> В файле */sobel-steps/environment.mk* через переменные OS_WGET и OS_UNZIP можно настроить способ скачивания и распаковки 
 - **Wget for Windows**. [Скачать инсталлятор](http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-setup.exe). Домашняя страница http://gnuwin32.sourceforge.net/packages/wget.htm
 - **UnZip for Windows** [Скачать инсталлятор](http://gnuwin32.sourceforge.net/downlinks/unzip.php). Домашняя страница http://gnuwin32.sourceforge.net/packages/unzip.htm  
-
 > Утилиты должны быть доступны через переменную окружения PATH.  
 > Пути к **wget** и **unzip** можно не прописывать в PATH если при их установке была указана папка */sobel-steps/gnuwin32*
 

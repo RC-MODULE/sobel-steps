@@ -41,7 +41,7 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 	}
 }
 #ifdef _DEBUG 
-#define PROGRAM "../../nm/sobel_mc5103_nm.abs"
+#define PROGRAM "../../nm/sobel_mc5103_nmd.abs"
 #else
 #define PROGRAM "../../nm/sobel_mc5103_nm.abs"
 #endif
