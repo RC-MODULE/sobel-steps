@@ -32,7 +32,6 @@ clean:
 	$(MAKE) -C step02_easybmp_risc\mc7601\pc\make_vs08  clean
 	$(MAKE) -C step02_easybmp_risc\mc7601\pc\make_vs13  clean
 	$(MAKE) -C step03_easybmp_nmpp\standalone\mb7707 clean
-	$(MAKE) -C step03_easybmp_nmpp\standalone\mc7601 clean
 	$(MAKE) -C step03_easybmp_nmpp\standalone\mc5103 clean
 	$(MAKE) -C step03_easybmp_nmpp\mb7707\nm  clean
 	$(MAKE) -C step03_easybmp_nmpp\mb7707\pc\make_vs08  clean
