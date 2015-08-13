@@ -19,7 +19,7 @@ ROOT = ..
 
 
 
-NMPP_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmpp_2015-08-05.zip
+NMPP_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmpp_2015-08-13.zip
 NMPROFILER_URL   = http://www.module.ru/mb7707/NeuroMatrix/nmprofiler_2015-06-26.zip
 
 ifeq ($(OS),Windows_NT)

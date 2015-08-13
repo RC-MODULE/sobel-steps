@@ -1,6 +1,6 @@
 NMPP             = $(ROOT)/deps/nmpp
 NMPROFILER       = $(ROOT)/deps/nmprofiler
-#http_proxy        = http://user:pass@proxy:80/
+#http_proxy        = http://user:pass@proxy:80/       (for wget usage)
 
 NEURO    = $(realpath $(ROOT))/deps/nmsdk
 VSHELL32 = $(realpath $(ROOT))/deps/vshell32
