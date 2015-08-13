@@ -12,7 +12,7 @@ int main()
 {  
 	int width ;
 	int height;
-
+	
 	// parse pgm header	
 	int src_pgm_header_len=read_pgm_header(src_pgm_file,width,height);
 	if (src_pgm_header_len==0){

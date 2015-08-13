@@ -1,35 +1,42 @@
 ROOT = ..
 -include $(ROOT)/environment.mk
--include $(ROOT)/proxy.mk
-# http_proxy = http://username:password@proxy:80/
+
+# [11MB]
+VIDEO1 = http://www.module.ru/mb7707/NeuroMatrix/sobel/bugs720x576x20.avi 
+
+# [21MB]
+VIDEO2 = http://www.module.ru/mb7707/NeuroMatrix/sobel/disney1920x1080x8.avi
+
+# [68MB]
+VIDEO3 = http://www.module.ru/mb7707/NeuroMatrix/sobel/bugs720x576.avi
+
+# [720MB]
+VIDEO4 = http://www.module.ru/mb7707/NeuroMatrix/sobel/disney1920x1080.avi
 
 
-#$(eval OUT=$(shell wget ))
-#ifeq ($(OUT),)
-#$(info -------------------------------------------------------------------)
-#$(error ERROR: wget not found. Install setup wget from http://gnuwin32.sourceforge.net/packages/wget.htm to sobel-steps/gnuwin32/ or to another folder accessible by PATH )
-#endif
+VIDEOS = $(notdir $(VIDEO1)) $(notdir $(VIDEO2)) $(notdir $(VIDEO3)) $(notdir $(VIDEO4))
 
-all: bugs720x576x20.avi disney1920x1080x8.avi bugs720x576.avi disney1920x1080.avi
+avi:  $(VIDEOS)
 
-get-avi: all
-
-bugs720x576x20.avi:
-	@echo Copying (1 of 4) $(@) [11MB] from module.ru ...
-	@$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@) ||	echo Copying $(@) [11MB] from LAN, wait... && copy \\dragon\distrib\streams\video\720x576\$(@)
+$(VIDEOS): 
+	$(OS_WGET) \
+		$(VIDEO1) \
+		$(VIDEO2) \
+		$(VIDEO3) \
+		$(VIDEO4)
 	
-disney1920x1080x8.avi:
-	@echo Copying (2 of 4) $(@) [21MB] from module.ru ...
-	@$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@)  || echo Copying $(@) [21MB] from LAN, wait... && copy \\dragon\distrib\streams\video\1920x1080\$(@)
-
-bugs720x576.avi:
-	@echo Copying (3 of 4) $(@) [68MB] from module.ru ...
-	@$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@)  || echo Copying $(@) [68MB] from LAN, wait... && copy \\dragon\distrib\streams\video\720x576\$(@)
-
-disney1920x1080.avi:
-	@echo Copying (4 of 4) $(@) [720MB] from module.ru ...
-	@$(OS_WGET) http://www.module.ru/mb7707/NeuroMatrix/sobel/$(@)  || echo Copying $(@) [720MB] from LAN, wait... && copy \\dragon\distrib\streams\video\1920x1080\$(@)
-
+local:
+	copy \\dragon\distrib\streams\video\720x576\bugs720x576x20.avi
+	copy \\dragon\distrib\streams\video\1920x1080\disney1920x1080x8.avi
+	copy \\dragon\distrib\streams\video\720x576\bugs720x576.avi
+	copy \\dragon\distrib\streams\video\1920x1080\disney1920x1080.avi
 	
-
+	
+	
+	
+	
+	
+	
+	
+	
 	

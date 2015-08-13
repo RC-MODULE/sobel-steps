@@ -52,7 +52,7 @@ include $(ROOT)/environment.mk
 PROJECT          = sobel_mc7601_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MC7601)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
 LIB_DIRS         = -L"$(NEURO)/lib" -L"$(MC7601)/lib" -L"$(NMPP)/lib"
 TMP_DIR          = Release

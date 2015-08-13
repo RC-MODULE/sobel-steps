@@ -10,11 +10,13 @@
 int main()
 {  
 	//cache_enable();
+	
 	//---------- start nm programm ------------
 	int fromHost=ncl_hostSync(0xC0DE6406);		// barrier sync/ send handshake to host
 	if (fromHost!=0xC0DE0086){					// barrier sync/ get  handshake from host
 		return -1;
 	}
+	//return 1;
 
 	// Get image parameters from host
 	int width = ncl_hostSync(0);	// barrier sync / get image width  from host

@@ -3,10 +3,13 @@ include environment.mk
 
 
 .DEFAULT_GOAL = all
-all: install steps avi
+all: download install steps avi
+
+download:
+	$(MAKE) -C deps download
 
 install:
-	$(MAKE) -C deps
+	$(MAKE) -C deps install
 
 avi:
 	$(MAKE) -C input 

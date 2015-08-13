@@ -11,8 +11,12 @@ const int IP_ADDRESS = 0x0201A8C0; // 192.168.1.2
 class C_PC_Connector_mc7601: public C_Connector{
 public:
 	WR_Access *access;
+	WR_Board *board;
+	bool isConnected(){
+		return (access!=0);
+	}
 	C_PC_Connector_mc7601(char* absfile=0){
-		WR_Board *board;
+		
 		WR_channel_conf conf;
 		int boardCount;
 		WR_Word Length = 0;
@@ -37,6 +41,8 @@ public:
 			//TRACE( "ERROR: Can't access processor  0 on board  0  \n");
 			//return  (1);
 		}
+		
+		WR_ResetCore(access);
 
 		if (WR_LoadInitCode(access) != WR_OK)
 		{
@@ -142,4 +148,26 @@ public:
 		::Sleep(msecs);
 	}
 
+	void close(){
+		SP_Word NM_part_return_value;
+		if (WR_WaitEndProgram(access, &NM_part_return_value, 0xFFFFFFFF) != WR_OK)
+		{
+			//cout << NM_PART_FILE_NAME << " :: ERROR: Can't wait end program!\n";
+			exit(1);
+		}
+
+		
+
+		if (WR_CloseAccess(access) != WR_OK)
+		{
+			//cout << "ERROR: Can't close core!\n";
+			exit(1);
+		}
+
+		if (WR_CloseBoardDesc(board) != WR_OK)
+		{
+			//cout << "ERROR: Can't close board!\n";
+			exit(1);
+		}
+	}
 };

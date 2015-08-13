@@ -41,9 +41,9 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 	}
 }
 #ifdef _DEBUG 
-#define PROGRAM "../../nm/sobel_mc7601_nmd.abs"
+#define PROGRAM "../../nm/sobel_mc5103_nm.abs"
 #else
-#define PROGRAM "../../nm/sobel_mc7601_nm.abs"
+#define PROGRAM "../../nm/sobel_mc5103_nm.abs"
 #endif
 
 int main()
@@ -75,7 +75,8 @@ int main()
 		return -1;
 	}
 	
-	
+	//Connector.close();
+	//return 1;
 	int ok;
 	ok=Connector.Sync(width);		// Send width to nmc
 	ok=Connector.Sync(height);		// Send height to nmc
@@ -103,12 +104,11 @@ int main()
 
 	dstBMP.WriteToFile("dst.bmp");
 	
+	Connector.close();
 	delete srcData;
 	delete dstData;
     return 0;
-	
-	
-
-	
-	
 }
+
+
+

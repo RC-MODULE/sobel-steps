@@ -47,7 +47,7 @@
 ROOT             = ../../..
 include $(ROOT)/environment.mk
 #--------------  target & input dirs -------------------
-PROJECT          = sobel_mc5103_nm
+PROJECT          = sobel_mc7601_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
 INC_DIRS         = -I"$(NEURO)/include" -I"$(MC7601)/include" -I"$(NMPP)/include"   -I../..
@@ -58,11 +58,11 @@ TMP_DIR          = Release
 AS               = asm 				 
 AS_FLAGS         = -soc -nm2ms  $(INC_DIRS)
 AS_FLAGS_C2ASM   = -soc -nm2ms  $(INC_DIRS)
-LIBS             = libint_soc.lib mc7601_LL_NM.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
+LIBS             = mc7601_LL_NM.lib libint_soc.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=2000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc7601brd.cfg -m  -heap=0 -heap1=0 -heap2=0 -heap3=0 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
