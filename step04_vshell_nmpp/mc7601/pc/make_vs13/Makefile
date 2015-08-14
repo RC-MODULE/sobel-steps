@@ -12,14 +12,14 @@ ROOT             = ../../../..
 include $(ROOT)/environment.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I"$(MC5103)/libload" -I$(ROOT)/deps/connector
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"     -L"$(MC5103)/libload"
+INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I"$(MC7601)/include" -I$(NMPROFILER)/include -I$(ROOT)/deps/connector
+LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"     -L"$(MC7601)/lib"
 SRC_DIRS         = ..
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT).exe
-LIBS             = mc5103load.lib vshell32.lib
+LIBS             = vshell32.lib mc7601_ll_pc.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
