@@ -39,7 +39,7 @@ install-sdk:  mc5103sdk mb7707sdk mc7601sdk nmsdk
 else
   SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01.tar.gz
   SDK_MB7707_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mb7707_distrib_v_01_00.tar.gz
-  NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/module-nmc-20140702.tar.gz
+  NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk.tar.gz
   DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL))
   DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL))  $(notdir $(NMSDK_URL))
   
