@@ -29,32 +29,60 @@ ifeq ($(OS),Windows_NT)
   NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk306en_20150611.zip
   VSHELL32_URL   = http://www.module.ru/mb7707/NeuroMatrix/VSHELL32.ZIP
   VSHELL32_DIST  = http://www.module.ru/mb7707/NeuroMatrix/VSHELL32_1.0.0.26.exe
+  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL)) $(notdir $(VSHELL32_URL))
+  DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL)) $(notdir $(SDK_MC7601_URL)) $(notdir $(NMSDK_URL))
+
+install-libs: nmprofiler nmpp vshell32
+
+install-sdk:  mc5103sdk mb7707sdk mc7601sdk nmsdk
+
 else
   SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01.tar.gz
   SDK_MB7707_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mb7707_distrib_v_01_00.tar.gz
   NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/module-nmc-20140702.tar.gz
+  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL))
+  DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL))  $(notdir $(NMSDK_URL))
+  
+install-libs: nmprofiler nmpp 
+
+install-sdk:  mc5103sdk mb7707sdk nmsdk
+  
 endif
 
 
 
 all: download install
 
-DOWNLOADS = $(DOWNLOADS-LIBS) $(DOWNLOADS-SDK)
 
-DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL)) $(notdir $(VSHELL32_URL))
 
-DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL)) $(notdir $(SDK_MC7601_URL)) $(notdir $(NMSDK_URL))
+DOWNLOADS      = $(DOWNLOADS-LIBS) $(DOWNLOADS-SDK)
 
-$(info ----------$(DOWNLOADS))
 
 install: install-libs install-sdk
 
-install-libs: nmprofiler nmpp vshell32
-
-install-sdk:  mc5103sdk mb7707sdk mc7601sdk nmsdk
 
 #------------------------- package installation  --------------------
 
+
+
+mc5103sdk: $(notdir $(SDK_MC5103_URL))
+	-mkdir $(@)
+	$(OS_TAR) $(<) $(OS_TODIR) $(@)
+	
+mb7707sdk: $(notdir $(SDK_MB7707_URL))
+	-mkdir $(@)
+	$(OS_TAR) $(<) $(OS_TODIR) $(@) 
+
+mc7601sdk: $(notdir $(SDK_MC7601_URL))
+	-mkdir $(@)
+	$(OS_TAR) $(<) $(OS_TODIR) $(@) 
+
+nmsdk: $(notdir $(NMSDK_URL))
+	-mkdir $(@)
+	$(OS_TAR) $(<) 
+
+vshell32: $(notdir $(VSHELL32_URL))
+	$(OS_UNZIP) $(<) 
 
 nmprofiler: $(notdir $(NMPROFILER_URL))
 	$(OS_UNZIP) $(<)
@@ -64,26 +92,7 @@ nmpp: $(notdir $(NMPP_URL))
 	$(MAKE) -C $(NMPP)/make/pc/vs80 
 	$(MAKE) -C $(NMPP)/make/pc/vs13
 	
-	
-mc5103sdk: $(notdir $(SDK_MC5103_URL))
-	-mkdir $(@)
-	$(OS_UNZIP) $(<) $(OS_TODIR) $(@)
-	
-mb7707sdk: $(notdir $(SDK_MB7707_URL))
-	-mkdir $(@)
-	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
 
-mc7601sdk: $(notdir $(SDK_MC7601_URL))
-	-mkdir $(@)
-	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
-
-nmsdk: $(notdir $(NMSDK_URL))
-	-mkdir $(@)
-	$(OS_UNZIP) $(<) $(OS_TODIR) $(@) 
-
-vshell32: $(notdir $(VSHELL32_URL))
-	$(OS_UNZIP) $(<) 
-	
 #------------------------- download of depended URLs from www.module.ru --------------------
 
 
