@@ -7,8 +7,8 @@ VSHELL32 = $(realpath $(ROOT))/deps/vshell32
 MC5103   = $(realpath $(ROOT))/deps/mc5103sdk
 MC7601  ?= $(realpath $(ROOT))/deps/mc7601sdk
 MB7707   = $(realpath $(ROOT))/deps/mb7707sdk
-#VDU7707 ?= $(realpath $(ROOT))/deps/vdu7707
-VDU7707 ?= d:/GIT/vdu7707
+VDU7707 ?= $(realpath $(ROOT))/deps/vdu7707
+#VDU7707 ?= d:/GIT/vdu7707
 
 
   
