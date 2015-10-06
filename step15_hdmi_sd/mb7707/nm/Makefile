@@ -52,15 +52,15 @@ include $(ROOT)/environment.mk
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include"  -I"$(NMPROFILER)/include" -I../../src/common
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include"  -I"$(NMPROFILER)/include" -I../../src/common -I$(VDU7707)/include
 SRC_DIRS         = . ../../src/common ../../src/nm  
-LIB_DIRS         = -l"$(NEURO)/lib" -l"$(MB7707)/lib" -l"$(NMPP)/lib"
+LIB_DIRS         = -l"$(NEURO)/lib" -l"$(MB7707)/lib" -l"$(NMPP)/lib" -l$(VDU7707)/lib
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
 AS               = asm 				 
 AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
 AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
-LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib
+LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp_nmc3.lib vdu7707_y_cb_cr.lib
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker

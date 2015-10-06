@@ -21,6 +21,7 @@ ROOT = ..
 
 NMPP_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmpp_2015-09-01.zip
 NMPROFILER_URL   = http://www.module.ru/mb7707/NeuroMatrix/nmprofiler_2015-06-26.zip
+VDU7707_URL      = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-06.zip
 
 ifeq ($(OS),Windows_NT)
   SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01_x32.zip
@@ -29,10 +30,11 @@ ifeq ($(OS),Windows_NT)
   NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk306en_20150611.zip
   VSHELL32_URL   = http://www.module.ru/mb7707/NeuroMatrix/VSHELL32.ZIP
   VSHELL32_DIST  = http://www.module.ru/mb7707/NeuroMatrix/VSHELL32_1.0.0.26.exe
-  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL)) $(notdir $(VSHELL32_URL))
+  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL)) $(notdir $(VSHELL32_URL)) $(notdir $(VDU7707_URL))
   DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL)) $(notdir $(SDK_MC7601_URL)) $(notdir $(NMSDK_URL))
 
-install-libs: nmprofiler nmpp vshell32
+
+install-libs: nmprofiler nmpp vdu7707 vshell32
 
 install-sdk:  mc5103sdk mb7707sdk mc7601sdk nmsdk
 
@@ -40,10 +42,10 @@ else
   SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01.tar.gz
   SDK_MB7707_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mb7707_distrib_v_01_00.tar.gz
   NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk.tar.gz
-  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL))
+  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL))  $(notdir $(VDU7707_URL))
   DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL))  $(notdir $(NMSDK_URL))
   
-install-libs: nmprofiler nmpp 
+install-libs: nmprofiler nmpp vdu7707
 
 install-sdk:  mc5103sdk mb7707sdk nmsdk
   
@@ -79,7 +81,7 @@ mc7601sdk: $(notdir $(SDK_MC7601_URL))
 
 nmsdk: $(notdir $(NMSDK_URL))
 	-mkdir $(@)
-	$(OS_TAR) $(<) 
+	$(OS_TAR) $(<) $(OS_TODIR) $(@)
 
 vshell32: $(notdir $(VSHELL32_URL))
 	$(OS_UNZIP) $(<) 
@@ -91,6 +93,9 @@ nmpp: $(notdir $(NMPP_URL))
 	$(OS_UNZIP) $(<)
 	$(MAKE) -C $(NMPP)/make/pc/vs80 
 	$(MAKE) -C $(NMPP)/make/pc/vs13
+
+vdu7707: $(notdir $(VDU7707_URL))
+	$(OS_UNZIP) $(<)
 	
 
 #------------------------- download of depended URLs from www.module.ru --------------------
@@ -107,8 +112,8 @@ $(DOWNLOADS):
 		$(VSHELL32_URL)   \
 		$(VSHELL32_DIST)  \
 		$(NMPP_URL)       \
-		$(NMPROFILER_URL) 
-	
+		$(NMPROFILER_URL) \
+		$(VDU7707_URL)
 	
 	
 	

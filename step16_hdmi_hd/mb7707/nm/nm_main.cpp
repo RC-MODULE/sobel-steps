@@ -16,7 +16,7 @@ int main()
 	unsigned Y1=0xC0000000; 
 	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 128, 1920*1080*2);
 	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 255, 1920*1080/2);
-	Start_VDU(1920,1080, Y0, Y1, 0) ;
+	Start_VDU_HD(Y0, Y1, 0) ;
 	
 	
 	//---------- start nm program ------------
