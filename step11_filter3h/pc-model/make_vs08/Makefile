@@ -42,7 +42,7 @@ run:  $(TARGETD)
 	$(TARGETD) 
 	
 clean:
-	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user
+	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user *.bmp *.pgm
 	-$(OS_RD) $(TMP_DIR) $(TMP_DIRD)
 	
 export HEADER_DIRS

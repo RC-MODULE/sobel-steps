@@ -13,9 +13,9 @@ include $(ROOT)/environment.mk
 
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/deps/EasyBMP 
+INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/deps/EasyBMP -I../..
 LIB_DIRS         =     
-SRC_DIRS         = .. $(ROOT)/deps/EasyBMP 
+SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyBMP 
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
@@ -45,7 +45,7 @@ run: $(TARGETD)
 	$(TARGETD)
 
 clean:
-	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user
+	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user *.bmp *.pgm
 	-$(OS_RD) $(TMP_DIR) $(TMP_DIRD) *.bmp
 	
 export HEADER_DIRS
