@@ -18,32 +18,32 @@ avi:
 clean:
 	$(MAKE) -C step00_easybmp_prototype/pc-model/make_vs08 clean
 	$(MAKE) -C step00_easybmp_prototype/pc-model/make_vs13 clean
-	$(MAKE) -C step01_easybmp_port2nmc/pc-model/make_vs08  clean
-	$(MAKE) -C step01_easybmp_port2nmc/pc-model/make_vs13  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mb7707/nm  clean
-	$(MAKE) -C step01_easybmp_port2nmc/standalone/mb7707 clean
-	$(MAKE) -C step01_easybmp_port2nmc/standalone/mc5103 clean
-	$(MAKE) -C step01_easybmp_port2nmc/mb7707/pc/make_vs08  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mb7707/pc/make_vs13  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mc5103/nm  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mc5103/pc/make_vs08  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mc5103/pc/make_vs13  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mc7601/nm  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mc7601/pc/make_vs08  clean
-	$(MAKE) -C step01_easybmp_port2nmc/mc7601/pc/make_vs13  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/pc-model/make_vs08  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/pc-model/make_vs13  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mb7707/nm  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/standalone/mb7707 clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/standalone/mc5103 clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mb7707/pc/make_vs08  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mb7707/pc/make_vs13  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mc5103/nm  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mc5103/pc/make_vs08  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mc5103/pc/make_vs13  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mc7601/nm  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mc7601/pc/make_vs08  clean
-	$(MAKE) -C step02_easybmp_port2nmc_32bit/mc7601/pc/make_vs13  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/pc-model/make_vs08  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/pc-model/make_vs13  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mb7707/nm  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/standalone/mb7707 clean
+	$(MAKE) -C step01_easybmp_risc_8bit/standalone/mc5103 clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mb7707/pc/make_vs08  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mb7707/pc/make_vs13  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mc5103/nm  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mc5103/pc/make_vs08  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mc5103/pc/make_vs13  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mc7601/nm  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mc7601/pc/make_vs08  clean
+	$(MAKE) -C step01_easybmp_risc_8bit/mc7601/pc/make_vs13  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/pc-model/make_vs08  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/pc-model/make_vs13  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mb7707/nm  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/standalone/mb7707 clean
+	$(MAKE) -C step02_easybmp_risc_32bit/standalone/mc5103 clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mb7707/pc/make_vs08  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mb7707/pc/make_vs13  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mc5103/nm  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mc5103/pc/make_vs08  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mc5103/pc/make_vs13  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mc7601/nm  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mc7601/pc/make_vs08  clean
+	$(MAKE) -C step02_easybmp_risc_32bit/mc7601/pc/make_vs13  clean
 	$(MAKE) -C step03_easybmp_nmpp/standalone/mb7707 clean
 	$(MAKE) -C step03_easybmp_nmpp/standalone/mc5103 clean
 	$(MAKE) -C step03_easybmp_nmpp/mb7707/nm  clean
@@ -160,23 +160,30 @@ clean:
 steps:
 	$(MAKE) -C step00_easybmp_prototype/pc-model/make_vs08
 	$(MAKE) -C step00_easybmp_prototype/pc-model/make_vs13
-	$(MAKE) -C step01_easybmp_port2nmc/pc-model/make_vs08 
-	$(MAKE) -C step01_easybmp_port2nmc/pc-model/make_vs13 
-	$(MAKE) -C step02_easybmp_risc/mb7707/nm 
-	$(MAKE) -C step02_easybmp_risc/standalone/mb7707
-	$(MAKE) -C step02_easybmp_risc/standalone/mc7601
-	$(MAKE) -C step02_easybmp_risc/standalone/mc5103
-	$(MAKE) -C step02_easybmp_risc/mb7707/pc/make_vs08 
-	$(MAKE) -C step02_easybmp_risc/mb7707/pc/make_vs13 
-	$(MAKE) -C step02_easybmp_risc/mc5103/nm 
-	$(MAKE) -C step02_easybmp_risc/mc5103/pc/make_vs08 
-	$(MAKE) -C step02_easybmp_risc/mc5103/pc/make_vs13 
-	$(MAKE) -C step02_easybmp_risc/mc7601/nm 
-	$(MAKE) -C step02_easybmp_risc/mc7601/pc/make_vs08 
-	$(MAKE) -C step02_easybmp_risc/mc7601/pc/make_vs13 
+	$(MAKE) -C step01_easybmp_risc_8bit/pc-model/make_vs08 
+	$(MAKE) -C step01_easybmp_risc_8bit/pc-model/make_vs13 
+	$(MAKE) -C step01_easybmp_risc_8bit/standalone/mb7707
+	$(MAKE) -C step01_easybmp_risc_8bit/standalone/mc7601
+	$(MAKE) -C step01_easybmp_risc_8bit/standalone/mc5103
+	$(MAKE) -C step01_easybmp_risc_8bit/mb7707/pc/make_vs08 
+	$(MAKE) -C step01_easybmp_risc_8bit/mb7707/pc/make_vs13 
+	$(MAKE) -C step01_easybmp_risc_8bit/mc5103/pc/make_vs08 
+	$(MAKE) -C step01_easybmp_risc_8bit/mc5103/pc/make_vs13 
+	$(MAKE) -C step01_easybmp_risc_8bit/mc7601/pc/make_vs08 
+	$(MAKE) -C step01_easybmp_risc_8bit/mc7601/pc/make_vs13 
+	$(MAKE) -C step02_easybmp_risc_32bit/pc-model/make_vs08 
+	$(MAKE) -C step02_easybmp_risc_32bit/pc-model/make_vs13 
+	$(MAKE) -C step02_easybmp_risc_32bit/standalone/mb7707
+	$(MAKE) -C step02_easybmp_risc_32bit/standalone/mc7601
+	$(MAKE) -C step02_easybmp_risc_32bit/standalone/mc5103
+	$(MAKE) -C step02_easybmp_risc_32bit/mb7707/pc/make_vs08 
+	$(MAKE) -C step02_easybmp_risc_32bit/mb7707/pc/make_vs13 
+	$(MAKE) -C step02_easybmp_risc_32bit/mc5103/pc/make_vs08 
+	$(MAKE) -C step02_easybmp_risc_32bit/mc5103/pc/make_vs13 
+	$(MAKE) -C step02_easybmp_risc_32bit/mc7601/pc/make_vs08 
+	$(MAKE) -C step02_easybmp_risc_32bit/mc7601/pc/make_vs13 
 	$(MAKE) -C step03_easybmp_nmpp/standalone/mb7707
 	$(MAKE) -C step03_easybmp_nmpp/standalone/mc5103
-	$(MAKE) -C step03_easybmp_nmpp/mb7707/nm 
 	$(MAKE) -C step03_easybmp_nmpp/mb7707/pc/make_vs08 
 	$(MAKE) -C step03_easybmp_nmpp/mb7707/pc/make_vs13 
 	$(MAKE) -C step03_easybmp_nmpp/mc5103/nm 
