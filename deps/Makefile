@@ -21,7 +21,7 @@ ROOT = ..
 
 NMPP_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmpp_2015-09-01.zip
 NMPROFILER_URL   = http://www.module.ru/mb7707/NeuroMatrix/nmprofiler_2015-06-26.zip
-VDU7707_URL      = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-06.zip
+VDU7707_URL      = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-27.zip
 
 ifeq ($(OS),Windows_NT)
   SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01_x32.zip
