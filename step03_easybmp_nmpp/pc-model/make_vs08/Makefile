@@ -19,7 +19,7 @@ TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT)d.exe
-LIBS             = nmpp_vs80.lib
+LIBS             = nmpp-vs80.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--

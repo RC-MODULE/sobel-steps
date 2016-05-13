@@ -1,5 +1,5 @@
 ROOT = ..
--include $(ROOT)/environment.mk
+-include $(ROOT)/global.mk
 #-include $(ROOT)/proxy.mk
 #http_proxy ?=http://username:password@proxy:80/
 
@@ -19,37 +19,10 @@ ROOT = ..
 
 
 
-NMPP_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmpp_2015-09-01.zip
+DEVPACK_URL      = https://github.com/RC-MODULE/dev-pack/archive/master.zip
+NMPP_URL         = https://github.com/RC-MODULE/nmpp/archive/master.zip
 NMPROFILER_URL   = http://www.module.ru/mb7707/NeuroMatrix/nmprofiler_2015-06-26.zip
 VDU7707_URL      = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-27.zip
-
-ifeq ($(OS),Windows_NT)
-  SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01_x32.zip
-  SDK_MB7707_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mb7707_distrib_v_01_02_x32.zip
-  SDK_MC7601_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc7601_distrib_non_official.zip
-  NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk306en_20150611.zip
-  VSHELL32_URL   = http://www.module.ru/mb7707/NeuroMatrix/VSHELL32.ZIP
-  VSHELL32_DIST  = http://www.module.ru/mb7707/NeuroMatrix/VSHELL32_1.0.0.26.exe
-  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL)) $(notdir $(VSHELL32_URL)) $(notdir $(VDU7707_URL))
-  DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL)) $(notdir $(SDK_MC7601_URL)) $(notdir $(NMSDK_URL))
-
-
-install-libs: nmprofiler nmpp vdu7707 vshell32
-
-install-sdk:  mc5103sdk mb7707sdk mc7601sdk nmsdk
-
-else
-  SDK_MC5103_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mc5103_distrib_v_01_01.tar.gz
-  SDK_MB7707_URL = http://www.module.ru/mb7707/NeuroMatrix/boards/mb7707_distrib_v_01_00.tar.gz
-  NMSDK_URL      = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk.tar.gz
-  DOWNLOADS-LIBS = $(notdir $(NMPROFILER_URL)) $(notdir$(NMPP_URL))  $(notdir $(VDU7707_URL))
-  DOWNLOADS-SDK  = $(notdir $(SDK_MB7707_URL)) $(notdir $(SDK_MC5103_URL))  $(notdir $(NMSDK_URL))
-  
-install-libs: nmprofiler nmpp vdu7707
-
-install-sdk:  mc5103sdk mb7707sdk nmsdk
-  
-endif
 
 
 
@@ -60,40 +33,32 @@ all: download install
 DOWNLOADS      = $(DOWNLOADS-LIBS) $(DOWNLOADS-SDK)
 
 
-install: install-libs install-sdk
-
 
 #------------------------- package installation  --------------------
 
 
 
-mc5103sdk: $(notdir $(SDK_MC5103_URL))
-	-mkdir $(@)
-	$(OS_TAR) $(<) $(OS_TODIR) $(@)
-	
-mb7707sdk: $(notdir $(SDK_MB7707_URL))
-	-mkdir $(@)
-	$(OS_TAR) $(<) $(OS_TODIR) $(@) 
-
-mc7601sdk: $(notdir $(SDK_MC7601_URL))
-	-mkdir $(@)
-	$(OS_TAR) $(<) $(OS_TODIR) $(@) 
-
-nmsdk: $(notdir $(NMSDK_URL))
-	-mkdir $(@)
-	$(OS_TAR) $(<) $(OS_TODIR) $(@)
-
-vshell32: $(notdir $(VSHELL32_URL))
+dev-pack: dev-pack.zip
 	$(OS_UNZIP) $(<) 
+	$(OS_MV) dev-pack-master dev-pack
+	$(MAKE) -C dev-pack install-nmc 
 
+dev-pack.zip:
+	$(OS_WGET) $(DEVPACK_URL)
+	$(OS_MV) $(notdir $(DEVPACK_URL)) dev-pack.zip
+	
 nmprofiler: $(notdir $(NMPROFILER_URL))
 	$(OS_UNZIP) $(<)
 
-nmpp: $(notdir $(NMPP_URL))
+nmpp: nmpp.zip
 	$(OS_UNZIP) $(<)
-	$(MAKE) -C $(NMPP)/make/pc/vs80 
-	$(MAKE) -C $(NMPP)/make/pc/vs13
-
+	$(OS_MV) nmpp-master nmpp
+#	$(MAKE) -C $(NMPP)/make DEVMAKE=
+	
+nmpp.zip: 
+	$(OS_WGET) $(NMPP_URL)
+	$(OS_MV) $(notdir $(NMPP_URL)) nmpp.zip
+	
 vdu7707: $(notdir $(VDU7707_URL))
 	$(OS_UNZIP) $(<)
 	

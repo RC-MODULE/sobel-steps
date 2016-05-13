@@ -11,8 +11,8 @@ extern "C" {
 	extern long long sobel_weights101v[30];
 	extern long long sobel_weights121v[30];
 
-	void filter3h( const char *source,  short *result, int size, void* weights);
-	void filter3v( const short *source, short *result, int width, int height, void* weights);
+	void filter3h( const nm8s *source,  nm16s *result, int size, void* weights);
+	void filter3v( const nm16s *source, nm16s *result, int width, int height, void* weights);
 };
 
 CBaseSobel::CBaseSobel(){
@@ -33,7 +33,7 @@ int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
-	wrapSize=size+2*width;
+	frameSize=size+2*width;
 	isReady	=false;	
 
 	pool1= malloc32(wrapSize/2, HEAP_1);
@@ -41,13 +41,13 @@ int CBaseSobel::init(int Width, int Height ){
 	pool3= malloc32(wrapSize/2, HEAP_3);
 
 	signedImgUpLine	 = (nm8s*)pool1;
-	signedImg		 = VEC_Addr(signedImgUpLine,+width);
+	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);
 	
 	horizontTmpUpLine= (nm16s*)pool2; 
-	horizontTmp		 = VEC_Addr(horizontTmpUpLine, width); 
+	horizontTmp		 = nmppsAddr_16s(horizontTmpUpLine, width); 
 	
 	verticalTmpUpLine= (nm16s*)pool3; 
-	verticalTmp		 = VEC_Addr(verticalTmpUpLine, width); 
+	verticalTmp		 = nmppsAddr_16s(verticalTmpUpLine, width); 
 	
 	horizontOut		 = (nm16s*)pool3;
 	verticalOut		 = (nm16s*)pool1;
@@ -70,35 +70,35 @@ int CBaseSobel::init(int Width, int Height ){
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int customHeight)
 {
 	int height  ;
-	int wrapSize;
+	int frameSize;
 	int size;
 	if (customHeight){
-		wrapSize= customHeight*width;
-		size    = wrapSize;
+		frameSize= customHeight*width;
+		size    = frameSize;
 		height  = customHeight;
 	} 
 	else {
-		wrapSize= CBaseSobel::wrapSize;
+		frameSize= CBaseSobel::frameSize;
 		size    = CBaseSobel::size;
 		height  = CBaseSobel::height;
 	}
 	
-	nm8u* sourceUpLine=VEC_Addr(source,-width);
-	VEC_SubC((nm8s*)sourceUpLine, 128, (nm8s*)signedImgUpLine, wrapSize);	// Transform dynamic range 0..255 to -128..+127
+	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
+	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-	filter3h( signedImgUpLine, horizontTmpUpLine, wrapSize, sobel_weights121);
+	filter3h( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
 	filter3v(horizontTmpUpLine, horizontOut,  width, height, sobel_weights101v);
-	VEC_Abs1(horizontOut, horizontAbs,size);	// Calculate absolute value 
+	nmppsAbs_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
 
 	// vertical edge selection 
-	filter3h(signedImgUpLine, verticalTmpUpLine, wrapSize, sobel_weights101);
+	filter3h(signedImgUpLine, verticalTmpUpLine, frameSize, sobel_weights101);
 	filter3v((nm16s*)verticalTmpUpLine, verticalOut, width, height, sobel_weights121v);
-	VEC_Abs1(verticalOut, verticalAbs,size);	// Calculate absolute value 
+	nmppsAbs1_16s(verticalOut, verticalAbs,size);	// Calculate absolute value 
 
 	// summ
-	VEC_AddV(horizontAbs, verticalAbs,(nm16s*)summ,size);		// Add 
-	VEC_ClipCnv_AddC((nm16s*)summ,8,0,(nm8s*)result, size, VEC_TBL_Diagonal_01h_G);
+	nmppsAdd_16s(horizontAbs, verticalAbs,(nm16s*)summ,size);		// Add 
+	nmppsClipConvertAddC_16s8s((nm16s*)summ,8,0,(nm8s*)result, size, pClipConvertState);
 	
 	
 	return true;
@@ -109,7 +109,7 @@ CSobel::CSobel(){
 }
 
 CSobel::~CSobel(){
-	CBaseSobel::~CBaseSobel();
+
 }
 
 CSobel::CSobel (int Width, int Height){
@@ -130,8 +130,8 @@ int CSobel::filter ( const unsigned char *source, unsigned char *result){
 	int residualHeight=fullHeight;
 	while (residualHeight>height){
 		CBaseSobel::filter(source, result);
-		source = VEC_Addr(source, size);
-		result = VEC_Addr(result, size);
+		source = nmppsAddr_8u(source, size);
+		result = nmppsAddr_8u(result, size);
 		residualHeight-=height;
 	}
 	if (residualHeight>0){

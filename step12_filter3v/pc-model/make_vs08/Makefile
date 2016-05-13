@@ -9,7 +9,7 @@ $(warning *** WARNING: 'VS80COMNTOOLS' environment variable is not defined! Micr
 endif 
 
 ROOT             = ../../..
-include $(ROOT)/environment.mk
+include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
 INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/include -I"$(VSHELL32)/include" -I../../src/common
@@ -19,7 +19,7 @@ TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT)d.exe
-LIBS             = vshell32.lib nmpp_vs80.lib
+LIBS             = vshell32.lib nmpp-vs80.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
@@ -38,16 +38,9 @@ VPATH    = $(subst -l,,$(LIB_DIRS))
 $(TARGETD): $(PROJECT).vcproj $(ALL_CPP)
 	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(PROJECT).vcproj
 
-run: .exitcode
+run:  $(TARGETD) 
+	$(TARGETD) 
 	
-
-.exitcode: $(TARGETD) .exitrun.bat
-	.exitrun.bat 
-	
-.exitrun.bat: 
-	@echo $(TARGETD) >.exitrun.bat
-	@echo @echo %%errorlevel%% ^>.exitcode >>.exitrun.bat
-
 clean:
 	-$(OS_RM) .* *.o *.ncb *.ilk *.dep *.ac *.map *.suo *.ncb *.user *.bmp *.pgm
 	-$(OS_RD) $(TMP_DIR) $(TMP_DIRD)

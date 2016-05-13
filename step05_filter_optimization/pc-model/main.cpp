@@ -12,9 +12,6 @@
 #include "sobel.h"
 #include "malloc32.h"
 
-void* wrap_malloc32 (unsigned size_int32);
-void wrap_free32(void* p);
-
 int main()
 {
 	if(!VS_Init())	// Init vshell
@@ -30,8 +27,12 @@ int main()
 	VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit source image
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit result image
 
-	unsigned char* srcImg8=(unsigned char*) wrap_malloc32(size/4);	// Allocate source image buffer with guard fields of two rows
-	unsigned char* dstImg8=(unsigned char*)      malloc32(size/4);	// Allocate result image buffer 
+	//unsigned char* srcImg8=(unsigned char*) wrap_malloc32(size/4);	// Allocate source image buffer with guard fields of two rows
+	//unsigned char* dstImg8=(unsigned char*)      malloc32(size/4);	// Allocate result image buffer 
+	//nmppsMallocSetBoundary32(width*2/4);
+	unsigned char* srcImg8= srcImg8=nmppsMalloc_8u(width*height);
+	unsigned char* dstImg8= dstImg8=nmppsMalloc_8u(width*height);
+	
 	
 	while(VS_Run()){
         VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
@@ -43,7 +44,7 @@ int main()
 		VS_Draw(VS_DRAW_ALL);				// Draw all windows
 	}
     
-	wrap_free32(srcImg8);	// Free source image buffer 
-	free32(dstImg8);	  	// Free result image buffer 
+	nmppsFree(srcImg8);	// Free source image buffer 
+	nmppsFree(dstImg8);	// Free result image buffer 
     return 0;
 }

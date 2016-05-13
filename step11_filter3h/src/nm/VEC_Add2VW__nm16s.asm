@@ -34,11 +34,11 @@ begin ".text_nmplv"
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//! \fn void VEC_Add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) 
+//! \fn void add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) 
 //!
 
-global _void._.8.8VEC_Add2VW.1short._.0.9._short._.0.9._short._.0.9._short._.0.9._int.2 :label;
-<_void._.8.8VEC_Add2VW.1short._.0.9._short._.0.9._short._.0.9._short._.0.9._int.2>
+global _add2VW :label;
+<_add2VW>
 .branch;
 	ar5 = sp - 2;
 	

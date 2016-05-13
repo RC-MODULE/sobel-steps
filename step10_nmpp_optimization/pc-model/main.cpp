@@ -26,8 +26,10 @@ int main()
 	VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit source image
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit result image
 
-	unsigned char* srcImg8=(unsigned char*) malloc32(size/4);	// Allocate source image buffer with guard fields of two rows
-	unsigned char* dstImg8=(unsigned char*) malloc32(size/4);	// Allocate result image buffer 
+	NmppsFrame_8u srcFrame;
+	NmppsFrame_8u dstFrame;
+	unsigned char* srcImg8=(unsigned char*) nmppsMallocFrame_8u(size,width,&srcFrame);	// Allocate source image buffer with guard fields of two rows
+	unsigned char* dstImg8=(unsigned char*) nmppsMallocFrame_8u(size,width,&dstFrame);	// Allocate result image buffer 
 	
 	
 	CSobel sobel(width, height);
@@ -44,7 +46,7 @@ int main()
 		VS_Draw(VS_DRAW_ALL);
 	}
     
-	free32(srcImg8);	// Free source image buffer 
-	free32(dstImg8);	  	// Free result image buffer 
+	nmppsFree(srcFrame.pull);	// Free source image buffer 
+	nmppsFree(dstFrame.pull);	// Free result image buffer 
     return 0;
 }

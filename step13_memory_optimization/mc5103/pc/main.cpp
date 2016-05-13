@@ -58,14 +58,16 @@ int main()
 
 	Connector.Sync(width);		// Send width to nmc
 	Connector.Sync(height);		// Send height to nmc
+	
+	unsigned srcAddr=Connector.Sync(0);
+	unsigned dstAddr=Connector.Sync(0);
+	
 	int ok=Connector.Sync(0);	// Get	status of memory allocation from nm
 	if (ok!=0x600DB00F){
 		printf("Memory allocation error!");
 		return -1;
 	}
-	unsigned srcAddr=Connector.Sync(0);
-	unsigned dstAddr=Connector.Sync(0);
-	
+
 	unsigned char*  srcImg8=  new unsigned char [size];
 	unsigned char*  dstImg8=  new unsigned char [size];
 

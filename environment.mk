@@ -1,4 +1,4 @@
-NMPP             = $(ROOT)/deps/nmpp
+#NMPP             = $(ROOT)/deps/nmpp
 NMPROFILER       = $(ROOT)/deps/nmprofiler
 #http_proxy        = http://user:pass@proxy:80/       (for wget usage)
 
@@ -14,7 +14,9 @@ VDU7707  = $(realpath $(ROOT))/deps/vdu7707
   
 ifeq ($(OS),Windows_NT)
   SHELL    = cmd
+  OS_MV    = rename
   OS_RM    = del /Q
+#  OS_RM    = rm -f -r
   OS_RD    = rd /Q /S 
   OS_WHICH =$(windir)/system32/where
  #OS_WGET  = wget
@@ -26,6 +28,7 @@ ifeq ($(OS),Windows_NT)
   PATH    := $(NEURO)/bin;$(MC5103)/bin;$(MB7707)/bin;$(MC7601)/bin;$(ROOT)/gnuwin32/bin;$(VSHELL32)/bin;$(PATH)
   MB7707_MAC ?= 1A-2B-3C-4D-5E-6F
 else
+  OS_MV    = mv
   OS_RM    = rm -f -r
   OS_RD    = rm -d -r
   OS_WHICH = which

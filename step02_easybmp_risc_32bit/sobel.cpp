@@ -16,9 +16,9 @@ short sobelV[9]={
 
 void sobel( const unsigned char *_source,unsigned char *_result, int width, int height)
 {
-	unsigned int* source=(unsigned int*)malloc32(width*height);				//[Added] Allocate 32-bit buffer
-	unsigned int* result=(unsigned int*)malloc32(width*height);				//[Added] Allocate 32-bit buffer
-	VEC_Cnv((nm8u*)_source,(nm32u*)source,width*height);	//[Added] Convert 8-bit char elements to 32-bit int elements
+	unsigned int* source=(unsigned int*)nmppsMalloc32(width*height);				//[Added] Allocate 32-bit buffer
+	unsigned int* result=(unsigned int*)nmppsMalloc32(width*height);				//[Added] Allocate 32-bit buffer
+	nmppsConvert_8u32u((nm8u*)_source,(nm32u*)source,width*height);	//[Added] Convert 8-bit char elements to 32-bit int elements
 
 	int j,sum1,sum2;
 	const unsigned int *line1, *line2, *line3;				//[Modified]
@@ -48,7 +48,7 @@ void sobel( const unsigned char *_source,unsigned char *_result, int width, int 
         line2++;
         line3++;
 	}
-	VEC_Cnv((nm32s*)result,(nm8s*)_result,width*height);	//[Added] Convert 32-bit int to 8-bit char elements
-	free32(source);											//[Added]
-	free32(result);											//[Added]
+	nmppsConvert_32s8s((nm32s*)result,(nm8s*)_result,width*height);	//[Added] Convert 32-bit int to 8-bit char elements
+	nmppsFree32(source);											//[Added]
+	nmppsFree32(result);											//[Added]
 }

@@ -18,7 +18,8 @@
 
 
 class CBaseSobel {
-	
+	NmppsFrame_8s   signedFrame;
+	NmppsFrame_16s  horizontTmpFrame;
 	nm8s*  signedImg;
 	nm16s* horizontTmpUpLine;
 	nm16s* horizontTmp;
@@ -26,8 +27,8 @@ class CBaseSobel {
 	nm16s* horizontOut;	// Allocate temporary buffer 
 	nm16s* verticalOut;	// Allocate temporary buffer
 
-	CSIG_FIR<nm8s,nm16s> FIR121;
-	CSIG_FIR<nm8s,nm16s> FIR101;
+	NmppsFIRState* pFIRState121;
+	NmppsFIRState* pFIRState101;
 
 	
 public:

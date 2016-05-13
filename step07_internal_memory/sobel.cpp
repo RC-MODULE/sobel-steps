@@ -25,10 +25,12 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
-	free32(signedImg);
-	free32(horizontTmpUpLine);
-	free32(horizontOut);
-	free32(verticalOut);
+	nmppsFreeFrame(&signedFrame);
+	nmppsFreeFrame(&horizontTmpFrame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFIRFree(pFIRState121);
+	nmppsFIRFree(pFIRState101);
 }
 
 
@@ -36,59 +38,48 @@ int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
-	wrapSize=size+2*width;
 	isReady	=false;	
 
-	signedImg		= (nm8s*)malloc32(wrapSize/4);
+	signedImg			= nmppsMallocFrame_8s(size,width,&signedFrame);
+	horizontTmp		 	= nmppsMallocFrame_16s(size, width, &horizontTmpFrame); 
+	horizontTmpUpLine	= nmppsAddr_16s(horizontTmp,-width); 
+	horizontTmpDnLine	= nmppsAddr_16s(horizontTmp,+width);
+
+	horizontOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	verticalOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer
 	
-	horizontTmpUpLine= (nm16s*)malloc32(wrapSize/2); 
-	horizontTmp		 = VEC_Addr(horizontTmpUpLine, width); 
-	horizontTmpDnLine= VEC_Addr(horizontTmpUpLine, width*2);
+	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
+	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
 
-	horizontOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
-
-	FIR121.init(3,malloc32,free32);
-	FIR101.init(3,malloc32,free32);
-
-	if (signedImg==0 || horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
-		return false;
-
-	if (FIR121.setWeights(sobelH)==0)
-		return false;
-
-	if (FIR101.setWeights(sobelV)==0)
-		return false;
-
-	isReady=true;
-	return true;
+	isReady=nmppsMallocSuccess();
+	return isReady;
 
 }
 	
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 {
-	VEC_SubC((nm8s*)source,128,(nm8s*)signedImg,size);	// Transform dynamic range 0..255 to -128..+127
+	nmppsSubC_8s((nm8s*)source,128,signedImg,size);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-	FIR121.filter((nm8s*)signedImg, horizontTmp, size);
-	VEC_SubV(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
+	nmppsFIR_8s16s(signedImg, horizontTmp, size, pFIRState121);
+	nmppsSub_16s(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
 	
 	// vertical edge selection 
-	FIR101.filter((nm8s*)signedImg, horizontTmp, size);
-	nm16s* lines[4]={horizontTmpUpLine,
-					horizontTmp,
-					horizontTmp,
-					horizontTmpDnLine};
-	VEC_Add4V(lines, verticalOut, size); 
+	nmppsFIR_8s16s(signedImg, horizontTmp, size, pFIRState101);
+	nm16s* lines[4]={	horizontTmpUpLine,
+						horizontTmp,
+						horizontTmp,
+						horizontTmpDnLine};
+	nmppsAdd4V_16s(lines, verticalOut, size); 
 
-	VEC_Abs(horizontOut, horizontOut,size);	// Calculate absolute value 
-	VEC_Abs(verticalOut, verticalOut,size);	// Calculate absolute value 
+	nmppsAbs_16s(horizontOut, horizontOut,size);	// Calculate absolute value 
+	nmppsAbs_16s(verticalOut, verticalOut,size);	// Calculate absolute value 
 
-	VEC_AddV(horizontOut,verticalOut,(nm16s*)verticalOut,size);		// Add 
+	nmppsAdd_16s(horizontOut,verticalOut,verticalOut,size);		// Add 
 
-	VEC_ClipPowC((nm16s*)verticalOut,8,(nm16s*)verticalOut,size);	// Thresh function to leave pixels in 0..255 range
+	nmppsClipPowC_16s(verticalOut,8,verticalOut,size);	// Thresh function to leave pixels in 0..255 range
 
-	VEC_Cnv((nm16s*)verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
+	nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
 
 	
 	return true;
@@ -98,7 +89,7 @@ CSobel::CSobel(){
 	
 }
 CSobel::~CSobel(){
-	CBaseSobel::~CBaseSobel();
+
 }
 
 CSobel::CSobel (int Width, int Height){
@@ -115,8 +106,8 @@ int CSobel::init (int Width, int Height){
 int CSobel::filter ( const unsigned char *source, unsigned char *result){
 	
 	for(int slice=0; slice<sliceCount; slice++){
-		unsigned char* sliceSrcImg8= VEC_Addr(source,slice*size);
-		unsigned char* sliceDstImg8= VEC_Addr(result,slice*size);
+		unsigned char* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
+		unsigned char* sliceDstImg8= nmppsAddr_8u(result,slice*size);
 		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
 	}
 	return true;

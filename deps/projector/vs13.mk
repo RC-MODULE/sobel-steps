@@ -27,7 +27,7 @@ endif
 #---------------------------------------------------------------------------------------------
 #function of recurse search for *.h in argument directory
 define recurse_scan_h
-ALL_H+=$$(subst \,/,$$(shell find $(1) -name "*.h"   2>nul))	
+ALL_H+=$$(subst \,/,$$(shell find $(1) -name "*.h"   2>null))	
 endef
 
 #---------------------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ define VC_LIB
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42D1F973-A2F8-4044-B1EC-0ECD841FA764}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nmpp_vs13</RootNamespace>
+    <RootNamespace>nmpp-vs13</RootNamespace>
   </PropertyGroup>
   <Import Project="$$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$$(Configuration)|$$(Platform)'=='Debug|Win32'" Label="Configuration">

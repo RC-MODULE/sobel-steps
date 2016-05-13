@@ -20,32 +20,33 @@ int main()
 	int width = ncl_hostSync(0);
 	int height= ncl_hostSync(1);
 	int size  = width*height;
-
-	CSobel sobel(width, height);
+	int counter=0;				// frame counter
+	clock_t t0,t1;
 	
-	// Check memory allocation
-	if (sobel.isReady==false) { 
-		ncl_hostSync(0xDEADB00F);	// send error to host
-		return -1;
-	}
-	else 
-		ncl_hostSync(0x600DB00F);	// send ok to host
 		
 	ncl_hostSync((int)src);		// Send source buffer address to host
 	ncl_hostSync((int)dst);		// Send result buffer address to host
 		
+	nmppsMallocSpec.route[0]=0x0321;
+	nmppsMallocSetRouteMode();
+	SobelCuts sobel;
+	if (sobel.initAlloc(width,height,30)==0)
+		ncl_hostSync(0x600DB00F);	// send ok to host
+	else 
+		ncl_hostSync(0xDEADB00F);	// send error to host
 	
-	clock_t t0,t1;
-	int counter=0;				// frame counter
+	
 	while(1){					// Start sobel in loop 
 		ncl_hostSync(counter);	// Wait source buffer till is ready 		
 		t0=clock();
-		sobel.filter((unsigned char*)src,(unsigned char*)dst);
+		sobel.filter((nm8u*)src,(nm8u*)dst);
 		t1=clock();
 		ncl_hostSync(t1-t0);	// Send elapsed time 
 		counter++;
 	}
+	sobel.free();
 	ncl_hostSync(0xDEADB00F);
+
 
 	return 1; 
 } 

@@ -20,7 +20,7 @@ TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe
 TARGETD          = $(TMP_DIRD)/$(PROJECT)d.exe
-LIBS             = vshell32.lib nmpp_vs80.lib
+LIBS             = vshell32.lib nmpp-vs80.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
@@ -34,7 +34,7 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 #======================== BUILD RULES ====================================
 
-.PHONY: run clean 
+.PHONY: run clean vs8
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 

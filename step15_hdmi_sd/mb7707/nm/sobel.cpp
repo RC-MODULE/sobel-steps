@@ -108,7 +108,7 @@ CSobel::CSobel(){
 }
 
 CSobel::~CSobel(){
-	CBaseSobel::~CBaseSobel();
+
 }
 
 CSobel::CSobel (int Width, int Height){

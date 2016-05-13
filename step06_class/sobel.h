@@ -23,14 +23,13 @@ class CBaseSobel {
 	int width;
 	int height;
 	bool isReady;
-	nm16s* horizontTmpUpLine;
+	NmppsFrame_16s frame;
 	nm16s* horizontTmp;
 	nm16s* horizontOut;	// Allocate temporary buffer 
 	nm16s* verticalOut;	// Allocate temporary buffer
 
-	CSIG_FIR<nm8s,nm16s> FIR121;
-	CSIG_FIR<nm8s,nm16s> FIR101;
-
+	NmppsFIRState* pFIRState121;
+	NmppsFIRState* pFIRState101;
 
 
 public:

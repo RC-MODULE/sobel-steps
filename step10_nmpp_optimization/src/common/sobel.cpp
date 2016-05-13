@@ -4,7 +4,10 @@
 #include "sobel.h"
 #pragma code_section ".text_sobel"
 
-void VEC_Add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
+extern "C"{
+	void add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
+};
+
 int sobelH[3]={
 		1,2,1
 //		0, 0,0,
@@ -26,10 +29,13 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
-	free32(signedImgUpLine);
-	free32(horizontTmpUpLine);
-	free32(horizontOut);
-	free32(verticalOut);
+	nmppsFreeFrame(&signedFrame);
+	nmppsFreeFrame(&horizontTmpFrame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFIRFree(pFIRState121);
+	nmppsFIRFree(pFIRState101);
+	nmppsFree(pClipConvertState);
 }
 
 
@@ -37,62 +43,57 @@ int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
-	wrapSize=size+2*width;
+	frameSize=size+2*width;
 	isReady	=false;	
 
-	signedImgUpLine	= (nm8s*)malloc32(wrapSize/4);
-	signedImg		= VEC_Addr(signedImgUpLine,+width);
+	signedImg			= nmppsMallocFrame_8s(size,width,&signedFrame);
+	signedImgUpLine	 	= nmppsAddr_8s(signedImg,-width);
+		
+	horizontTmp		 	= nmppsMallocFrame_16s(size, width, &horizontTmpFrame); 
+	horizontTmpUpLine	= nmppsAddr_16s(horizontTmp,-width); 
+	horizontTmpDnLine	= nmppsAddr_16s(horizontTmp,+width);
+
+	horizontOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	verticalOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer
 	
-	horizontTmpUpLine= (nm16s*)malloc32(wrapSize/2); 
-	horizontTmp		 = VEC_Addr(horizontTmpUpLine, width); 
-	horizontTmpDnLine= VEC_Addr(horizontTmpUpLine, width*2);
+	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
+	
+	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
+	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
 
-	horizontOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut		= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
-
-	FIR121.init(3,malloc32,free32);
-	FIR101.init(3,malloc32,free32);
-
-	if (signedImgUpLine==0 || horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
-		return false;
-
-	if (FIR121.setWeights(sobelH)==0)
-		return false;
-
-	if (FIR101.setWeights(sobelV)==0)
-		return false;
-
-	isReady=true;
-	return true;
+	isReady=nmppsMallocSuccess();
+	return isReady;
 
 }
 	
 	
+	
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 {
-	nm8u* sourceUpLine=VEC_Addr(source,-width);
-	VEC_SubC((nm8s*)sourceUpLine, 128, (nm8s*)signedImgUpLine, wrapSize);	// Transform dynamic range 0..255 to -128..+127
+	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
+	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-	FIR121.filter((nm8s*)signedImgUpLine, horizontTmpUpLine, wrapSize);
-	VEC_SubV(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
+	nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState121);
+	nmppsSub_16s(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
 
 	// vertical edge selection 
-	FIR101.filter((nm8s*)signedImgUpLine, horizontTmpUpLine, wrapSize);
+	nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState101);
 	
-	// here was: VEC_Add4V(lines, verticalOut, size); 
-	VEC_Add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);
+	// here was: nmppsAdd4V_16s(lines, verticalOut, size); 
+	add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);
 	
-	// here was: VEC_Abs(horizontOut, horizontOut,size);	
-	// here was: VEC_Abs(verticalOut, verticalOut,size);	
-	VEC_Abs1(horizontOut, horizontOut,size);	// Calculate absolute value 
-	VEC_Abs1(verticalOut, verticalOut,size);	// Calculate absolute value 
+	// here was: nmppsAbs_16s(horizontOut, horizontOut,size);	
+	// here was: nmppsAbs_16s(verticalOut, verticalOut,size);	
+	nmppsAbs1_16s(horizontOut, horizontOut,size);	// Calculate absolute value 
+	nmppsAbs1_16s(verticalOut, verticalOut,size);	// Calculate absolute value 
 
-	VEC_AddV(horizontOut,verticalOut,(nm16s*)verticalOut,size);		// Add 
+	nmppsAdd_16s(horizontOut, verticalOut, verticalOut,size);		// Add 
 
-	// here was: VEC_ClipPowC((nm16s*)verticalOut,8,(nm16s*)verticalOut,size);	// Thresh function to leave pixels in 0..255 range
-	// here was: VEC_Cnv((nm16s*)verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
-	VEC_ClipCnv_AddC((nm16s*)verticalOut,8,0,(nm8s*)result, size, VEC_TBL_Diagonal_01h_G);
+	// here was: nmppsClipPowC_16s(verticalOut,8,verticalOut,size);	// Thresh function to leave pixels in 0..255 range
+	// here was: nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
+	
+	nmppsClipConvertAddC_16s8s((nm16s*)verticalOut,8,0,(nm8s*)result, size, pClipConvertState);
 	
 	return true;
 }
@@ -102,7 +103,7 @@ CSobel::CSobel(){
 }
 
 CSobel::~CSobel(){
-	CBaseSobel::~CBaseSobel();
+
 }
 
 CSobel::CSobel (int Width, int Height){
@@ -119,8 +120,8 @@ int CSobel::init (int Width, int Height){
 int CSobel::filter ( const unsigned char *source, unsigned char *result){
 	
 	for(int slice=0; slice<sliceCount; slice++){
-		unsigned char* sliceSrcImg8= VEC_Addr(source,slice*size);
-		unsigned char* sliceDstImg8= VEC_Addr(result,slice*size);
+		unsigned char* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
+		unsigned char* sliceDstImg8= nmppsAddr_8u(result,slice*size);
 		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
 	}
 	return true;

@@ -10,7 +10,7 @@
 #include "sobel.h"
 #include "EasyBMP.h"
 
-void* malloc32(unsigned sizeInt32 );
+//void* malloc32(unsigned sizeInt32 );
 
 void BMP2graydata(BMP& bmp, unsigned char* data){
 	int k=0;

@@ -26,18 +26,21 @@ int main()
     VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);
 
-	C_WarpImg<nm8u>  srcImg8(width,height,3,malloc32,free);
-	C_WarpImg<nm8u>  dstImg8(width,height,0,malloc32,free);
+	nmppsMallocSetBoundary32(width/4);
+	nm8u* srcImg8=nmppsMalloc_8u(width*height);
+	nm8u* dstImg8=nmppsMalloc_8u(width*height);
 	
 	while(VS_Run())	{
-        VS_GetGrayData(VS_SOURCE, srcImg8.pImg);
-		VS_SetData(1, srcImg8.pImg);
+        VS_GetGrayData(VS_SOURCE, srcImg8);
+		VS_SetData(1, srcImg8);
 
-		sobel(srcImg8.pImg, dstImg8.pImg, width, height);
+		sobel(srcImg8, dstImg8, width, height);
 		
-		VS_SetData(2, dstImg8.pImg);
+		VS_SetData(2, dstImg8);
 		VS_Draw(VS_DRAW_ALL);
 	}
     
+	nmppsFree(srcImg8);
+	nmppsFree(dstImg8);
     return 0;
 }

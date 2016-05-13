@@ -25,34 +25,24 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
-	free32(horizontTmpUpLine);
-	free32(horizontOut);
-	free32(verticalOut);
+	nmppsFreeFrame(&frame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFIRFree(pFIRState121);
+	nmppsFIRFree(pFIRState101);
 }
 
 int CBaseSobel::init(int Width, int Height){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
-	int wrapSize=size+2*width;
-	isReady	=false;	
+	horizontTmp= nmppsMallocFrame_16s(size,width,&frame);
+	horizontOut= nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	verticalOut= nmppsMalloc_16s(size);	// Allocate temporary buffer
 	
-	horizontTmpUpLine= (nm16s*)malloc32(wrapSize/2);
-	horizontTmp= VEC_Addr((nm16s*)horizontTmpUpLine, width);
-	horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
-
-	FIR121.init(3,malloc32,free32);
-	FIR101.init(3,malloc32,free32);
-
-	if (horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
-		return false;
-
-
-	if (FIR121.setWeights(sobelH)==0 || FIR101.setWeights(sobelV)==0)
-		return false;
-
-	isReady=true;
+	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
+	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
+	//isReady=true;
 	return true;
 
 }
@@ -61,29 +51,33 @@ int CBaseSobel::init(int Width, int Height){
 	
 int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 {
-	VEC_SubC((nm8s*)source,128,(nm8s*)result,size);	// Transform dynamic range 0..255 to -128..+127
+	if (nmppsMallocSuccess()){
+		
+		nmppsSubC_8s((nm8s*)source,128,(nm8s*)result,size);	// Transform dynamic range 0..255 to -128..+127
+		
+		// horizontal edge selection 
+		nmppsFIR_8s16s((nm8s*)result, horizontTmp, size, pFIRState121);
+		nmppsSub_16s(nmppsAddr_16s(horizontTmp,-width), nmppsAddr_16s(horizontTmp,width), horizontOut, size);
+		
+		// vertical edge selection 
+		nmppsFIR_8s16s((nm8s*)result, horizontTmp, size, pFIRState101);
+		nm16s* lines[4]={nmppsAddr_16s(	horizontTmp,-width),
+										horizontTmp,
+										horizontTmp,
+						nmppsAddr_16s(	horizontTmp,width)};
+		nmppsAdd4V_16s(lines, verticalOut, size); 
 
-	// horizontal edge selection 
-	FIR121.filter((nm8s*)result, horizontTmp, size);
-	VEC_SubV(VEC_Addr(horizontTmp,-width), VEC_Addr(horizontTmp,width), horizontOut, size);
+		nmppsAbs_16s(horizontOut, horizontOut,size);	// Calculate absolute value 
+		nmppsAbs_16s(verticalOut, verticalOut,size);	// Calculate absolute value 
+
+		nmppsAdd_16s(horizontOut,verticalOut,verticalOut,size);		// Add 
+
+		nmppsClipPowC_16s(verticalOut,8,verticalOut,size);	// Thresh function to leave pixels in 0..255 range
+
+		nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
+		
+	}
+
+	return nmppsMallocSuccess();
 	
-	// vertical edge selection 
-	FIR101.filter((nm8s*)result, horizontTmp, size);
-	nm16s* lines[4]={VEC_Addr(horizontTmp,-width),
-							horizontTmp,
-							horizontTmp,
-					VEC_Addr(horizontTmp,width)};
-	VEC_Add4V(lines, verticalOut, size); 
-
-	VEC_Abs(horizontOut, horizontOut,size);	// Calculate absolute value 
-	VEC_Abs(verticalOut, verticalOut,size);	// Calculate absolute value 
-
-	VEC_AddV(horizontOut,verticalOut,(nm16s*)verticalOut,size);		// Add 
-
-	VEC_ClipPowC((nm16s*)verticalOut,8,(nm16s*)verticalOut,size);	// Thresh function to leave pixels in 0..255 range
-
-	VEC_Cnv((nm16s*)verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
-
-	
-	return true;
 }

@@ -19,23 +19,25 @@
 
 class CBaseSobel {
 
+	NmppsFrame_8s   signedFrame;		// Framed temporary buffer
+	nm8s*  signedImgUpLine	;	// 1 line up offset 
+	nm8s*  signedImg		;	// 
 
-	nm8s*  signedImgUpLine	;	// Temporary buffer. 1 line up offset 
-	nm8s*  signedImg		;	// Temporary buffer.
-
-	nm16s* horizontTmpUpLine;	// Temporary buffer 1 line up offset 
-	nm16s* horizontTmp		;	// Temporary buffer 
-	nm16s* horizontTmpDnLine;	// Temporary buffer 1 line down offset 
+	NmppsFrame_16s  horizontTmpFrame;	// Framed Temporary buffer
+	nm16s* horizontTmpUpLine;	// 1 line up offset 
+	nm16s* horizontTmp		;	// 
+	nm16s* horizontTmpDnLine;	// 1 line down offset 
 
 	nm16s* horizontOut	;		// Temporary buffer
 	nm16s* verticalOut	;		// Temporary buffer
 
-	CSIG_FIR<nm8s,nm16s> FIR121;// 1-D Filter
-	CSIG_FIR<nm8s,nm16s> FIR101;// 1-D Filter
-
+	// was here: NmppsFIRState* pFIRState121;
+	// was here: NmppsFIRState* pFIRState101;
+	
+	NmppsWeightState* pClipConvertState;
 	
 public:
-	int wrapSize;				// size of image with 2 boundary lines
+	int frameSize;				// size of image with 2 boundary lines
 	int size;					// image size 
 	int width;
 	int height;

@@ -1,6 +1,8 @@
 #include "nmplv.h"
 #include "nmpls.h"
 #include "malloc32.h"
+#include "nmplv/sArithmetics.h"
+
 
 int sobelH[3]={
 		1,2,1
@@ -14,66 +16,51 @@ int sobelV[3]={
 //		1,0,-1
 };
 
-#define WRAP_SIZE (1920/2+2)
-
-void* wrap_malloc32 (unsigned size_int32)
-{
-	int* wrap=(int*)malloc32(size_int32+WRAP_SIZE*2);
-	if  (wrap==0) return 0;
-	int* goods=wrap+WRAP_SIZE;
-	return goods;	
-}
-
-void wrap_free32(void* p)
-{
-	if (p)	free((int*)p-WRAP_SIZE);
-}
-	
 bool sobel( const unsigned char *source, unsigned char *result, int width, int height)
 {
 	int size=width*height;
+	NmppsFrame_16s frame;
+	nmppsMallocFrame_16s(size,width,&frame);
+	
+	nm16s* horizontTmp= frame.data;
+	nm16s* horizontOut= (nm16s*)nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	nm16s* verticalOut= (nm16s*)nmppsMalloc_16s(size);	// Allocate temporary buffer
+	
+	NmppsFIRState* pFIRState121;
+	NmppsFIRState* pFIRState101;
+	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
+	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
+	if (nmppsMallocSuccess()){
+		
+		nmppsSubC_8s((nm8s*)source,128,(nm8s*)result,size);	// Transform dynamic range 0..255 to -128..+127
 
-	nm16s* horizontTmp= (nm16s*)wrap_malloc32(size/2);
-	nm16s* horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	nm16s* verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
-	if (horizontTmp==0 || horizontOut==0 || verticalOut==0){
-		free32(horizontOut);
-		free32(verticalOut);
-		wrap_free32(horizontTmp);
-		return false;
+		// horizontal edge selection 
+		nmppsFIR_8s16s((nm8s*)result, horizontTmp, size, pFIRState121);
+		nmppsSub_16s(nmppsAddr_16s(horizontTmp,-width), nmppsAddr_16s(horizontTmp,width), horizontOut, size);
+		
+		// vertical edge selection 
+		nmppsFIR_8s16s((nm8s*)result, horizontTmp, size, pFIRState101);
+		nm16s* lines[4]={nmppsAddr_16s(	horizontTmp,-width),
+										horizontTmp,
+										horizontTmp,
+						nmppsAddr_16s(	horizontTmp,width)};
+		nmppsAdd4V_16s(lines, verticalOut, size); 
+
+		nmppsAbs_16s(horizontOut, horizontOut,size);	// Calculate absolute value 
+		nmppsAbs_16s(verticalOut, verticalOut,size);	// Calculate absolute value 
+
+		nmppsAdd_16s(horizontOut,verticalOut,verticalOut,size);		// Add 
+
+		nmppsClipPowC_16s(verticalOut,8,verticalOut,size);	// Thresh function to leave pixels in 0..255 range
+
+		nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
+		
 	}
-
-	CSIG_FIR<nm8s,nm16s> FIR121(3,malloc32,free32);
-	CSIG_FIR<nm8s,nm16s> FIR101(3,malloc32,free32);
-	if (FIR121.setWeights(sobelH)==0 || FIR101.setWeights(sobelV)==0)
-		return false;	
+	nmppsFreeFrame(&frame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFIRFree(pFIRState121);
+	nmppsFIRFree(pFIRState101);
 	
-	VEC_SubC((nm8s*)source,128,(nm8s*)result,size);	// Transform dynamic range 0..255 to -128..+127
-
-	// horizontal edge selection 
-	FIR121.filter((nm8s*)result, horizontTmp, size);
-	VEC_SubV(VEC_Addr(horizontTmp,-width), VEC_Addr(horizontTmp,width), horizontOut, size);
-	
-	// vertical edge selection 
-	FIR101.filter((nm8s*)result, horizontTmp, size);
-	nm16s* lines[4]={VEC_Addr(horizontTmp,-width),
-							horizontTmp,
-							horizontTmp,
-					VEC_Addr(horizontTmp,width)};
-	VEC_Add4V(lines, verticalOut, size); 
-
-	VEC_Abs(horizontOut, horizontOut,size);	// Calculate absolute value 
-	VEC_Abs(verticalOut, verticalOut,size);	// Calculate absolute value 
-
-	VEC_AddV(horizontOut,verticalOut,verticalOut,size);		// Add 
-
-	VEC_ClipPowC(verticalOut,8,verticalOut,size);	// Thresh function to leave pixels in 0..255 range
-
-	VEC_Cnv(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
-
-
-	wrap_free32(horizontTmp);
-	free32(horizontOut);
-	free32(verticalOut);
-	return true;
+	return nmppsMallocSuccess();
 }
