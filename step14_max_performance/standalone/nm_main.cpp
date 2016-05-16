@@ -31,7 +31,7 @@ int main()
 	free32(intSrc);
 	if (intSrc==0) return -1;
 	// copy image from shared memory to internal inplace buffer [intSrc]
-	VEC_Copy((nm8u*)src, (nm8u*)intSrc, width*height);
+	nmppsCopy_8u((nm8u*)src, (nm8u*)intSrc, width*height);
 	
 	// Sobel filtration
 	CBaseSobel sobel(width, height);
@@ -41,7 +41,7 @@ int main()
 	clock_t t1=clock();
 
 	// copy result from internal buffer back to shared one
-	VEC_Copy((nm8u*)intDst, (nm8u*)dst, width*height);
+	nmppsCopy_8u((nm8u*)intDst, (nm8u*)dst, width*height);
 	return t1-t0; 
 } 
 

@@ -36,9 +36,9 @@ int CBaseSobel::init(int Width, int Height ){
 	frameSize=size+2*width;
 	isReady	=false;	
 
-	pool1= malloc32(wrapSize/2, HEAP_1);
-	pool2= malloc32(wrapSize/2, HEAP_2);
-	pool3= malloc32(wrapSize/2, HEAP_3);
+	pool1= malloc32(frameSize/2, HEAP_1);
+	pool2= malloc32(frameSize/2, HEAP_2);
+	pool3= malloc32(frameSize/2, HEAP_3);
 
 	signedImgUpLine	 = (nm8s*)pool1;
 	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);

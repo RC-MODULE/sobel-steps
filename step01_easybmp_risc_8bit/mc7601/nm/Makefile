@@ -45,7 +45,7 @@
 
 #============== PROJECT & BUILD CONFIGURATION ==========
 ROOT             = ../../..
-include $(ROOT)/environment.mk
+include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc7601_nm
 OUT_DIR          = .

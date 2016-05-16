@@ -1,7 +1,7 @@
 #include "nmplv.h"
 #include "nmpls.h"
 #include "malloc32.h"
-#include "nmplv/sArithmetics.h"
+#include "nmplv/vArithmetics.h"
 
 
 int sobelH[3]={

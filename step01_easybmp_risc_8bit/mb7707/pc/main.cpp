@@ -46,8 +46,8 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 #define PROGRAM "../../nm/sobel_mb7707_nm.abs"
 #endif
 
+//unsigned char MAC_ADDRESS[] = {0x1a, 0x2b, 0x3c, 0x4d, 0x5e, 0x6f};
 unsigned char MAC_ADDRESS[] = {0x1a, 0x2b, 0x3c, 0x4d, 0x5e, 0x6f};
-
 int main()
 {
 	BMP srcBMP;

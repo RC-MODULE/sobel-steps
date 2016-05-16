@@ -35,35 +35,35 @@ int Sobel::initAlloc(int Width, int Height){
 	height	=Height;
 	size	=width*height;
 	frameSize=size+2*width;
-//	isReady	=false;	
-//
-//	pool1= nmppsMalloc_16s(frameSize);
-//	pool2= nmppsMalloc_16s(frameSize);
-//	pool3= nmppsMalloc_16s(frameSize);
-//
-//	signedImgUpLine	 = (nm8s*)pool1;
-//	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);
-//	
-//	horizontTmpUpLine= (nm16s*)pool2; 
-//	horizontTmp		 = nmppsAddr_16s(horizontTmpUpLine, width); 
-//	
-//	verticalTmpUpLine= (nm16s*)pool3; 
-//	verticalTmp		 = nmppsAddr_16s(verticalTmpUpLine, width); 
-//	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
-//
-//	
-//	horizontOut		 = (nm16s*)pool3;
-//	verticalOut		 = (nm16s*)pool1;
-//	horizontAbs      = (nm16s*)pool2;
-//	verticalAbs      = (nm16s*)pool3;
-//	summ			 = (nm16s*)pool1;
-//
-//	if (nmppsMallocSuccess())
-//		return 0;
-//	else {
-//		free();
-//		return -1;
-//	}
+	isReady	=false;	
+
+	pool1= nmppsMalloc_16s(frameSize);
+	pool2= nmppsMalloc_16s(frameSize);
+	pool3= nmppsMalloc_16s(frameSize);
+
+	signedImgUpLine	 = (nm8s*)pool1;
+	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);
+	
+	horizontTmpUpLine= (nm16s*)pool2; 
+	horizontTmp		 = nmppsAddr_16s(horizontTmpUpLine, width); 
+	
+	verticalTmpUpLine= (nm16s*)pool3; 
+	verticalTmp		 = nmppsAddr_16s(verticalTmpUpLine, width); 
+	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
+
+	
+	horizontOut		 = (nm16s*)pool3;
+	verticalOut		 = (nm16s*)pool1;
+	horizontAbs      = (nm16s*)pool2;
+	verticalAbs      = (nm16s*)pool3;
+	summ			 = (nm16s*)pool1;
+
+	if (nmppsMallocSuccess())
+		return 0;
+	else {
+		free();
+		return -1;
+	}
 	return 0;
 }
 int Sobel::filterFinal( const unsigned char *source, unsigned char *result, int finalHeight)

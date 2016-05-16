@@ -51,7 +51,7 @@ $(warning*** WARNING: 'MB7707_MAC' environment variable is not defined! Loading 
 endif 
 
 ROOT             = ../../..
-include $(ROOT)/environment.mk
+include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .

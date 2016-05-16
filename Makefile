@@ -1,4 +1,4 @@
-include environment.mk
+include global.mk
 
 
 

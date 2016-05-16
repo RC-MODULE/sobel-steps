@@ -47,7 +47,7 @@
 #
 
 ROOT = ../../..
-include $(ROOT)/environment.mk
+include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
@@ -64,7 +64,7 @@ LIBS             = libint_soc.lib mb7707lib.lib libc05.lib cppnew05.lib nmpp-nmc
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=26700 -heap1=32700 -heap2=32700 -heap3=32700 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmb7707brd.cfg -m  -heap=26700 -heap1=31700 -heap2=32700 -heap3=32700 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs

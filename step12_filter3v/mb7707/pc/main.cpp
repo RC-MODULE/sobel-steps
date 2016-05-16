@@ -8,7 +8,7 @@
 
 #include "VShell.h"
 #include "pc_connector_mb7707.h"
-#include "profiler_access.h"
+//#include "profiler_access.h"
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mb7707_nmd.abs"
 #else
@@ -23,7 +23,7 @@ int ReadMemBlock(void* host_dst, unsigned nmc_addr, unsigned size32){
 int main(int arcg)
 {
 	
-
+	
 	// Access and loading program to nm-board
 	C_PC_Connector_mb7707 Connector(MAC_ADDRESS,PROGRAM);
 	if (!Connector.isConnected()){
@@ -77,7 +77,7 @@ int main(int arcg)
 		unsigned t=Connector.Sync(0);
 		Connector.ReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);
 			
-		profiler_print2tbl("../../nm/sobel_mb7707_nmd.map", ReadMemBlock);
+		//profiler_print2tbl("../../nm/sobel_mb7707_nmd.map", ReadMemBlock);
 		printf("\n");
 	
 	

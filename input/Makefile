@@ -1,20 +1,24 @@
 ROOT = ..
--include $(ROOT)/environment.mk
+-include $(ROOT)/global.mk
 
 # [11MB]
-VIDEO1 = http://www.module.ru/mb7707/NeuroMatrix/sobel/bugs720x576x20.avi 
+VIDEO1_URL = http://www.module.ru/mb7707/NeuroMatrix/sobel/bugs720x576x20.avi 
 
 # [21MB]
-VIDEO2 = http://www.module.ru/mb7707/NeuroMatrix/sobel/disney1920x1080x8.avi
+VIDEO2_URL = http://www.module.ru/mb7707/NeuroMatrix/sobel/disney1920x1080x8.avi
 
 # [68MB]
-VIDEO3 = http://www.module.ru/mb7707/NeuroMatrix/sobel/bugs720x576.avi
+VIDEO3_URL = http://www.module.ru/mb7707/NeuroMatrix/sobel/bugs720x576.avi
 
 # [720MB]
-VIDEO4 = http://www.module.ru/mb7707/NeuroMatrix/sobel/disney1920x1080.avi
+VIDEO4_URL = http://www.module.ru/mb7707/NeuroMatrix/sobel/disney1920x1080.avi
 
 
-VIDEOS = $(notdir $(VIDEO1)) $(notdir $(VIDEO2)) $(notdir $(VIDEO3)) $(notdir $(VIDEO4))
+VIDEOS = $(notdir $(VIDEO1_URL)) $(notdir $(VIDEO2_URL)) $(notdir $(VIDEO3_URL)) $(notdir $(VIDEO4_URL))
+
+
+video:
+	$(OS_WGET) $(VIDEO1_URL) $(VIDEO2_URL) $(VIDEO3_URL) $(VIDEO4_URL)
 
 avi:  $(VIDEOS)
 
@@ -25,11 +29,6 @@ $(VIDEOS):
 		$(VIDEO3) \
 		$(VIDEO4)
 	
-local:
-	copy \\dragon\distrib\streams\video\720x576\bugs720x576x20.avi
-	copy \\dragon\distrib\streams\video\1920x1080\disney1920x1080x8.avi
-	copy \\dragon\distrib\streams\video\720x576\bugs720x576.avi
-	copy \\dragon\distrib\streams\video\1920x1080\disney1920x1080.avi
 	
 	
 	

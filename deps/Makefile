@@ -25,7 +25,6 @@ NMPROFILER_URL   = http://www.module.ru/mb7707/NeuroMatrix/nmprofiler_2015-06-26
 VDU7707_URL      = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-27.zip
 
 
-
 all: download install
 
 
@@ -36,7 +35,8 @@ DOWNLOADS      = $(DOWNLOADS-LIBS) $(DOWNLOADS-SDK)
 
 #------------------------- package installation  --------------------
 
-
+standalone:
+	
 
 dev-pack: dev-pack.zip
 	$(OS_UNZIP) $(<) 
@@ -50,6 +50,9 @@ dev-pack.zip:
 nmprofiler: $(notdir $(NMPROFILER_URL))
 	$(OS_UNZIP) $(<)
 
+$(notdir $(NMPROFILER_URL)):
+	$(OS_WGET) $(NMPROFILER_URL)
+	
 nmpp: nmpp.zip
 	$(OS_UNZIP) $(<)
 	$(OS_MV) nmpp-master nmpp

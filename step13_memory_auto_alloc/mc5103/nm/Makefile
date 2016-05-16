@@ -47,7 +47,7 @@
 #
 
 ROOT = ../../..
-include $(ROOT)/environment.mk
+include $(ROOT)/global.mk
 
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc5103_nm

@@ -16,7 +16,7 @@
 
 void* wrap_malloc32 (unsigned size_int32)
 {
-	int* wrap=(int*)malloc32(size_int32+WRAP_SIZE*2);
+	int* wrap=(int*)malloc32(size_int32+WRAP_SIZE*2,-1);
 	if  (wrap==0) return 0;
 	int* goods=wrap+WRAP_SIZE;
 	return goods;	
