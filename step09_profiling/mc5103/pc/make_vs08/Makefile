@@ -57,6 +57,7 @@ export TARGET TARGETD
 	
 vs8: $(PROJECT).vcproj
 
+
 $(PROJECT).vcproj: Makefile
 	make --file=$(ROOT)/deps/projector/vs8.mk vc-app --silent >$(@)
 

@@ -39,9 +39,10 @@ class CBaseSobel {
 	nm16s* verticalAbs;
 
 	nm16s* summ;
+	NmppsWeightState* pClipConvertState;
 
 public:
-	int wrapSize;				// size of image with 2 boundary lines
+	int frameSize;				// size of image with 2 boundary lines
 	int size;					// image size 
 	int width;
 	int height;

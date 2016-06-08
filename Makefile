@@ -1,8 +1,12 @@
+ROOT =.
 include global.mk
 
 
+$(info $(NEURO))
+$(info $(PATH))
 
-.DEFAULT_GOAL = all
+.DEFAULT_GOAL = steps
+
 all: download install steps avi
 
 download:

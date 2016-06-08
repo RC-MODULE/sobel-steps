@@ -7,9 +7,9 @@
 //------------------------------------------------------------------------
 
 #include "VShell.h"
-#include "nmpli.h"
 #include "sobel.h"
 #include "malloc32.h"
+#include "nmpp.h"
 
 int main()
 {
@@ -26,21 +26,21 @@ int main()
     VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);
 
-	nmppsMallocSetBoundary32(width/4);
-	nm8u* srcImg8=nmppsMalloc_8u(width*height);
-	nm8u* dstImg8=nmppsMalloc_8u(width*height);
+	nm8u* srcFrame = nmppsMalloc_8u(width*height+2*width);
+	nm8u* srcImage = nmppsAddr_8u(srcFrame,width);
+	nm8u* dstImage = nmppsMalloc_8u(width*height);
 	
 	while(VS_Run())	{
-        VS_GetGrayData(VS_SOURCE, srcImg8);
-		VS_SetData(1, srcImg8);
+        VS_GetGrayData(VS_SOURCE, srcImage);
+		VS_SetData(1, srcImage);
 
-		sobel(srcImg8, dstImg8, width, height);
+		sobel(srcImage, dstImage, width, height);
 		
-		VS_SetData(2, dstImg8);
+		VS_SetData(2, dstImage);
 		VS_Draw(VS_DRAW_ALL);
 	}
     
-	nmppsFree(srcImg8);
-	nmppsFree(dstImg8);
+	nmppsFree(srcFrame);
+	nmppsFree(dstImage);
     return 0;
 }

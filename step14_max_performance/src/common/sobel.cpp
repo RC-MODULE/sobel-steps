@@ -89,7 +89,7 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int 
 	// horizontal edge selection 
 	filter3h( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
 	filter3v(horizontTmpUpLine, horizontOut,  width, height, sobel_weights101v);
-	nmppsAbs_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
+	nmppsAbs1_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
 
 	// vertical edge selection 
 	filter3h(signedImgUpLine, verticalTmpUpLine, frameSize, sobel_weights101);

@@ -53,9 +53,9 @@ int main()
 	int width =srcBMP.TellWidth();
 	int height=srcBMP.TellHeight();
 
-	unsigned char* srcPool= (unsigned char*) malloc32 (width*(height+4)/4);
+	unsigned char* srcPool= (unsigned char*) malloc32 (width*(height+4)/4,-1);
 	unsigned char* srcData= (unsigned char*) srcPool+width*2;
-	unsigned char* dstData= (unsigned char*) malloc32 (width*height/4);
+	unsigned char* dstData= (unsigned char*) malloc32 (width*height/4,-1);
 	
 	if (srcPool==0 || dstData==0)
 		return -1;

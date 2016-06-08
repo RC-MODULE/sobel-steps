@@ -4,6 +4,7 @@
 #include "vdu.h"
 #include "sleep.h"
 #include <time.h>
+#include <nmpp.h>
 #include <nmpli.h>
 #include <stdio.h>
 
@@ -14,9 +15,9 @@ int main()
 	// Init VDU
 	unsigned Y0=0xC0000000; 
 	unsigned Y1=0xC0000000; 
-	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 128, 1920*1080*2);
-	VEC_Fill((nm8u*) ARM2NM(0xC0000000), 255, 1920*1080/2);
-	Start_VDU_HD(Y0, Y1, 0) ;
+	nmppsSet_8u((nm8u*) ARM2NM(0xC0000000), 128, 720*576*2);
+	nmppsSet_8u((nm8u*) ARM2NM(0xC0000000), 255, 720*576/2);
+	Start_VDU_SD( Y0, Y1) ;
 	
 	
 	//---------- start nm program ------------
@@ -57,7 +58,7 @@ int main()
 	int counter=0;				// frame counter
 	while(1){					// Start sobel in loop 
 		for(int i=0; i<MIN(maxFrames-1,frames); i++){
-			nm8u* src=VEC_Addr(video,i*size);
+			nm8u* src=nmppsAddr_8u(video,i*size);
 			t0=clock();
 			sobel.filter(src,dst);
 			t1=clock();

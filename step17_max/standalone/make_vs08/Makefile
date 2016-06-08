@@ -15,7 +15,7 @@ include $(ROOT)/global.mk
 PROJECT          = sobel
 INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/deps/EasyBMP -I$(ROOT)/deps/EasyPGM -I../.. -I$(NMPP)/include -I../../src/common 
 LIB_DIRS         = -L$(NMPP)/lib
-SRC_DIRS         = . ../../src/common ../../src/pc  $(ROOT)/deps/EasyBMP $(ROOT)/deps/EasyPGM 
+SRC_DIRS         = .. ../../src/common ../../src/pc  $(ROOT)/deps/EasyBMP $(ROOT)/deps/EasyPGM 
 TMP_DIR          = Release
 TMP_DIRD         = Debug
 TARGET           = $(TMP_DIR)/$(PROJECT).exe

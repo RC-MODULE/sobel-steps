@@ -64,7 +64,7 @@ LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp-nmc3.
 CC               = nmcpp
 CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
 BUILDER          = linker
-BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=26700 -heap1=32700 -heap2=32700 -heap3=32700 -full_names -o$(TARGET) $(LIB_DIRS)
+BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=25700 -heap1=32700 -heap2=32700 -heap3=32700 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
 TARGET           = $(OUT_DIR)/$(PROJECT)d.abs

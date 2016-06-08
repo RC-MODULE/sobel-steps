@@ -5,6 +5,8 @@
 #                                    [EDITION 17]                                           #   
 #############################################################################################
 
+include $(MAK)
+
 nmc-app:	
 	$(info $(XML))
 
@@ -152,6 +154,7 @@ define ClCompile
 VC_APP+=$$(TAB)<ClCompile Include="$(1)" /> $$(CR)
 endef 
 $(foreach cpp,$(ALL_CPP),$(eval $(call ClCompile,$(cpp)))	)
+$(foreach c,  $(ALL_C),  $(eval $(call ClCompile,$(c)))	    )
 
 define VC_APP1  
   </ItemGroup>
@@ -180,7 +183,7 @@ define VC_LIB
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42D1F973-A2F8-4044-B1EC-0ECD841FA764}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nmpp-vs13</RootNamespace>
+    <RootNamespace>nmpp_vs13</RootNamespace>
   </PropertyGroup>
   <Import Project="$$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$$(Configuration)|$$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -256,6 +259,7 @@ define LIB_ClCompile
 VC_LIB+=$$(TAB)<ClCompile Include="$(1)" /> $$(CR)
 endef
 $(foreach cpp,$(ALL_CPP),$(eval $(call LIB_ClCompile,$(cpp)))	)
+$(foreach c,$(ALL_C),$(eval $(call LIB_ClCompile,$(c)))	)
   
 define VC_LIB1  
   </ItemGroup>

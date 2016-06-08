@@ -48,6 +48,7 @@
 
 ROOT             = ../../..
 include $(ROOT)/global.mk
+
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc5103_nm
 OUT_DIR          = .
@@ -134,7 +135,9 @@ clean:
  
 
 profile:	
-	tclsh $(NMPROFILER)\script\generate_proflist.tcl $(PROJECT).map
+	lua52	$(NMPP)/include/gen_profile.lua $(PROJECT).map
+	
+#	lua52  $(NMPP)\include\generate_proflist.lua $(PROJECT).map
 	
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
