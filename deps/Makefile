@@ -35,7 +35,7 @@ NMC_URLS = \
 	$(NMPP_URL)  \
 	$(NMPROFILER_URL)
 
-install: install-dev-nmc install-nmpp vdu7707
+install: install-dev-nmc install-nmpp vdu7707 
 
 install-nmpp: nmpp-master nmpp-master/lib/nmpp-nmc3.lib
 
@@ -133,7 +133,7 @@ download:
 		$(WINPCAP_URL) \
 		$(EDCLTOOL_URL)
 
-install: module-nmc mc5103sdk mc7601sdk mb7707sdk nmcalculator nmprofiler nmpp vdu7707 vshell
+
 
 #------------------------------------------------------------------------------------	
 clean:
