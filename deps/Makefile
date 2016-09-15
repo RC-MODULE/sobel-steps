@@ -5,7 +5,7 @@ ROOT = ..
 -include $(ROOT)/global.mk
 -include proxy.mk
 
-NMSDK_URL          = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk_2016-04-19_non_official.zip
+NMSDK_URL          = http://www.module.ru/mb7707/toolchains-neuromatrix/module-nmc_2016-04-19_non_official.zip
 NMCALC_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmcalculator.zip 
 NM_IO_URL          = http://www.module.ru/mb7707/NeuroMatrix/nm_io.zip
 VDU7707_URL        = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-27.zip
@@ -59,9 +59,9 @@ install-dev-arm: dev-pack-master dev-pack-master/rootfs
 	$(MAKE) -C dev-pack-master download-arm
 	$(MAKE) -C dev-pack-master install-arm
 
-install-dev-nmc: dev-pack-master dev-pack-master/nmsdk
+install-dev-nmc: dev-pack-master dev-pack-master/module-nmc
 
-dev-pack-master/nmsdk:
+dev-pack-master/module-nmc:
 	$(MAKE) -C dev-pack-master download-nmc
 	$(MAKE) -C dev-pack-master install-nmc
 	$(MAKE) -C dev-pack-master lua
@@ -74,9 +74,9 @@ dev-pack-master.zip:
 	$(OS_WGET)  https://github.com/RC-MODULE/dev-pack/archive/master.zip
 
 	
-#nmsdk:
+#module-nmc:
 #	$(OS_WGET)  $(NMSDK_URL) 
-#	$(OS_UNZIP) $(notdir $(NMSDK_URL)) -d nmsdk
+#	$(OS_UNZIP) $(notdir $(NMSDK_URL)) -d module-nmc
 #
 #mc5103sdk:
 #	$(OS_WGET)  $(SDK_MC5103_URL) 
@@ -133,7 +133,7 @@ download:
 		$(WINPCAP_URL) \
 		$(EDCLTOOL_URL)
 
-install: nmsdk mc5103sdk mc7601sdk mb7707sdk nmcalculator nmprofiler nmpp vdu7707 vshell
+install: module-nmc mc5103sdk mc7601sdk mb7707sdk nmcalculator nmprofiler nmpp vdu7707 vshell
 
 #------------------------------------------------------------------------------------	
 clean:
