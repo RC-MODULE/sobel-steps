@@ -3,7 +3,7 @@
 
 ROOT = ..
 -include $(ROOT)/global.mk
--include proxy.mk
+-include c:/users/user/proxy.mk
 
 VDU7707_URL        = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-27.zip
 NMPP_URL           = https://github.com/RC-MODULE/nmpp/archive/master.zip
