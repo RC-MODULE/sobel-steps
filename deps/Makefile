@@ -1,4 +1,4 @@
-ifeq ($(OS),Windows_NT)
+#ifeq ($(OS),Windows_NT)
 	
 
 ROOT = ..
@@ -140,8 +140,8 @@ clean:
 	-$(OS_RM) *.zip *.exe *.tgz *.gz
 	-$(OS_RD) dev-pack-master nmpp-master
 
-else
-$(MAKECMDGOALS): 
-	$(MAKE) -f Makefile.lnx $(MAKECMDGOALS)
-endif
+#else
+#$(MAKECMDGOALS): 
+#	$(MAKE) -f Makefile.lnx $(MAKECMDGOALS)
+#endif
 	
