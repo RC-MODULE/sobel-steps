@@ -4,7 +4,7 @@
 
 export DEVPACK   =$(realpath $(ROOT)/deps/dev-pack-master)
 #export DEVPACK   =$(ROOT)/deps/dev-pack-master
-export NEURO     =$(DEVPACK)/module-nmc
+export NEURO    ?=$(DEVPACK)/module-nmc
 export MC5103   ?=$(NEURO)
 export MC7601   ?=$(NEURO)
 export MB7707   ?=$(NEURO)
