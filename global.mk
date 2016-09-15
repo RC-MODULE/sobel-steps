@@ -2,17 +2,16 @@
 # http_proxy     = http://user:pass@proxy:80/       (for wget usage)
 #https_proxy     = $(http_proxy)
 
-export DEVPACK  ?=$(realpath $(ROOT)/deps/dev-pack-master)
-export NMPP     ?=$(ROOT)/deps/nmpp-master
-export VDU7707  ?=$(ROOT)/deps/vdu7707
-export NEURO    ?=$(DEVPACK)/nmsdk
-export MC5103   ?=$(DEVPACK)/mc5103sdk
-export MC7601   ?=$(DEVPACK)/mc7601sdk
-export MB7707   ?=$(DEVPACK)/mb7707sdk
+#export DEVPACK   =$(realpath $(ROOT)/deps/dev-pack-master)
+export DEVPACK   =$(ROOT)/deps/dev-pack-master
+export NEURO     =$(DEVPACK)/module-nmc
+export MC5103   ?=$(NEURO)
+export MC7601   ?=$(NEURO)
+export MB7707   ?=$(NEURO)
 export VSHELL32 ?=$(DEVPACK)/vshell32
 export EDCLTOOL ?=$(DEVPACK)/edcltool-win32
-
-
+export NMPP     ?=$(ROOT)/deps/nmpp-master
+export VDU7707  ?=$(ROOT)/deps/vdu7707
 
 
 

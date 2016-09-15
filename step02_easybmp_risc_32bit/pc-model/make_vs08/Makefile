@@ -13,8 +13,8 @@ include $(ROOT)/global.mk
 
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/deps/EasyBMP -I../.. -I$(NMPP)/include
-LIB_DIRS         = -L$(NMPP)/lib
+INC_DIRS         = -I"$(NMPP)/include" -I$(ROOT)/deps/EasyBMP -I../.. 
+LIB_DIRS         = -L"$(NMPP)/lib"
 SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyBMP 
 TMP_DIR          = Release
 TMP_DIRD         = Debug

@@ -7,7 +7,7 @@
 *
 *
 ******************************************************************************/
-
+/*
 #include "pc_connector_mc7601.h"
 #include "EasyBMP.h"
 void BMP2graydata(BMP& bmp, unsigned char* data){
@@ -45,9 +45,9 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 #else
 #define PROGRAM "../../nm/sobel_mc5103_nm.abs"
 #endif
-
+*/
 int main()
-{
+{ /*
 	BMP srcBMP;
 	srcBMP.ReadFromFile("../../../../input/lena.bmp");
 	BMP dstBMP(srcBMP);
@@ -106,7 +106,7 @@ int main()
 	
 	Connector.close();
 	delete srcData;
-	delete dstData;
+	delete dstData;*/
     return 0;
 }
 

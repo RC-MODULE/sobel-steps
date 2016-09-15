@@ -12,8 +12,8 @@ ROOT             = ../../../..
 include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I"$(MC7601)/include" -I$(NMPROFILER)/include -I$(ROOT)/deps/connector
-LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"     -L"$(MC7601)/lib"
+INC_DIRS         = -I"$(NMPP)/include" -I"$(VSHELL32)/include" -I"$(MC7601)/libload" -I$(NMPROFILER)/include -I$(ROOT)/deps/connector
+LIB_DIRS         = -L"$(NMPP)/lib"     -L"$(VSHELL32)/lib"     -L"$(MC7601)/libload"
 SRC_DIRS         = ..
 TMP_DIR          = Release
 TMP_DIRD         = Debug

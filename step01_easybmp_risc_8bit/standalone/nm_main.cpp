@@ -1,6 +1,6 @@
 #include <time.h>
 #include "sobel.h"
-#include "nmplv.h"
+#include "nmpp.h"
 #include "easypgm.h"
 
 #pragma data_section ".data_shared_src.bss"

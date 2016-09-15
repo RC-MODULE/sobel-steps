@@ -12,8 +12,8 @@ ROOT             = ../../../..
 include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel
-INC_DIRS         = -I"$(MC7601)/include" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
-LIB_DIRS         = -L"$(MC7601)/lib"
+INC_DIRS         = -I"$(MC7601)/libload" -I$(ROOT)/deps/connector -I$(ROOT)/deps/EasyBMP
+LIB_DIRS         = -L"$(MC7601)/libload"
 SRC_DIRS         = .. $(ROOT)/deps/EasyBMP
 TMP_DIR          = Release
 TMP_DIRD         = Debug
@@ -23,7 +23,7 @@ LIBS             = mc7601_ll_pc.lib
 LIBSD            = $(subst vs80,vs80d,$(LIBS))
 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      = $(ROOT)/connector 
+HEADER_DIRS      = ../../.. $(ROOT)/deps/connector 
 RESOURCES        =Makefile
 
 # regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
@@ -33,7 +33,7 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 #======================== BUILD RULES ====================================
 
-.PHONY: run clean 
+.PHONY: run clean vs8
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 

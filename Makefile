@@ -1,5 +1,5 @@
 ROOT =.
-include global.mk
+#include global.mk
 
 
 $(info $(NEURO))
