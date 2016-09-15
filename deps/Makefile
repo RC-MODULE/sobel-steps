@@ -5,7 +5,7 @@ ROOT = ..
 -include $(ROOT)/global.mk
 -include proxy.mk
 
-NMSDK_URL          = http://www.module.ru/mb7707/toolchains-neuromatrix/module-nmc_2016-04-19_non_official.zip
+NMSDK_URL          = http://www.module.ru/mb7707/toolchains-neuromatrix/nmsdk_2016-04-19_non_official.zip
 NMCALC_URL         = http://www.module.ru/mb7707/NeuroMatrix/nmcalculator.zip 
 NM_IO_URL          = http://www.module.ru/mb7707/NeuroMatrix/nm_io.zip
 VDU7707_URL        = http://www.module.ru/mb7707/NeuroMatrix/vdu7707_2015-10-27.zip
