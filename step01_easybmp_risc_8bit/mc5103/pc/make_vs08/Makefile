@@ -33,7 +33,7 @@ ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
 
 #======================== BUILD RULES ====================================
 
-.PHONY: run clean 
+.PHONY: run clean vs8
 
 VPATH    = $(subst -l,,$(LIB_DIRS)) 
 
