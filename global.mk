@@ -2,7 +2,8 @@
 # http_proxy     = http://user:pass@proxy:80/       (for wget usage)
 #https_proxy     = $(http_proxy)
 
-export DEVPACK   =$(realpath $(ROOT)/deps/dev-pack-master)
+#export DEVPACK   =$(realpath $(ROOT)/deps/dev-pack-master)
+export DEVPACK   =$(ROOT)/deps/dev-pack-master
 #export DEVPACK   =$(ROOT)/deps/dev-pack-master
 #export NEURO     =$(DEVPACK)/module-nmc
 export NEURO    ?=$(DEVPACK)/module-nmc
