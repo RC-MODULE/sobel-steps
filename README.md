@@ -54,6 +54,14 @@ make download
 make install
 ```
 
+При наличии прокси -сервара :
+```bat
+set  http_proxy=http://username:password@proxy:80/
+set https_proxy=http://username:password@proxy:80/
+make download 
+make install
+```
+
 Для корректного исполнения сборочных Makefile-скриптов под Windows необходимо, чтобы были установлены следующие утилиты:
 - **[Make 3.81 for Windows](http://gnuwin32.sourceforge.net/packages/make.htm)**. Скачать [ инсталлятор](http://gnuwin32.sourceforge.net/downlinks/make.php).  
 - **[Wget for Windows](http://gnuwin32.sourceforge.net/packages/wget.htm)**. Скачать [инсталлятор](http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-setup.exe)

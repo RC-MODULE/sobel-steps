@@ -1,4 +1,5 @@
 #NMPP      = $(ROOT)
+-include c:/users/user/proxy.mk
 # http_proxy     = http://user:pass@proxy:80/       (for wget usage)
 #https_proxy     = $(http_proxy)
 
