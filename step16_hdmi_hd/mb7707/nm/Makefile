@@ -48,11 +48,12 @@
 
 ROOT             = ../../..
 include $(ROOT)/global.mk
+$(info $(ROOT))
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mb7707_nm
 OUT_DIR          = .
 TARGET           = $(OUT_DIR)/$(PROJECT).abs
-INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include"  -I"$(NMPROFILER)/include" -I../../src/common -I$(VDU7707)/include
+INC_DIRS         = -I"$(NEURO)/include" -I"$(MB7707)/include" -I"$(NMPP)/include"  -I../../src/common -I$(VDU7707)/include
 SRC_DIRS         = . ../../src/common ../../src/nm  
 LIB_DIRS         = -l"$(NEURO)/lib" -l"$(MB7707)/lib" -l"$(NMPP)/lib" -l$(VDU7707)/lib
 TMP_DIR          = Release

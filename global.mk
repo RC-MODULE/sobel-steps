@@ -14,7 +14,7 @@ export MB7707    =$(DEVPACK)/module-nmc
 export VSHELL32 ?=$(DEVPACK)/vshell32
 export EDCLTOOL ?=$(DEVPACK)/edcltool-win32
 export NMPP      =$(ROOT)/deps/nmpp-master
-export VDU7707  ?=$(ROOT)/deps/vdu7707
+export VDU7707   =$(ROOT)/deps/vdu7707
 
 
 

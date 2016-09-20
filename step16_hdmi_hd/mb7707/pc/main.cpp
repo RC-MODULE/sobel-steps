@@ -40,10 +40,8 @@ int main(int arcg)
 	if(!VS_Init())
 		return 0;
 
-	//if(!VS_Bind("//dragon/distrib/streams/video/1920x1080/disney1920x1080.avi"))
-	
-	//if(!VS_Bind("d:/Video/Films/1920x1080/disney1920x1080.avi"))
-	if(!VS_Bind("../../../../input/disney1920x1080x8.avi"))
+	//if(!VS_Bind("../../../../input/disney1920x1080x8.avi"))
+	if(!VS_Bind("../../../../input/j/disney1920x1080.avi"))
 		return 0;
 
 	int width =VS_GetWidth (VS_SOURCE);
