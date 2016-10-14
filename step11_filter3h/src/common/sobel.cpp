@@ -83,13 +83,13 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-	// here was: FIR121.filter((nm8s*)signedImgUpLine, horizontTmpUpLine, wrapSize);
+	// here was: nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState121);
 	filter3h ( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
 
 	nmppsSub_16s(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
 
 	// vertical edge selection 
-	// here was: FIR101.filter((nm8s*)signedImgUpLine, horizontTmpUpLine, wrapSize);
+	// here was: nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState101);
 	filter3h(signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights101);
 
 	add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);

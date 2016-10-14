@@ -300,3 +300,47 @@ steps:
 	$(MAKE) -C step16_hdmi_hd/mb7707/nm 
 	$(MAKE) -C step16_hdmi_hd/mb7707/pc/make_vs08 
 	$(MAKE) -C step16_hdmi_hd/mb7707/pc/make_vs13 
+
+test:
+	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs08 run
+	$(MAKE) -C step00_easybmp_prototype\pc-model\make_vs13 run
+	$(MAKE) -C step01_easybmp_risc_8bit\mb7707\pc\make_vs08 run
+	$(MAKE) -C step01_easybmp_risc_8bit\mb7707\pc\make_vs13 run
+	$(MAKE) -C step01_easybmp_risc_8bit\mc5103\pc\make_vs08 run
+	$(MAKE) -C step01_easybmp_risc_8bit\mc5103\pc\make_vs13 run
+	$(MAKE) -C step01_easybmp_risc_8bit\pc-model\make_vs08 run
+	$(MAKE) -C step01_easybmp_risc_8bit\pc-model\make_vs13 run
+	$(MAKE) -C step01_easybmp_risc_8bit\standalone\mb7707 run
+	$(MAKE) -C step01_easybmp_risc_8bit\standalone\mc5103 run
+	$(MAKE) -C step02_easybmp_risc_32bit\mb7707\pc\make_vs08 run
+	$(MAKE) -C step02_easybmp_risc_32bit\mb7707\pc\make_vs13 run
+	$(MAKE) -C step02_easybmp_risc_32bit\mc5103\pc\make_vs08 run
+	$(MAKE) -C step02_easybmp_risc_32bit\mc5103\pc\make_vs13 run
+	$(MAKE) -C step02_easybmp_risc_32bit\pc-model\make_vs08 run
+	$(MAKE) -C step02_easybmp_risc_32bit\pc-model\make_vs13 run
+	$(MAKE) -C step02_easybmp_risc_32bit\standalone\mb7707 run
+	$(MAKE) -C step02_easybmp_risc_32bit\standalone\mc5103 run
+	$(MAKE) -C step03_easybmp_nmpp\mb7707\pc\make_vs08 run
+	$(MAKE) -C step03_easybmp_nmpp\mb7707\pc\make_vs13 run
+	$(MAKE) -C step03_easybmp_nmpp\mc5103\pc\make_vs08 run
+	$(MAKE) -C step03_easybmp_nmpp\mc5103\pc\make_vs13 run
+	$(MAKE) -C step03_easybmp_nmpp\pc-model\make_vs08 run
+	$(MAKE) -C step03_easybmp_nmpp\pc-model\make_vs13 run
+	$(MAKE) -C step03_easybmp_nmpp\standalone\mb7707 run
+	$(MAKE) -C step03_easybmp_nmpp\standalone\mc5103 run
+	$(MAKE) -C step05_filter_optimization\standalone\mb7707 run
+	$(MAKE) -C step05_filter_optimization\standalone\mc5103 run
+	$(MAKE) -C step06_class\standalone\mb7707 run
+	$(MAKE) -C step06_class\standalone\mc5103 run
+	$(MAKE) -C step07_internal_memory\standalone\mb7707 run
+	$(MAKE) -C step07_internal_memory\standalone\mc5103 run
+	
+	
+	$(MAKE) -C step01_easybmp_risc_8bit\standalone\mc7601 run
+	$(MAKE) -C step01_easybmp_risc_8bit\mc7601\pc\make_vs08 run
+	$(MAKE) -C step01_easybmp_risc_8bit\mb7601\pc\make_vs13 run
+	$(MAKE) -C step02_easybmp_risc_32bit\mc7601\pc\make_vs08 run
+	$(MAKE) -C step02_easybmp_risc_32bit\mc7601\pc\make_vs13 run
+	$(MAKE) -C step02_easybmp_risc_32bit\standalone\mb7601 run
+	
+	

@@ -28,6 +28,6 @@ int main()
 	sobel(src, dst, width, height);
 	clock_t t1=clock();
 
-	return t1-t0; 
+	return 0;//t1-t0; 
 } 
 

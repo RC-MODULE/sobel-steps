@@ -19,7 +19,7 @@ while(1){					// Start sobel in loop
 ```
 
 ### модифицируем  host-приложение
-Модифицируем пути в Makefile для хост приложения , добавляя пути к $(VSHELL ) и подключая библиотеку vshell.
+Модифицируем пути в Makefile для хост приложения , добавляя пути к $(VSHELL) и подключая библиотеку vshell.
 ```
 INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/pc/include" -I$(ROOT)/deps/connector
 LIB_DIRS         = -L"$(VSHELL)/lib"     -L"$(MB7707)/pc/lib"

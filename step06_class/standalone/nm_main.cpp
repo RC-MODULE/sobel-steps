@@ -3,6 +3,8 @@
 #include "nmplv.h"
 #include "easypgm.h"
 
+
+
 #pragma data_section ".data_shared_src.bss"
 	long long src_pgm_file[1920*1080/8+64/8];
 #pragma data_section ".data_shared_dst.bss"
@@ -29,6 +31,10 @@ int main()
 	sobel.filter(src,dst);
 	clock_t t1=clock();
 
+	#ifdef TEST_MODE
+	return 0;
+	#else 
 	return t1-t0; 
+	#endif
 } 
 

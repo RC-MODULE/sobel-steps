@@ -42,8 +42,8 @@ int CBaseSobel::init(int Width, int Height){
 	
 	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
 	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
-	//isReady=true;
-	return true;
+	isReady=nmppsMallocSuccess();
+	return isReady;
 
 }
 	

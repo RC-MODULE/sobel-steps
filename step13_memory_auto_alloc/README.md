@@ -1,4 +1,4 @@
-## Шаг 13. Распараллеливание входных и выходных потоков данных 
+﻿## Шаг 13. Распараллеливание входных и выходных потоков данных 
 
 На предыдущих шаг мы использовали внутреннюю память процессора, но никак не учитывали потоки данных между банками внутренней памяти.  
 Внутренняя память nmc ядра состоит из 4 банков памяти по 128кБ. Архитектура процессора позволяет осуществлять одновременный доступ к этим банкам и организовать 4 параллельных потока данных.  
@@ -33,15 +33,15 @@
 
 |[code]           |pool1[nmc_data1]   |pool2[nmc_data2] 		|pool3[nmc_data3]  	|pool4[ddr_data0]|Shared[ddr_data1] |
 |:--              |:--                |:--						|:---				|---			|---				|
-|VEC_SubC         |**signedImgUpLine**|							|   				|   			|sourceUpLine    	|
+|nmppsSubC_8s         |**signedImgUpLine**|							|   				|   			|sourceUpLine    	|
 |filter3h         |signedImgUpLine    |**horizontTmpUpLine**	|sobel_weights121   |   			|   				|
 |filter3v         |sobel_weights101v  |horizontTmpUpLine   		|**horizontOut**	|   			|   				|
-|VEC_Abs1         |                   |**horizontAbs**     		|horizontOut   		|   			|   				|
+|nmppsAbs1_16s         |                   |**horizontAbs**     		|horizontOut   		|   			|   				|
 |filter3h         |signedImgUpLine    |sobel_weights101    		|**verticalTmpUpLine**|   			|   				|
 |filter3v         |**verticalOut**    |sobel_weights121v   		|verticalTmpUpLine	|   			|   				|
-|VEC_Abs1         |verticalOut        |                       	|**verticalAbs**	|   			|   				|
-|VEC_AddV         |**summ**           |horizontAbs            	|verticalAbs    	|   			|   				|
-|VEC_ClipCnv_AddC |summ               |vec_tbl_Diagonal_01h_G   |   				|   			|**result**			|
+|nmppsAbs1_16s         |verticalOut        |                       	|**verticalAbs**	|   			|   				|
+|nmppsAdd_16s         |**summ**           |horizontAbs            	|verticalAbs    	|   			|   				|
+|nmppsClipConvertAddC_16s8s |summ               |vec_tbl_Diagonal_01h_G   |   				|   			|**result**			|
 > Жирным шрифтом выделен результирующий параметр
 
 
@@ -89,3 +89,4 @@ int CSobel::init (int Width, int Height){
 
 
 
+nmppsAdd_16s

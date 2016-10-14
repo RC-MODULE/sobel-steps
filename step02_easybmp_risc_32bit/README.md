@@ -3,7 +3,7 @@
 *В данном уроке осуществим A-варинат портирования алгоритма с байтовыми опреациями на RISC-ядро*  
 Т.е. все операции доступа у нас будут целиком 32-разрядные. А каждый пиксель входного и выходноготизображения  должен храниться для этого в  отдельном 32-р. слове . 
 Для этого выделем временные 32-разрядные массивы **source** и **result**
-и расспакуем данные из байтовой картинки в 32-разрядный массив с помощью функции **VEC_Cnv**: 
+и расспакуем данные из байтовой картинки в 32-разрядный массив с помощью функции **nmppsConvert_32s8s**: 
 Для NMC типы **char** можено было бы оставить неизменными так как на NMC-компилятор их интерпретирует как 32-разрядные. Но для кросплатформенноси будем вместо **char** использоывать **int**, а вместо **malloc** - **malloc32**, выделяющий память в 32-разрядных словах.
 
 В результате модификаций получим следующий код : 
@@ -29,7 +29,7 @@ void sobel( const unsigned char *_source,unsigned char *_result, int width, int 
 {
 	unsigned int* source=(unsigned int*)malloc32(width*height);				//[Added] Allocate 32-bit buffer
 	unsigned int* result=(unsigned int*)malloc32(width*height);				//[Added] Allocate 32-bit buffer
-	VEC_Cnv((nm8u*)_source,(nm32u*)source,width*height);	//[Added] Convert 8-bit char elements to 32-bit int elements
+	nmppsConvert_8u32u((nm8u*)_source,(nm32u*)source,width*height);	//[Added] Convert 8-bit char elements to 32-bit int elements
 
 	int j,sum1,sum2;
 	const unsigned int *line1, *line2, *line3;				//[Modified]
@@ -59,9 +59,9 @@ void sobel( const unsigned char *_source,unsigned char *_result, int width, int 
         line2++;
         line3++;
 	}
-	VEC_Cnv((nm32s*)result,(nm8s*)_result,width*height);	//[Added] Convert 32-bit int to 8-bit char elements
-	free32(source);											//[Added]
-	free32(result);											//[Added]
+	nmppsConvert_32s8s((nm32s*)result,(nm8s*)_result,width*height);	//[Added] Convert 32-bit int to 8-bit char elements
+	nmppsFree32(source);											//[Added]
+	nmppsFree32(result);											//[Added]
 }
 ```
 

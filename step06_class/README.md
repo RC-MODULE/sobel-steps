@@ -1,4 +1,4 @@
-## Шаг 6. Оптимизация динамического выделения памяти 
+﻿## Шаг 6. Оптимизация динамического выделения памяти 
 
 В предыдущем шаге каждый раз при входе в функцию **sobel** мы использовали динамическое выделение и освобождение памяти, что неэффективно. 
 Сделаем выделение памяти одноразовым, например с помощью конструктора класса CBaseSobel
@@ -9,38 +9,25 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
-	free32(horizontTmpUpLine);
-	free32(horizontOut);
-	free32(verticalOut);
+	nmppsFreeFrame(&frame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFIRFree(pFIRState121);
+	nmppsFIRFree(pFIRState101);
 }
 
 int CBaseSobel::init(int Width, int Height){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
-	int wrapSize=size+2*width;
-	isReady	=false;	
+	horizontTmp= nmppsMallocFrame_16s(size,width,&frame);
+	horizontOut= nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	verticalOut= nmppsMalloc_16s(size);	// Allocate temporary buffer
 	
-	horizontTmpUpLine= (nm16s*)malloc32(wrapSize/2);
-	horizontTmp= VEC_Addr((nm16s*)horizontTmpUpLine, width);
-	horizontOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer 
-	verticalOut= (nm16s*)malloc32(size/2);	// Allocate temporary buffer
-
-	FIR121.init(3,malloc32,free32);
-	FIR101.init(3,malloc32,free32);
-
-	if (horizontTmpUpLine==0 || horizontOut==0 || verticalOut==0)
-		return false;
-
-	if (FIR121.setWeights(sobelH)==0)
-		return false;
-
-	if (FIR101.setWeights(sobelV)==0)
-		return false;
-
-	isReady=true;
-	return true;
-
+	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
+	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
+	isReady=nmppsMallocSuccess();
+	return isReady;
 }
 ```
 > Так как при вычитании кадров после фильтрации мы используем смещение на одну строку вверх и вниз, то выходим за рамки выделенного временного массива, поэтому реально требуется выделить массив чуть большего 

@@ -29,7 +29,7 @@ int main(int arcg)
 
 	int handshake= Connector.Sync(0xC0DE0086);
 	if (handshake!=0xC0DE6406){
-		printf("Handshake with mc5103 error!");
+		printf("Handshake with mb7707 error!");
 		return -1;
 	}
 	

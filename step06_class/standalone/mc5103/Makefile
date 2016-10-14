@@ -50,91 +50,53 @@ ROOT             = ../../..
 include $(ROOT)/global.mk
 #--------------  target & input dirs -------------------
 PROJECT          = sobel_mc5103_nm
-OUT_DIR          = .
-TARGET           = $(OUT_DIR)/$(PROJECT).abs
+TARGET           = $(PROJECT).abs
 INC_DIRS         = -I"$(NEURO)/include" -I"$(MC5103)/include" -I"$(NMPP)/include" -I. -I../.. -I$(ROOT)/deps/EasyPGM
-SRC_DIRS         = .. ../.. $(ROOT)/deps/EasyPGM
 LIB_DIRS         = -l"$(NEURO)/lib"   -l"$(MC5103)/lib" -l"$(NMPP)/lib"
 TMP_DIR          = Release
 #--------------  RELEASE/ALL config -------------------
-AS               = asm 				 
-AS_FLAGS         = -nmc3 -nm2ms  $(INC_DIRS)
-AS_FLAGS_C2ASM   = -nmc3 -nm2ms  $(INC_DIRS)
 LIBS             = libint05.lib mc5103lib.lib libc05.lib cppnew05.lib nmpp-nmc3.lib
-CC               = nmcpp
-CC_FLAGS         = -6405 -DNEURO -OPT2 -inline 
-BUILDER          = linker
+CC_FLAGS         = -6405 -O2  -Sc $(EXTRA_FLAG)
 BUILDER_FLAGS    = -cmc5103brd.cfg -m  -heap=2000000 -heap1=32000 -heap2=30000 -heap3=32000 -full_names -o$(TARGET) $(LIB_DIRS)
 #--------------  DEBUG config -------------------------
 ifdef DEBUG      
-TARGET           = $(OUT_DIR)/$(PROJECT)d.abs
-CC_FLAGS         = -6405 -DNEURO -OPT0 -inline -debug 
+TARGET           = $(PROJECT)d.abs
+CC_FLAGS         = -6405 -O0  -g -Sc $(EXTRA_FLAG)
 LIBS            := $(subst nmc3.lib,nmc3d.lib,$(LIBS))
-AS_FLAGS        += -ga
 BUILDER_FLAGS   += -d0
 TMP_DIR          = Debug
 endif 
 #--------------  Visual Studio config (for vs8.mk)--
-HEADER_DIRS      =../..
-RESOURCES        =Makefile mc5103brd.cfg
+HEADER_DIRS      = ../..
+RESOURCES        = Makefile mc5103brd.cfg
 
 #=================== SOURCE & OBJECTS COLLECTION ===========================
-
-.SUFFIXES:
-
-# regular search of *.c *.cpp,*.asm sources in all $(SRC_DIRS)
-ALL_CPP =$(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
-ALL_ASM =$(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
-ALL_C   =$(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
-ALL_H   =$(wildcard $(addsuffix /*.h,$(HEADER_DIRS)))
-VPATH    = $(SRC_DIRS)
-
-# collecting of objects
-OBJECTS_CPP = $(notdir $(patsubst %.cpp,%.o,$(ALL_CPP)))
-OBJECTS_ASM = $(notdir $(patsubst %.asm,%.o,$(ALL_ASM)))
-OBJECTS_C   = $(notdir $(patsubst %.c,%.o,$(ALL_C)))
-OBJECTS     = $(addprefix $(TMP_DIR)/,$(OBJECTS_C) $(OBJECTS_CPP)  $(OBJECTS_ASM))
-
+ALL_CPP          = ../nm_main.cpp ../../sobel.cpp
 #======================== BUILD RULES ====================================
 .PHONY:all  clean skip
 
 .DEFAULT_GOAL=default
-default: $(TMP_DIR) $(OUT_DIR)  $(TARGET)
+default: $(TARGET)
 
 all: 
 	$(MAKE) -j4 DEBUG=y
 	$(MAKE) -j4
 
-	
-$(TMP_DIR):
-	-mkdir "$(@)"
-
-$(TARGET): $(TMP_DIR) $(OBJECTS) Makefile
-	$(BUILDER) $(BUILDER_FLAGS) $(OBJECTS) $(LIBS)
-
-$(OUT_DIR): 
-	-mkdir "$(@)"
-	
-$(TMP_DIR)/%.o: %.asm 
-	$(AS) $(AS_FLAGS) $(<) -o$(@)
-	
-$(TMP_DIR)/%.o: $(TMP_DIR)/%.asmx 
-	$(AS) $(AS_FLAGS_C2ASM) $(<) -o$(@)
-
-$(TMP_DIR)/%.asmx: %.cpp 
-	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
-
-$(TMP_DIR)/%.asmx: %.c
-	$(CC) $(CC_FLAGS) $(<) -O$(@) $(INC_DIRS) 
+$(TARGET): Makefile
+	nmcc $(ALL_CPP) $(ROOT)/deps/EasyPGM/easypgm.cpp $(CC_FLAGS) $(INC_DIRS)
+	linker nm_main.elf easypgm.elf sobel.elf $(BUILDER_FLAGS)  $(LIBS)
 
 clean:
-	-$(OS_RM) *.abs *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
+	-$(OS_RM) *.abs *.elf *.o *.ncb *.ilk  *.dep *.ac *.map *.suo *.user *.ncb *.pgm
 	-$(OS_RD) Debug Release
  
-
 run: $(TARGET)
 	mc5103run  $(TARGET) --send_file_name=$(ROOT)/input/Lena224x240.pgm --send_sect=.data_shared_src.bss --recv_file_name=Sobel.pgm --recv_sect=.data_shared_dst.bss --recv_size=0x348a
 
+test: 
+	$(MAKE) run EXTRA_FLAG=-DTEST_MODE
+
+	
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H
 

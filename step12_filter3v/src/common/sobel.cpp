@@ -75,7 +75,7 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 	filter3h(signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights101);
 
 	// here was: 
-	//VEC_Add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);
+	//add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);
 	filter3v(horizontTmpUpLine, verticalOut, width, height, sobel_weights121v);
 	
 	nmppsAbs1_16s(horizontOut, horizontOut,size);	// Calculate absolute value 

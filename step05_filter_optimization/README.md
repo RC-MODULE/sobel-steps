@@ -12,7 +12,8 @@ int sobelH[9]={
 ```
 поэтому функцию двумерной фильтрации
 ```cpp
-horizontFIR.Filter((nm8s*)source, horizontOut, width, height);	// horizontal edge detection
+nmppiFilterInitAlloc_8s16s(&pHorizontState,sobelH,3,3,width);
+nmppiFilter_8s16s((nm8s*)source, horizontOut, width, height, pHorizontState); 	// horizontal edge detection
 ```
 эффективней заменить на более быструю одномерную с последующим вычитанием результата из самого себя смещенным на две строки:
 ```cpp
@@ -21,8 +22,8 @@ int sobelH[3]={
 };
 ... 
 // horizontal edge selection 
-FIR121.filter((nm8s*)result, horizontTmp, size);
-VEC_SubV(VEC_Addr(horizontTmp,-width), VEC_Addr(horizontTmp,width), horizontOut, size);
+nmppsFIR_8s16s((nm8s*)result, horizontTmp, size, pFIRState121);
+nmppsSub_16s(nmppsAddr_16s(horizontTmp,-width), nmppsAddr_16s(horizontTmp,width), horizontOut, size);
 ```
 
 В случае выделения вертикальных границ с маской:
@@ -32,7 +33,8 @@ int sobelV[9]={
 		2, 0,-2,
 		1,0,-1
 };
-verticalFIR.Filter((nm8s*)source, verticalOut, width, height);	// vertical   edge detection
+nmppiFilterInitAlloc_8s16s(&pVerticalState,sobelV,3,3,width);
+nmppiFilter_8s16s((nm8s*)source, verticalOut, width, height, pVerticalState);  	// vertical   edge detection
 ```
 можем поступить похожим образом, но результаты уже сложить между собой как 4 вектора-массива:
 ```cpp	
@@ -41,12 +43,13 @@ int sobelV[3]={
 };
 ...
 // vertical edge selection 
-FIR101.filter((nm8s*)result, horizontTmp, size);
-nm16s* lines[4]={VEC_Addr(horizontTmp,-width),
-						horizontTmp,
-						horizontTmp,
-				VEC_Addr(horizontTmp,width)};
-VEC_Add4V(lines, verticalOut, size); 
+nmppsFIR_8s16s((nm8s*)result, horizontTmp, size, pFIRState101);
+nm16s* lines[4]={nmppsAddr_16s(	horizontTmp,-width),
+				horizontTmp,
+				horizontTmp,
+				nmppsAddr_16s(	horizontTmp,width)};
+nmppsAdd4V_16s(lines, verticalOut, size); 
+
 ```
 
 #### Запуск
