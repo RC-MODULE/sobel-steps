@@ -12,7 +12,7 @@
 #include "time.h"
 #include "stdio.h"
 #include "pc_connector_mc5103.h"
-#include "profiler_access.h"
+//#include "profiler_access.h"
 
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mc5103_nmd.abs"
@@ -80,7 +80,7 @@ int main()
 		int t=Connector.Sync(0);
 		Connector.ReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);
 			
-		profiler_print2tbl("../../nm/sobel_mc5103_nmd.map", ReadMemBlock);
+		//profiler_print2tbl("../../nm/sobel_mc5103_nmd.map", ReadMemBlock);
 		printf("\n");
 	
 	

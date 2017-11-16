@@ -12,12 +12,6 @@
 #define NM2ARM(addr)((int*)(((unsigned)addr)*4))
 int main()
 {  
-	// Init VDU
-	unsigned Y0=0xC0000000; 
-	unsigned Y1=0xC0000000; 
-	nmppsSet_8u((nm8u*) ARM2NM(0xC0000000), 128, 720*576*2);
-	nmppsSet_8u((nm8u*) ARM2NM(0xC0000000), 255, 720*576/2);
-	Start_VDU_SD( Y0, Y1) ;
 	
 	
 	//---------- start nm program ------------
@@ -25,6 +19,14 @@ int main()
 	if (fromHost!=0xC0DE0086){					// get  handshake from host
 		return -1;
 	}
+
+	// Init VDU
+	unsigned Y0=0xC0000000; 
+	unsigned Y1=0xC0000000; 
+	nmppsSet_8u((nm8u*) ARM2NM(0xC0000000), 128, 1920*1080*2);
+	nmppsSet_8u((nm8u*) ARM2NM(0xC0000000), 255, 1920*1080/2);
+	Start_VDU_HD( Y0, Y1,0) ;
+
 
 	// Get image parameters from host
 	int width = ncl_hostSync(0);
@@ -61,6 +63,7 @@ int main()
 			nm8u* src=nmppsAddr_8u(video,i*size);
 			t0=clock();
 			sobel.filter(src,dst);
+			//nmppsCopy_8u(src,dst,size);
 			t1=clock();
 			unsigned t=t1-t0;
 			sprintf(str,"%d clocks per frame, %.2f clocks per pixel, %.2f fps", t, 1.0*t/size, 320000000.0/t);

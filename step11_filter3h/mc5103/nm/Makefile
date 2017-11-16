@@ -134,7 +134,7 @@ clean:
  
 
 profile:	
-	lua52  $(NMPP)\include\generate_proflist.lua $(PROJECT).map
+	lua53  $(NMPP)\include\generate_proflist.lua $(PROJECT).map
 	
 #========================== Visual Studio 8 support ===================
 export ALL_CPP ALL_ASM ALL_C ALL_H

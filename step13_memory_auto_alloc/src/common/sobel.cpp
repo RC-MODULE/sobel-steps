@@ -45,7 +45,7 @@ int Sobel::initAlloc(int Width, int Height){
 	size	=width*height;
 	frameSize=size+2*width;
 	isReady	=false;	
-/*
+
 	pool1= nmppsMalloc_16s(frameSize);
 	pool2= nmppsMalloc_16s(frameSize);
 	pool3= nmppsMalloc_16s(frameSize);
@@ -73,7 +73,7 @@ int Sobel::initAlloc(int Width, int Height){
 		free();
 		return -1;
 	}
-	*/
+
 	return 0;
 }
 int Sobel::filterFinal( const unsigned char *source, unsigned char *result, int finalHeight)

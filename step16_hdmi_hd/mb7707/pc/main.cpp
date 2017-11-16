@@ -8,7 +8,7 @@
 
 #include "VShell.h"
 #include "pc_connector_mb7707.h"
-#include "profiler_access.h"
+//#include "profiler_access.h"
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mb7707_nmd.abs"
 #else
@@ -40,8 +40,8 @@ int main(int arcg)
 	if(!VS_Init())
 		return 0;
 
-	//if(!VS_Bind("../../../../input/disney1920x1080x8.avi"))
-	if(!VS_Bind("../../../../input/j/disney1920x1080.avi"))
+	if(!VS_Bind("../../../../input/disney1920x1080x8.avi"))
+	//if(!VS_Bind("../../../../input/j/disney1920x1080.avi"))
 		return 0;
 
 	int width =VS_GetWidth (VS_SOURCE);

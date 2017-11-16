@@ -26,18 +26,18 @@ int main()
 	VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit source image
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for grayscale drawing of 8-bit result image
 
-	unsigned char* srcImg8=(unsigned char*) malloc(size);	// Allocate source image buffer with guard fields of two rows
-	unsigned char* dstImg8=(unsigned char*) malloc(size);	// Allocate result image buffer 
+	unsigned char* srcImg8=(unsigned char*) malloc(2*size);	// Allocate source image buffer with guard fields of two rows
+	unsigned char* dstImg8=(unsigned char*) malloc(2*size);	// Allocate result image buffer 
 	
 	
 	CSobel sobel(width, height);
 
 	while(VS_Run())
 	{
-        VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
-		VS_SetData(1, srcImg8);				// Put source image in window 1
+        VS_GetGrayData(VS_SOURCE, srcImg8+1000);	// Get image from video stream
+		VS_SetData(1, srcImg8+1000);				// Put source image in window 1
 
-		sobel.filter(srcImg8, dstImg8);
+		sobel.filter(srcImg8+1000, dstImg8);
 		
 		
 		VS_SetData(2, dstImg8);

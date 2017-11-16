@@ -10,6 +10,9 @@
 
 #define ARM2NM(addr)((int*)(((unsigned)addr)>>2))
 #define NM2ARM(addr)((int*)(((unsigned)addr)*4))
+
+int frames=10;// number of loaded frames in DDR
+
 int main()
 {  
 	// Init VDU
@@ -34,7 +37,7 @@ int main()
 // Allocate memory for 8-bit source and result images in shared memory
 	
 	nm8u* dst=(nm8u*)ARM2NM(0xC0000000);	// VDU DDR
-	int frames=0;// number of loaded frames in DDR
+	
 	int maxFrames=128*1024*1024/size;
 	nm8u* video=(nm8u*)ARM2NM(0x40000000);	// VUDEO-STREAM DDR
 	
@@ -60,7 +63,8 @@ int main()
 		for(int i=0; i<MIN(maxFrames-1,frames); i++){
 			nm8u* src=nmppsAddr_8u(video,i*size);
 			t0=clock();
-			sobel.filter(src,dst);
+			//sobel.filter(src,dst);
+			nmppsCopy_8u(src,dst,size);
 			t1=clock();
 			unsigned t=t1-t0;
 			sprintf(str,"%d clocks per frame, %.2f clocks per pixel, %.2f fps", t, 1.0*t/size, 320000000.0/t);

@@ -8,7 +8,7 @@
 
 #include "VShell.h"
 #include "pc_connector_mb7707.h"
-#include "profiler_access.h"
+//#include "profiler_access.h"
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mb7707_nmd.abs"
 #else
@@ -74,7 +74,7 @@ int main(int arcg)
 		Connector.WriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
 		srcAddr+=size/4;
 		counter++;
-		Connector.WriteMemBlock((unsigned*)&counter, framesAddr, 1);
+		//Connector.WriteMemBlock((unsigned*)&counter, framesAddr, 1);
 		printf("\n");
 	
 		//if (t==0xDEADB00F)

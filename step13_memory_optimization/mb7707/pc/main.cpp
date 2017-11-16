@@ -8,7 +8,7 @@
 
 #include "VShell.h"
 #include "pc_connector_mb7707.h"
-#include "profiler_access.h"
+//#include "profiler_access.h"
 #ifdef _DEBUG 
 #define PROGRAM "../../nm/sobel_mb7707_nmd.abs"
 #else
@@ -51,15 +51,16 @@ int main(int arcg)
     VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for 8-bit source grayscale image
 	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for 8-bit result grayscale image
 
-	Connector.Sync(width);		// Send width to nmc
-	Connector.Sync(height);		// Send height to nmc
-	int ok=Connector.Sync(0);	// Get	status of memory allocation from nm
+	int ok;
+	ok=Connector.Sync(width);		// Send width to nmc
+	ok=Connector.Sync(height);		// Send height to nmc
+	unsigned srcAddr=Connector.Sync(0);
+	unsigned dstAddr=Connector.Sync(0);
+	ok=Connector.Sync(0);			// Get	status of memory allocation from nm
 	if (ok!=0x600DB00F){
 		printf("Memory allocation error!");
 		return -1;
 	}
-	unsigned srcAddr=Connector.Sync(0);
-	unsigned dstAddr=Connector.Sync(0);
 	
 	unsigned char*  srcImg8=  new unsigned char [size];
 	unsigned char*  dstImg8=  new unsigned char [size];
@@ -77,7 +78,7 @@ int main(int arcg)
 		unsigned t=Connector.Sync(0);
 		Connector.ReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);
 			
-		profiler_print2tbl("../../nm/sobel_mb7707_nmd.map", ReadMemBlock);
+		//profiler_print2tbl("../../nm/sobel_mb7707_nmd.map", ReadMemBlock);
 		printf("\n");
 	
 	

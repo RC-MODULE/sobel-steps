@@ -19,7 +19,9 @@ int main()
 
 	// parse pgm header	
 	int src_pgm_header_len=read_pgm_header(src_pgm_file,width,height);
-	if (src_pgm_header_len==0) return -1;
+	//if (src_pgm_header_len==0) return -1;
+	width = 240;
+	height=224;
 	
 	nm8u* src=nmppsAddr_8u((nm8u*)src_pgm_file,src_pgm_header_len);
 	int dst_pgm_header_len=save_pgm_header(dst_pgm_file,width,height," Created By RC-Module(2015)");

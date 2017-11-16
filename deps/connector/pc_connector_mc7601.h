@@ -5,7 +5,8 @@
 #include "windows.h"
 
 const unsigned int CORE_NUMBER = 0;
-const int IP_ADDRESS = 0x0201A8C0; // 192.168.1.2
+//const int IP_ADDRESS = 0x0201A8C0; // 192.168.1.2
+const int IP_ADDRESS = 0x2102A8C0; // 192.168.1.2
 
 
 class C_PC_Connector_mc7601: public C_Connector{

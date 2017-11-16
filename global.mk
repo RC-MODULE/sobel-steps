@@ -8,12 +8,12 @@ export DEVPACK   =$(realpath $(ROOT)/deps/dev-pack-master)
 #export DEVPACK   =$(ROOT)/deps/dev-pack-master
 #export NEURO     =$(DEVPACK)/module-nmc
 export NEURO    ?=$(DEVPACK)/module-nmc
-export MC5103    =$(DEVPACK)/module-nmc
-export MC7601    =$(DEVPACK)/module-nmc
-export MB7707    =$(DEVPACK)/module-nmc
+export MC5103   ?=$(DEVPACK)/module-nmc
+export MC7601   ?=$(DEVPACK)/module-nmc
+export MB7707   ?=$(DEVPACK)/module-nmc
 export VSHELL32 ?=$(DEVPACK)/vshell32
 export EDCLTOOL ?=$(DEVPACK)/edcltool-win32
-export NMPP      =$(ROOT)/deps/nmpp-master
+export NMPP     ?=$(ROOT)/deps/nmpp-master
 export VDU7707   =$(ROOT)/deps/vdu7707
 
 
