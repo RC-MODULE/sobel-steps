@@ -67,7 +67,7 @@ int main()
 		return -1;
 	}
 
-	int handshake= Connector.Sync(0xC0DE0086);
+	int handshake= halSync(0xC0DE0086);
 	if (handshake!=0xC0DE6406){
 		printf("Handshake with mc5103 error!");
 		return -1;
@@ -75,22 +75,22 @@ int main()
 	
 	
 	int ok;
-	ok=Connector.Sync(width);		// Send width to nmc
-	ok=Connector.Sync(height);		// Send height to nmc
-	ok=Connector.Sync(0);			// Get	status of memory allocation from nm
+	ok=halSync(width);		// Send width to nmc
+	ok=halSync(height);		// Send height to nmc
+	ok=halSync(0);			// Get	status of memory allocation from nm
 	if (ok!=0x600DB00F){
 		printf("Memory allocation error!");
 		return -1;
 	}
-	unsigned srcAddr=Connector.Sync(0);
-	unsigned dstAddr=Connector.Sync(0);
+	unsigned srcAddr=halSync(0);
+	unsigned dstAddr=halSync(0);
 	
-	Connector.WriteMemBlock((unsigned*)srcData, srcAddr, size/4);	// Send data to NMC
-	Connector.Sync(0);												// Barrier sync before call of Sobel filter on NMC
+	halWriteMemBlock((unsigned*)srcData, srcAddr, size/4);	// Send data to NMC
+	halSync(0);												// Barrier sync before call of Sobel filter on NMC
 	//... wait while sobel is runing on board
 
-	unsigned t=Connector.Sync(0);									// Barrier sync. Wait until Sobel filter is finished
-	Connector.ReadMemBlock ((unsigned*)dstData, dstAddr, size/4);	// Recieve result data from NMC
+	unsigned t=halSync(0);									// Barrier sync. Wait until Sobel filter is finished
+	halReadMemBlock ((unsigned*)dstData, dstAddr, size/4);	// Recieve result data from NMC
 			
 			
 	

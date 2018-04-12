@@ -60,7 +60,7 @@ int CBaseSobel::init(int Width, int Height ){
 }
 	
 	
-int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
+int CBaseSobel::filter( const nm8u *source, nm8u *result)
 {
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
 	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
@@ -110,8 +110,8 @@ int CSobel::init (int Width, int Height){
 int CSobel::filter ( const unsigned char *source, unsigned char *result){
 	
 	for(int slice=0; slice<sliceCount; slice++){
-		unsigned char* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
-		unsigned char* sliceDstImg8= nmppsAddr_8u(result,slice*size);
+		nm8u* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
+		nm8u* sliceDstImg8= nmppsAddr_8u(result,slice*size);
 		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
 	}
 	return true;

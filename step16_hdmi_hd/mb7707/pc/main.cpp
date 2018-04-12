@@ -31,7 +31,7 @@ int main(int arcg)
 		return -1;
 	}
 	access=Connector.access;
-	int handshake= Connector.Sync(0xC0DE0086);
+	int handshake= halSync(0xC0DE0086);
 	if (handshake!=0xC0DE6406){
 		printf("Handshake with mc5103 error!");
 		return -1;
@@ -51,15 +51,15 @@ int main(int arcg)
     VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for 8-bit source grayscale image
 	//VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for 8-bit result grayscale image
 
-	Connector.Sync(width);		// Send width to nmc
-	Connector.Sync(height);		// Send height to nmc
-	int ok=Connector.Sync(0);	// Get	status of memory allocation from nm
+	halSync(width);		// Send width to nmc
+	halSync(height);		// Send height to nmc
+	int ok=halSync(0);	// Get	status of memory allocation from nm
 	if (ok!=0x600DB00F){
 		printf("Memory allocation error!");
 		return -1;
 	}
-	unsigned framesAddr=Connector.Sync(0);
-	unsigned videoStartAddr=Connector.Sync(0);
+	unsigned framesAddr=halSync(0);
+	unsigned videoStartAddr=halSync(0);
 	unsigned videoEndAddr  = videoStartAddr+128*1024*1024/size*size/4;
 	unsigned srcAddr=videoStartAddr;
 	unsigned char*  srcImg8=  new unsigned char [size];
@@ -71,10 +71,10 @@ int main(int arcg)
 		
 		if (srcAddr>=videoEndAddr)
 			srcAddr=videoStartAddr;
-		Connector.WriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
+		halWriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
 		srcAddr+=size/4;
 		counter++;
-		Connector.WriteMemBlock((unsigned*)&counter, framesAddr, 1);
+		halWriteMemBlock((unsigned*)&counter, framesAddr, 1);
 		printf("\n");
 	
 		//if (t==0xDEADB00F)

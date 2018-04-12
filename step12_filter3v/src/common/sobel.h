@@ -47,7 +47,7 @@ public:
 	CBaseSobel(int Width, int Height);
 	~CBaseSobel();
 	int init(int Width, int Height);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const nm8u *source, nm8u *result);
 };
 
 class CSobel: public CBaseSobel {

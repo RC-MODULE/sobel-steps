@@ -35,7 +35,8 @@ void graydata2BMP(unsigned char* data, BMP& bmp ){
 int main(){
 	BMP srcBMP;
 	//srcBMP.ReadFromFile("../../../input/lena.bmp");
-	srcBMP.ReadFromFile("../../../input/Bikesgray.bmp");
+	if (!srcBMP.ReadFromFile("../../input/Bikesgray.bmp"))
+		return false;
 	
 	BMP dstBMP(srcBMP);
 
