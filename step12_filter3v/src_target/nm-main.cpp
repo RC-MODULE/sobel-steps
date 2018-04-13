@@ -16,7 +16,7 @@ int main()
 	int* dst = halMalloc32((1920 * 1080 / 8 + 64 / 8) / 2);
 #endif
 	//---------- start nm program ------------
-	int fromHost=ncl_hostSync(0xC0DE6406);		// send handshake to host
+	int fromHost=halHostSync(0xC0DE6406);		// send handshake to host
 	if (fromHost!=0xC0DE0086){					// get  handshake from host
 		return -1;
 	}

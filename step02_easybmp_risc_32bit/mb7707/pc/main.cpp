@@ -8,7 +8,7 @@
 *
 ******************************************************************************/
 
-#include "pc_connector_mb7707.h"
+#include "hal_host.h"
 #include "EasyBMP.h"
 void BMP2graydata(BMP& bmp, unsigned char* data){
 	int k=0;

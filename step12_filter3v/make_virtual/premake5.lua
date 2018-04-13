@@ -29,7 +29,7 @@ solution "sobel-target"
 		kind "ConsoleApp"
 		files { "../src_target/*.cpp","../src/common/*.cpp","../src/pc/*.cpp",}
 		links { "hal-virtual-x86.lib","nmpp-x86.lib" } 
-		includedirs { "$(HAL)/include","$(NMPP)/include","../src_common"}	  
+		includedirs { "$(HAL)/include","$(NMPP)/include","../src/common"}	  
 		libdirs { "$(HAL)/lib","$(NMPP)/lib"}
 		
 		configuration "Debug"

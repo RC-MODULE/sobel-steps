@@ -12,22 +12,22 @@
 int main()
 {  
 	//---------- start nm program ------------
-	int fromHost=ncl_hostSync(0xC0DE6406);		// send handshake to host
+	int fromHost=halHostSync(0xC0DE6406);		// send handshake to host
 	if (fromHost!=0xC0DE0086){					// get  handshake from host
 		return -1;
 	}
 
 	// Get image parameters from host
-	int width = ncl_hostSync(0);
-	int height= ncl_hostSync(1);
+	int width = halHostSync(0);
+	int height= halHostSync(1);
 	int size  = width*height;
 
 	
 	
 	
 		
-	ncl_hostSync((int)src);		// Send source buffer address to host
-	ncl_hostSync((int)dst);		// Send result buffer address to host
+	halHostSync((int)src);		// Send source buffer address to host
+	halHostSync((int)dst);		// Send result buffer address to host
 		
 	
 	clock_t t0,t1;
@@ -40,16 +40,16 @@ int main()
 	//nmppsMallocSpec.route[0]  =0x000022310;
 	//nmppsMallocSetRoute16(&route);
 	Sobel sobel;
-	if (sobel.initAlloc(width,60))	ncl_hostSync(0xDEADB00F);	// send ok to host
-	else									ncl_hostSync(0x600DB00F);	// send ok to host
+	if (sobel.initAlloc(width,60))	halHostSync(0xDEADB00F);	// send ok to host
+	else									halHostSync(0x600DB00F);	// send ok to host
 
 	while(1){					// Start sobel in loop 
-		ncl_hostSync(counter);	// Wait source buffer till is ready 		
+		halHostSync(counter);	// Wait source buffer till is ready 		
 		if (nmppsMallocResetPos()) return -1;
 		
 		int* route=(int*)nmppsMallocSpec.route;		
 		for(int i=0; i<2; i++)
-			ncl_hostSync(route[i]);
+			halHostSync(route[i]);
 
 
 		t0=clock();
@@ -63,20 +63,20 @@ int main()
 
 
 		for(int i=0; i<2; i++)
-			ncl_hostSync(route[i]);
+			halHostSync(route[i]);
 
 
 		if (nmppsMallocFail()){
 			nmppsMallocWipe();
-			ncl_hostSync(0);	// Send elapsed time 
+			halHostSync(0);	// Send elapsed time 
 		}
 		else{
 			nmppsMallocBetterRoute();
-			ncl_hostSync(nmppsMallocSpec.timeBest);	// Send elapsed time 
+			halHostSync(nmppsMallocSpec.timeBest);	// Send elapsed time 
 		}
 		
-		//ncl_hostSync(nmppsMallocSpec.route[0]);
-		//ncl_hostSync(nmppsMallocSpec.route[0]>>32);
+		//halHostSync(nmppsMallocSpec.route[0]);
+		//halHostSync(nmppsMallocSpec.route[0]>>32);
 		
 		//nmppsMallocIncrementRoute();
 		if (nmppsMallocIncrementRoute()) 
@@ -87,7 +87,7 @@ int main()
 		//if (counter>80)
 		//	nmppsMallocSetBestRoute(0);
 	}
-	ncl_hostSync(0xDEADB00F);
+	halHostSync(0xDEADB00F);
 
 	return 1; 
 } 
