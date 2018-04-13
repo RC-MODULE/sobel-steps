@@ -3,15 +3,18 @@
 #include "malloc32.h"
 #include <time.h>
 
+#ifdef __NM__
 #pragma data_section ".data_shared_src.bss"
 	long src[1920*1080/8+64/8];
 #pragma data_section ".data_shared_dst.bss"
 	long dst[1920*1080/8+64/8];
-	
+#endif	
 int main()
 { 
-	//int* src = halMalloc32((1920 * 1080 / 8 + 64 / 8) / 2);
-	//int* dst = halMalloc32((1920 * 1080 / 8 + 64 / 8) / 2);
+#ifndef __NM__
+	int* src = halMalloc32((1920 * 1080 / 8 + 64 / 8) / 2);
+	int* dst = halMalloc32((1920 * 1080 / 8 + 64 / 8) / 2);
+#endif
 	//---------- start nm program ------------
 	int fromHost=ncl_hostSync(0xC0DE6406);		// send handshake to host
 	if (fromHost!=0xC0DE0086){					// get  handshake from host

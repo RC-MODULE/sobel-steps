@@ -22,15 +22,17 @@ CONFIGURATION = Debug
 
 
 
-vs2005: $(PROJECT).sln
-	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(PROJECT).sln  "$(CONFIGURATION)|Win32"
+vs2005: $(HOST).sln $(TARGET).sln
+	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(HOST).sln  "$(CONFIGURATION)|Win32"
+	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(TARGET).sln  "$(CONFIGURATION)|Win32"
 	
 
-vs2015:	$(PROJECT).sln
-	"$(VS140COMNTOOLS)vsvars32" && msbuild $(PROJECT).sln /t:Build /p:Configuration=$(CONFIGURATION)
+vs2015:	$(HOST).sln $(TARGET).sln
+	"$(VS140COMNTOOLS)vsvars32" && msbuild $(HOST).sln /t:Build /p:Configuration=$(CONFIGURATION)
+	"$(VS140COMNTOOLS)vsvars32" && msbuild $(TARGET).sln /t:Build /p:Configuration=$(CONFIGURATION)
 
 	
-$(PROJECT).sln:	premake5.lua 
+$(HOST).sln $(TARGET).sln:	premake5.lua 
 	premake5 $(MAKECMDGOALS) 
 
 run: 
