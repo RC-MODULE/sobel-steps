@@ -53,8 +53,8 @@ public:
 	//~Sobel();
 	int initAlloc(int Width, int Height);
 	void free();
-	int filter( const unsigned char *source, unsigned char *result);
-	int filterFinal( const unsigned char *source, unsigned char *result, int partHeight);
+	int filter( const nm8u *source, nm8u *result);
+	int filterFinal( const nm8u *source, nm8u *result, int partHeight);
 };
 
 class SobelCuts: public Sobel {
@@ -63,7 +63,7 @@ public:
 	//SobelCuts(int Width, int Height);
 	//~CSobel();
 	int initAlloc(int width, int height, int sliceHeight=0);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const nm8u *source, nm8u *result);
 };
 
 #endif

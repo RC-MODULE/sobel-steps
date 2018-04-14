@@ -1,26 +1,25 @@
 #!lua
 
-
 -- A solution contains projects, and defines the available configurations
 solution "sobel"
    configurations { "Debug", "Release" }
 
    -- A project defines one build target
    project "sobel-host"
-		kind "ConsoleApp"
-		language "C++"
-		files { "**.h", "../src_host/*.cpp"}
-		links { "hal-mb7707-x86.lib","mb7707load.lib","vshell.lib" } 
+	kind "ConsoleApp"
+      	language "C++"
+	files { "**.h", "../src_host/*.cpp"}
+	links { "hal-mc5103-x86.lib","mc5103load.lib","vshell.lib"} 
 		includedirs { "$(HAL)/include","$(VSHELL)/include"}	  
-		libdirs { "$(mb7707)/libload","$(HAL)/lib","$(VSHELL)/lib"}
+		libdirs { "$(MC5103)/libload","$(HAL)/lib","$(VSHELL)/lib"}
 
-		configuration "Debug"
-			defines { "DEBUG" }
-			symbols  "On" 
+      configuration "Debug"
+         defines { "DEBUG" }
+         symbols  "On" 
 
-		configuration "Release"
-			defines { "NDEBUG" }
-			symbols  "Off" 
+      configuration "Release"
+         defines { "NDEBUG" }
+         symbols  "Off" 
 		 
 		 
 	project "sobel-target"

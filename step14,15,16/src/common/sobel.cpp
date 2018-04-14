@@ -67,24 +67,36 @@ int CBaseSobel::init(int Width, int Height ){
 }
 
 	
-int CBaseSobel::filter( const nm8u *source, nm8u *result, int customHeight)
+int CBaseSobel::filter( const nm8u *source, nm8u *result, int height, int filterExtraLines)
 {
-	int height  ;
-	int frameSize;
-	int size;
-	if (customHeight){
-		frameSize= customHeight*width;
-		size    = frameSize;
-		height  = customHeight;
-	} 
-	else {
-		frameSize= CBaseSobel::frameSize;
-		size    = CBaseSobel::size;
-		height  = CBaseSobel::height;
-	}
+	//int height  ;
+	//int frameSize;
+	//int size;
+	//if (customHeight){
+	int	size = height*width;
+	int	frameSize=size + (width<<1);
+		//height  = customHeight;
+	//} 
+	//else {
+	//	frameSize= CBaseSobel::frameSize;
+	//	size    = CBaseSobel::size;
+	//	height  = CBaseSobel::height;
+	//}
 	
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
-	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
+	switch (filterExtraLines) {
+		case (0):
+			nmppsSubC_8s((nm8s*)source, 128, signedImg, size);	// Transform dynamic range 0..255 to -128..+127
+			break;
+		case (1): //Only line over image 
+			nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, size+width);	// Transform dynamic range 0..255 to -128..+127
+			break;
+		case (3): //Filter both  lines  under  and over image 
+			nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, size + (width<<1));	// Transform dynamic range 0..255 to -128..+127
+			break;
+	}
+	//nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
+	
 
 	// horizontal edge selection 
 	filter3h( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);

@@ -25,8 +25,8 @@ solution "sobel"
 		 
 	project "sobel-target"
 		kind "Makefile"
-		files { "../src_target/*.cpp","../src/nm/*.*","../src/common/*.cpp","Makefile","*.cfg"}
-		includedirs { "$(HAL)/include","$(NMPP)/include"}	  
+		files { "../src_target/*.cpp","../../src/nm/*.*","../../src/common/*.cpp","Makefile","*.cfg"}
+		includedirs { "$(HAL)/include","$(NMPP)/include","../src/common"}	  
 		
 		configuration "Debug"
 			buildcommands 	{"make DEBUG=y 2>.make & iconv -f cp1251 -t cp866 .make "}

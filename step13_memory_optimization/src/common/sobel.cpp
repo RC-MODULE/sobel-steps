@@ -66,7 +66,7 @@ int Sobel::initAlloc(int Width, int Height){
 	}
 	return 0;
 }
-int Sobel::filterFinal( const unsigned char *source, unsigned char *result, int finalHeight)
+int Sobel::filterFinal( const nm8u *source, nm8u *result, int finalHeight)
 {
 	int originFrameSize= frameSize;
 	int originSize     = size;
@@ -85,7 +85,7 @@ int Sobel::filterFinal( const unsigned char *source, unsigned char *result, int 
 	return ret;
 }
 	
-int Sobel::filter( const unsigned char *source, unsigned char *result)
+int CBaseSobel::filter( const nm8u *source, nm8u *result)
 {
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
 	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
@@ -135,7 +135,7 @@ int SobelCuts::initAlloc (int Width, int Height, int sliceHeight){
 	return -1;
 }
 
-int SobelCuts::filter ( const unsigned char *source, unsigned char *result)
+int SobelCuts::filter ( const nm8u *source, nm8u *result)
 {
 	int residualHeight=fullHeight-2;
 	source=nmppsAddr_8u(source,width);

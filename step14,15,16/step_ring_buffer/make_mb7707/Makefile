@@ -1,4 +1,4 @@
-ROOT = ../..
+ROOT = ../../..
 include $(ROOT)/global.mk
 #-include ../local.mk
 
@@ -24,7 +24,7 @@ INC_DIRS = -I"$(MB7707)/include" -I$(ROOT)/include -I"$(NEURO)/include" -I$(HAL)
 LIB_DIRS = -L"$(MB7707)/lib" -L$(HAL)/lib -L$(NMPP)/lib
 LIBS     = hal-mb7707.lib mb7707lib.lib nmpp-nmc3.lib  libint_soc.lib libc05.lib cppnew05.lib
 CFG      = mb7707brd.cfg
-SRC_DIRS = ../src_target ../src/common ../src/nm
+SRC_DIRS = ../src_target ../../src/common ../../src/nm
 SRC_CPP  = $(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
 HEAPS    = -heap=25000 -heap1=32500 -heap2=32500 -heap3=32500 
