@@ -3,23 +3,28 @@
 #include "malloc32.h"
 #include <time.h>
 #include "ringbuffer.h"
-/*
+
 extern "C" {
-	
+
+#define WIDTH 720
+#define HEIGHT 576
+#define SIZE WIDTH*HEIGHT
+#define MAX_COUNT 16
 #ifdef __NM__
 #pragma data_section ".data_shared_src.bss"
+	long extSrc[SIZE*MAX_COUNT/8];
 	//long extSrc[1920 * 1080 / 8 + 64 / 8];
-	long extSrc[720 * 576 / 8 * 8];
+	//long extSrc[720 * 576 / 8 * 8];
 	//HalRingBuffer srcRingBuffer_;
 	//HalRingBuffer dstRingBuffer_;
 
 	//HalRingBuffer srcRingBuffer[1];
 	//HalRingBuffer dstRingBuffer[1];
 #pragma data_section ".data_shared_dst.bss"
-	long extDst[720*576 / 8 *8 ];
+	//long extDst[720*576 / 8 *8 ];
 #endif	
 };
-*/
+
 int main()
 { 
 //#ifndef __NM__
@@ -39,9 +44,11 @@ int main()
 	//int* intSrc=(int*)malloc32(size/4,HEAP_3);
 	//int* intDst=intSrc;		
 	//free32(intSrc);
-	
-	int* extSrc = (int*)halMalloc32(size/ 4 * 4);
+
+//#ifndef __NM__
+	//int* extSrc = (int*)halMalloc32(size/ 4 * 4);
 	int* extDst = (int*)halMalloc32(size/ 4 * 4);
+//#endif
 	if (extSrc==0 || extDst ==0) {
 		halHostSync(0xDEADB00F);	
 		return -1;
@@ -69,7 +76,6 @@ int main()
 	halHostSync((int)srcRingBuffer);		// Send source buffer address to host
 	halHostSync((int)dstRingBuffer);		// Send result buffer address to host 
 		
-	
 	
 	clock_t t0,t1;
 	int counter=0;				// frame counter
