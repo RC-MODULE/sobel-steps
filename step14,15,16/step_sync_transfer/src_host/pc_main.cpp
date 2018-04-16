@@ -18,7 +18,7 @@ int main()
 	
 	
 	// Access and loading program to nm-board
-	halSleep(3000);
+	halSleep(4000);
 	if (halOpen("sobel.abs",NULL)){
 		printf("Connection error!");
 		return -1;
@@ -58,7 +58,7 @@ int main()
 	unsigned char*  dstImg8=  new unsigned char [size];
 	
 	
-	
+	VS_OpRunForward();
 	while(VS_Run())	{
         VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
 		VS_SetData(1, srcImg8);				// Put source image in window ?1

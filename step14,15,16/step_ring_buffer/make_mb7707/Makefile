@@ -27,7 +27,7 @@ CFG      = mb7707brd.cfg
 SRC_DIRS = ../src_target ../../src/common ../../src/nm
 SRC_CPP  = $(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
-HEAPS    = -heap=1658880 -heap1=32500 -heap2=32500 -heap3=32500 
+HEAPS    = -heap=1658800 -heap1=32500 -heap2=32500 -heap3=32500 
 
 
 ALL: $(TARGET) 

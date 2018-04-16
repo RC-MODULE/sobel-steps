@@ -70,6 +70,7 @@ int main()
 	halHostSync((int)dstRingBuffer);		// Send result buffer address to host 
 		
 	
+	
 	clock_t t0,t1;
 	int counter=0;				// frame counter
 	while(1){					// Start sobel in loop 

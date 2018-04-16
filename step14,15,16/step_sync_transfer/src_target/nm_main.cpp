@@ -26,8 +26,8 @@ int main()
 	int height= halHostSync(1);
 	int size  = width*height;
 
-	int* intSrc=(int*)malloc32(size/4,HEAP_3);
-	int* intDst=intSrc;		
+	//int* intSrc=(int*)malloc32(size/4,HEAP_3);
+	//int* intDst=intSrc;		
 	//free32(intSrc);
 	
 	

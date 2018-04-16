@@ -149,7 +149,7 @@ int CSobel::init (int Width, int Height){
 		if (CBaseSobel::init(Width, sliceHeight))
 		break;
 	}
-	printf("final=%d\n", isReady);
+	//printf("final=%d\n", isReady);
 	return isReady;
 }
 

@@ -77,7 +77,7 @@ int main()
 		VS_Text("%d clocks per frame, %.2f clocks per pixel, %.2f fps\r\n", t, 1.0*t/size, 320000000.0/t );
 		VS_Draw(VS_DRAW_ALL);
 	}
-
+	halClose();
 	delete srcImg8;
 	delete dstImg8;
     return 0;
