@@ -2,6 +2,7 @@
 #include "nmpls.h"
 #include "malloc32.h"
 #include "sobel.h"
+#include "stdio.h"
 #pragma code_section ".text_sobel"
 
 extern "C" {
@@ -27,6 +28,7 @@ CBaseSobel::~CBaseSobel(){
 	if (pool1) 	free32(pool1);
 	if (pool2)  free32(pool2);
 	if (pool3) 	free32(pool3);
+	nmppsClipConvertAddCFree(pClipConvertState);
 }
 
 int CBaseSobel::init(int Width, int Height ){
@@ -37,9 +39,9 @@ int CBaseSobel::init(int Width, int Height ){
 	isReady	=false;	
 
 	pool1= malloc32(frameSize/2, HEAP_1);
+	
 	pool2= malloc32(frameSize/2, HEAP_2);
 	pool3= malloc32(frameSize/2, HEAP_3);
-
 	signedImgUpLine	 = (nm8s*)pool1;
 	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);
 	
@@ -55,18 +57,22 @@ int CBaseSobel::init(int Width, int Height ){
 	verticalAbs      = (nm16s*)pool3;
 	summ			 = (nm16s*)pool1;
 
+	
 	isReady= (pool1!=0) && (pool2!=0) && (pool3!=0);
-		
 	if (!isReady){
 		if (pool1)	free32(pool1); pool1=0;
 		if (pool2)	free32(pool2); pool2=0;
 		if (pool3)	free32(pool3); pool3=0;
+		return isReady;
 	}
-
+	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
+	if (pClipConvertState == 0)
+		isReady = false;
 	return isReady;
 }
 
-	
+
+
 int CBaseSobel::filter( const nm8u *source, nm8u *result, int height, int filterExtraLines)
 {
 	//int height  ;
@@ -85,14 +91,20 @@ int CBaseSobel::filter( const nm8u *source, nm8u *result, int height, int filter
 	
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
 	switch (filterExtraLines) {
-		case (0):
+		case (FILTER_NO_EXTRA_LINES):
 			nmppsSubC_8s((nm8s*)source, 128, signedImg, size);	// Transform dynamic range 0..255 to -128..+127
 			break;
-		case (1): //Only line over image 
+
+		case (FILTER_OVER_LINE): //Filter Only line over image 
 			nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, size+width);	// Transform dynamic range 0..255 to -128..+127
 			break;
-		case (3): //Filter both  lines  under  and over image 
-			nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, size + (width<<1));	// Transform dynamic range 0..255 to -128..+127
+
+		case (FILTER_UNDER_LINE): //Filter Only line under image 
+			nmppsSubC_8s((nm8s*)source, 128, signedImg, size + width);	// Transform dynamic range 0..255 to -128..+127
+			break;
+			
+		case (FILTER_BOTH_LINES): //Filter both  lines  under  and over image 
+			nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 			break;
 	}
 	//nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
@@ -100,12 +112,14 @@ int CBaseSobel::filter( const nm8u *source, nm8u *result, int height, int filter
 
 	// horizontal edge selection 
 	filter3h( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
-	filter3v(horizontTmpUpLine, horizontOut,  width, height, sobel_weights101v);
+	//filter3v(horizontTmpUpLine, horizontOut,  width, height, sobel_weights101v);
+	filter3v(horizontTmp, horizontOut, width, height, sobel_weights101v);
 	nmppsAbs1_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
 
 	// vertical edge selection 
 	filter3h(signedImgUpLine, verticalTmpUpLine, frameSize, sobel_weights101);
-	filter3v((nm16s*)verticalTmpUpLine, verticalOut, width, height, sobel_weights121v);
+	//filter3v((nm16s*)verticalTmpUpLine, verticalOut, width, height, sobel_weights121v);
+	filter3v((nm16s*)verticalTmp, verticalOut, width, height, sobel_weights121v);
 	nmppsAbs1_16s(verticalOut, verticalAbs,size);	// Calculate absolute value 
 
 	// summ
@@ -133,21 +147,27 @@ int CSobel::init (int Width, int Height){
 	// try to find maximum slice height to fit in internal memory
 	for(int sliceHeight=(Height+29)/30*30; sliceHeight>=30; sliceHeight-=30){
 		if (CBaseSobel::init(Width, sliceHeight))
-			break;
+		break;
 	}
+	printf("final=%d\n", isReady);
 	return isReady;
 }
 
+
+
 int CSobel::filter ( const nm8u *source, nm8u *result){
 	int residualHeight=fullHeight;
+	int filterExtraLines= FILTER_UNDER_LINE;
 	while (residualHeight>height){
-		CBaseSobel::filter(source, result);
+		CBaseSobel::filter(source, result, height, filterExtraLines);
 		source = nmppsAddr_8u(source, size);
 		result = nmppsAddr_8u(result, size);
 		residualHeight-=height;
+		filterExtraLines = FILTER_BOTH_LINES;
 	}
+	filterExtraLines &= ~FILTER_UNDER_LINE;
 	if (residualHeight>0){
-		CBaseSobel::filter(source, result, residualHeight);
+		CBaseSobel::filter(source, result, residualHeight, filterExtraLines);
 	}
 	
 	return true;

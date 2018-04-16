@@ -27,13 +27,13 @@ CFG      = mb7707brd.cfg
 SRC_DIRS = ../src_target ../../src/common ../../src/nm
 SRC_CPP  = $(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
-HEAPS    = -heap=1658880 -heap1=32500 -heap2=32500 -heap3=32500 
+HEAPS    = -heap=25000 -heap1=32500 -heap2=32500 -heap3=32500 
 
 
 ALL: $(TARGET) 
 
 $(TARGET): $(SRC_CPP) $(SRC_ASM) $(CFG) Makefile
-	nmcc -nmc3 -g -O2 -o$(TARGET) -nm2ms -m.main.map -full_names -c$(CFG) $(HEAPS)  $(SRC_CPP) $(SRC_ASM) $(LIBS)  $(INC_DIRS) $(LIB_DIRS)
+	nmcc -nmc3 -g -O2 -o$(TARGET) -nm2ms -m.main.map -c$(CFG) $(HEAPS)  $(SRC_CPP) $(SRC_ASM) $(LIBS)  $(INC_DIRS) $(LIB_DIRS)
 
 PATH:=$(MB7707)/bin;$(PATH)
 

@@ -90,7 +90,7 @@ end ".data_sobel_weights121v";
 
 begin ".text_sobel"
 
-
+// void filter3v( const nm16s *source, nm16s *result, int width, int height, void* weights);
 global _filter3v: label;
 <_filter3v>
 
@@ -110,16 +110,17 @@ global _filter3v: label;
 	
     ar0 = [--ar5];						// [source buffer];
     ar4 = [--ar5]; 						// [result buffer]
-    gr7 = [--ar5];						// [width]
-	gr6 = [--ar5] 	with gr0=gr7>>1;	// [height]
+    gr7 = [--ar5];						// [width(16)]
+	gr6 = [--ar5] 	with gr0=gr7>>1;	// [height] gr0= [width(32)]
 	ar5 = [--ar5] 	with gr4=gr7>>1;	// [weights] for vram
 	rep 30 ram = [ar5++];
 					with gr7>>=2;		// width in 64-bit words
 	gr3 = 30 		with gr7--;
-	ar1 = gr7;
+	ar1 = gr7		with gr0 = -gr0;
+	ar0+= gr0		with gr0 = -gr0;	// ar0 now points to -1'st line 
 	
 	<NextSliceOf30>
-		gr1 = ar0;						// point to start of source slice
+		gr1 = ar0;						// point to previuos line before source slice 
 		gr5 = ar4; 						// point to start of result slice
 		gr7 = ar1;						// restore widthIn64
 		ar0 = gr1 with gr1+=gr2;		// get next source column address

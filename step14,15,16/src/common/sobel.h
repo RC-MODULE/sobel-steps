@@ -17,6 +17,13 @@
 #include "nmpls.h"
 
 
+#define FILTER_NO_EXTRA_LINES 0
+#define FILTER_OVER_LINE   1
+#define FILTER_UNDER_LINE  2
+#define FILTER_BOTH_LINES  3
+
+
+
 class CBaseSobel {
 
 	void* pool1;
@@ -52,7 +59,7 @@ public:
 	CBaseSobel(int Width, int Height);
 	~CBaseSobel();
 	int init(int Width, int Height);
-	int filter( const nm8u *source, nm8u *result, int customHeight=0);
+	int filter(const nm8u *source, nm8u *result, int height, int filterExtraLines= FILTER_NO_EXTRA_LINES);
 };
 
 class CSobel: public CBaseSobel {

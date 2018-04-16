@@ -10,7 +10,7 @@ solution "sobel"
 		kind "ConsoleApp"
 		language "C++"
 		files { "**.h", "../src_host/*.cpp"}
-		links { "hal-mb7707silent-x86.lib","mb7707load.lib","vshell.lib" } 
+		links { "hal-mb7707-x86.lib","mb7707load.lib","vshell.lib" } 
 		includedirs { "$(HAL)/include","$(VSHELL)/include"}	  
 		libdirs { "$(mb7707)/libload","$(HAL)/lib","$(VSHELL)/lib"}
 

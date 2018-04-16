@@ -8,24 +8,10 @@
 
 #include "vshell.h"
 #include "hal_host.h"
-#include "ringbuffer_host.h"
 #include "hal.h"
+
 #include <stdio.h>
-#include <process.h> 
-
-HalHostRingBuffer* srcRingBuffer;
-HalHostRingBuffer* dstRingBuffer;
-
-
-void threadPop(void*) {
-	int counter = 0;
-	char * dst = new char[dstRingBuffer->size*4];
-	while (1) {
-		halHostRingBufferPop(dstRingBuffer, dst, 1);
-		VS_SetData(2, dst);
-		VS_Draw(VS_DRAW_ALL);
-	}
-}
+//#include "profiler_access.h"
 
 int main()
 {
@@ -65,34 +51,33 @@ int main()
 		while (1);
 		return -1;
 	}
-	unsigned srcRingBufferAddr=halSync(0);
-	unsigned dstRingBufferAddr=halSync(0);
+	unsigned srcAddr=halSync(0);
+	unsigned dstAddr=halSync(0);
 	
 	unsigned char*  srcImg8=  new unsigned char [size];
 	unsigned char*  dstImg8=  new unsigned char [size];
 	
 	
-	srcRingBuffer = new HalHostRingBuffer;
-	dstRingBuffer = new HalHostRingBuffer;
-	srcRingBuffer->sleep = 20;
-	dstRingBuffer->sleep = 20;
-	halHostRingBufferInit(srcRingBuffer, srcRingBufferAddr);
-	halHostRingBufferInit(dstRingBuffer, dstRingBufferAddr);
 	
-	
-	_beginthread(threadPop , 0, NULL);
-
-	while (VS_Run()) {
-		VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
+	while(VS_Run())	{
+        VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
 		VS_SetData(1, srcImg8);				// Put source image in window ?1
 
+		halWriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);
+		halSync(0);
+		//... wait while sobel runs on board
 
-		halHostRingBufferPush(srcRingBuffer, srcImg8, 1);
+		unsigned t=halSync(0);
+		halReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);
+			
+		//profiler_print2tbl("../../nm/sobel_mc5103_nmd.map", ReadMemBlock);
+		printf("\n");
+	
+	
+		VS_SetData(2, dstImg8);
+		VS_Text("%d clocks per frame, %.2f clocks per pixel, %.2f fps\r\n", t, 1.0*t/size, 320000000.0/t );
+		VS_Draw(VS_DRAW_ALL);
 	}
-	
-	
-	
-
 
 	delete srcImg8;
 	delete dstImg8;
