@@ -12,8 +12,8 @@ LIB_DIRS = -L"$(NMPP)/lib"  -L"$(MB7707)/lib" -L$(HAL)/lib
 LIBS     = hal-mb7707.lib  mb7707lib.lib nmpp-nmc3.lib libint_soc.lib 
 TARGET   = target.abs
 CFG      = mb7707brd.cfg
-HEAP    ?= -heap=163840 -heap1=16384 -heap2=16384 -heap3=16384
-#            [L00]:64kB   [L01]:64kB  [G00]:64kB   [G01]:64kB
+HEAP    ?= -heap=262144 -heap1=16384 -heap2=16384 -heap3=16384
+#            [L00]:256kB   [L01]:64kB  [G00]:64kB   [G01]:64kB
 
 SRC_DIRS = .. ../nm-src ../.. $(SRC_DEPS)
 
@@ -22,7 +22,7 @@ SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
 
 VPATH    = $(subst -L,,$(LIB_DIRS)) $(NEURO)/lib
 
-$(TARGET): $(SRC_CPP) $(SRC_ASM) $(CFG) Makefile 
+$(TARGET): $(SRC_CPP) $(SRC_ASM) $(CFG) Makefile0 
 	nmcc -o$(TARGET) -m.target.map $(SRC_CPP) $(SRC_ASM) $(NEURO)/crt/clock.asm -soc -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) $(HEAP) -full_names
 
 

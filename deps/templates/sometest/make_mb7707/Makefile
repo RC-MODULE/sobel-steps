@@ -1,4 +1,3 @@
-ROOT = ../../..
 include $(ROOT)/global.mk
 -include ../local.mk
 # BUILD AND RUN MAKEFILE

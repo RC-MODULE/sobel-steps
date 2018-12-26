@@ -30,7 +30,7 @@ solution "app_mc5103"
 	configurations { "Debug", "Release" }
 	project "target"
       kind "Makefile"
-      files { "../nm-src/*.cpp", "../../*.cpp", "*.cfg", "Makefile" }
+      files { "../nm-src/*.cpp", "../../*.cpp", "*.cfg", "Makefile0" }
 	  includedirs {"$(NMPP)/include","$(HAL)/include"}
 	  configuration "Debug"
 		   buildcommands {"make DEBUG=y -f Makefile0"}

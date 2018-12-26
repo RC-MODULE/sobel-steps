@@ -1,6 +1,3 @@
-ROOT=../../..
-
-
 include $(ROOT)/global.mk
 	   
 HOST = host
