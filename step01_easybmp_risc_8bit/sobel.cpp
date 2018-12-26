@@ -1,3 +1,4 @@
+#include "sobel.h"
 #include "nmchar.h"
 
 short sobelH[9]={
@@ -13,7 +14,7 @@ short sobelV[9]={
 #define MAX(a,b) ((a) < (b) ? (b) : (a))
 #define MIN(a,b) ((a) > (b) ? (b) : (a))
 
-void sobel( const unsigned char *_source,unsigned char *_result, int width, int height)
+void sobel( const nm8u *_source, nm8u *_result, int width, int height)
 {
 	uint8ptr source(_source);
 	uint8ptr result(_result);

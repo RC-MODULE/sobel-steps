@@ -1,5 +1,6 @@
-#include "nmpp.h"		//[Added]
-#include "malloc32.h"	//[Added]
+#include "nmpp.h"		
+
+
 
 short sobelH[9]={
 		1,2,1,
@@ -14,10 +15,12 @@ short sobelV[9]={
 #define MAX(a,b) ((a) < (b) ? (b) : (a))
 #define MIN(a,b) ((a) > (b) ? (b) : (a))
 
-void sobel( const unsigned char *_source,unsigned char *_result, int width, int height)
+int sobel( const nm8u *_source, nm8u *_result, int width, int height)
 {
 	unsigned int* source=(unsigned int*)nmppsMalloc32(width*height);				//[Added] Allocate 32-bit buffer
 	unsigned int* result=(unsigned int*)nmppsMalloc32(width*height);				//[Added] Allocate 32-bit buffer
+	if (source==0 || result==0)
+		return -1;
 	nmppsConvert_8u32u((nm8u*)_source,(nm32u*)source,width*height);	//[Added] Convert 8-bit char elements to 32-bit int elements
 
 	int j,sum1,sum2;
@@ -49,6 +52,7 @@ void sobel( const unsigned char *_source,unsigned char *_result, int width, int 
         line3++;
 	}
 	nmppsConvert_32s8s((nm32s*)result,(nm8s*)_result,width*height);	//[Added] Convert 32-bit int to 8-bit char elements
-	nmppsFree32(source);											//[Added]
-	nmppsFree32(result);											//[Added]
+	nmppsFree(source);											//[Added]
+	nmppsFree(result);											//[Added]
+	return 0;
 }

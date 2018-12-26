@@ -9,10 +9,10 @@
 *
 *
 ******************************************************************************/
-
+#include "nmtype.h"
 #ifndef  __SOBEL_H_INCLUDED__
 #define  __SOBEL_H_INCLUDED__
 
-void sobel( const unsigned char *source, unsigned char *result,int width,int height);
+void sobel( const nm8u *source, nm8u *result,int width,int height);
 
 #endif
