@@ -17,6 +17,7 @@ short sobelV[9]={
 
 int sobel( const nm8u *_source, nm8u *_result, int width, int height)
 {
+	
 	unsigned int* source=(unsigned int*)nmppsMalloc32(width*height);				//[Added] Allocate 32-bit buffer
 	unsigned int* result=(unsigned int*)nmppsMalloc32(width*height);				//[Added] Allocate 32-bit buffer
 	if (source==0 || result==0)
