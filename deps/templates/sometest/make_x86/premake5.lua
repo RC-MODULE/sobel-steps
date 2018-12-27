@@ -7,9 +7,9 @@ ROOT = "../../.."
       kind "ConsoleApp"
       language "C++"
       files { "../*.cpp","../../*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
-	  links { "nmpp-x86"} 
-	  libdirs { "$(NMPP)/lib","$(HAL)/lib"}
-	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../.."}
+	  links { "nmpp-x86","vshell"} 
+	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(VSHELL)/lib"}
+	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../..","$(VSHELL)/include"}
 	  
       configuration "Debug"
          defines { "DEBUG" }

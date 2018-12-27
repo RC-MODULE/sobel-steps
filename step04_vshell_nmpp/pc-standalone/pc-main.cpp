@@ -11,6 +11,7 @@
 #include "malloc32.h"
 #include "nmpp.h"
 
+
 int main()
 {
 	if(!VS_Init())

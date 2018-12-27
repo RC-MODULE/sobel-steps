@@ -8,9 +8,9 @@ solution "app_mc5103"
       kind "ConsoleApp"
       language "C++"
       files { "../pc-src/*.cpp","../../*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
-	  links { "nmpp-x86","mc5103load.lib"} 
-	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(MC5103)/libload"}
-	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../.."}
+	  links { "nmpp-x86","vshell","mc5103load"} 
+	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(MC5103)/libload","$(VSHELL)/lib"}
+	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../..","$(VSHELL)/include"}
 	  
       configuration "Debug"
 		links {  "hal-mc5103-x86d"} 

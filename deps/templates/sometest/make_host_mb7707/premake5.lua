@@ -8,9 +8,9 @@ solution "app_mb7707"
       kind "ConsoleApp"
       language "C++"
       files { "../pc-src/*.cpp","../../*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
-	  links { "nmpp-x86","mb7707load.lib"} 
-	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(MB7707)/libload"}
-	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../.."}
+	  links { "nmpp-x86","vshell","mb7707load"} 
+	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(MB7707)/libload","$(VSHELL)/lib"}
+	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../..","$(VSHELL)/include"}
 	  
       configuration "Debug"
 		links {  "hal-mb7707-x86d"} 

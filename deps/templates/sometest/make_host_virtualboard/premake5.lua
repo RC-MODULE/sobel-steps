@@ -8,9 +8,9 @@ solution "host"
 		kind "ConsoleApp"
 		language "C++"
 		files { "../pc-src/*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
-		links { "nmpp-x86"} 
-		libdirs { "$(NMPP)/lib","$(HAL)/lib"}
-		includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../.."}
+		links { "nmpp-x86","vshell"} 
+		libdirs { "$(NMPP)/lib","$(HAL)/lib","$(VSHELL)/lib"}
+		includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../..","$(VSHELL)/include"}
 	  
 		configuration "Debug"
 			links {  "hal-virtual-x86d"} 
