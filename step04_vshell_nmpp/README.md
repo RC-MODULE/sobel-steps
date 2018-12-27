@@ -1,78 +1,84 @@
-﻿## Шаг 3. Портирование алгоритма на векторный процессор 
+﻿## Шаг 4. Подключение графической оболочки VSHELL 
+*В данном уроке переходим от единичной обработки к покадровой используя графическую оболочку VSHELL*
 
-*В этом уроке модифицируем алгоритм таким образом, чтобы переложить логико-арифметические операции с RISC ядра на векторный сопроцессор*
-
-Реализация функция **sobel** на предыдущем шаге использует только С++ конструкции и поэтому исполняется целиком на скалярном RISC-процессоре.
-Производительность можно значительно увеличить если переложить вычисления со скалярного RISC-ядра на векторный сопроцессор с помощью оптимизированных функций на ассемблере.
-Воспользуемся имеющимися векторными функциями из состава NMPP и заменим цикл в **sobel.cpp** на вызов этих функций :
+### модифицируем nmc-приложение
+Модифицируем nmc-приложение на бесконечный цикл приема и обработки кадров в **nm_main.cpp**
 ```cpp
-#include "nmpli.h"
-#include "malloc32.h"
-
-int sobelH[9]={
-		1,2,1,
-		0, 0,0,
-		-1,-2,-1
-};
-
-int sobelV[9]={
-		1,0,-1,
-		2, 0,-2,
-		1,0,-1
-};
-
-bool sobel( const unsigned char *source, unsigned char *result, int width,int height)
-{
-	NmppiFilterState *pHorizontState;
-	NmppiFilterState *pVerticalState;
-	nmppiFilterInitAlloc_8s16s(&pHorizontState,sobelH,3,3,width);
-	nmppiFilterInitAlloc_8s16s(&pVerticalState,sobelV,3,3,width);
-	
-	int size=width*height;
-	nm16s* horizontOut= nmppsMalloc_16s(size);	// Allocate temporary buffer 
-	nm16s* verticalOut= nmppsMalloc_16s(size);	// Allocate temporary buffer
-
-	if (nmppsMallocFail())			// Check all allocation are successful
-		return false;
-	
-	nmppsSubC_8s((nm8s*)source, 128, (nm8s*)source, size);	// Transform dynamic range 0..255 to -128..+127
-
-	nmppiFilter_8s16s((nm8s*)source, horizontOut, width, height, pHorizontState); 	// horizontal edge detection
-	nmppiFilter_8s16s((nm8s*)source, verticalOut, width, height, pVerticalState);  	// vertical   edge detection
-
-	nmppsAbs_16s(horizontOut, horizontOut, size);	// Calculate absolute value 
-	nmppsAbs_16s(verticalOut, verticalOut, size);	// Calculate absolute value 
-
-	nmppsAdd_16s(horizontOut, verticalOut, verticalOut,size);		// Add 
-	nmppsClipPowC_16s(verticalOut, 8, verticalOut, size);// Thresh function to leave pixels in 0..255 range
-	nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);// Convert from 16-bit packed data to 8-bit packed data
-	
-	nmppsFree(horizontOut);
-	nmppsFree(verticalOut);
-	nmppiFilterFree(pHorizontState);
-	nmppiFilterFree(pVerticalState);
-	return true;
+...
+while(1){					// Start sobel in loop 
+	ncl_hostSync(counter);	// Wait source buffer till is ready 		
+	t0=clock();
+	isOk=sobel((unsigned char*)src,(unsigned char*)dst, width, height);
+	t1=clock();
+	if (isOk==false ) 
+		break;
+	ncl_hostSync(t1-t0);	// Send elapsed time 
+	counter++;
 }
+...
 ```
 
-### Комментарии к коду:
+### модифицируем  host-приложение
+Модифицируем пути в Makefile для хост приложения , добавляя пути к $(VSHELL) и подключая библиотеку vshell.
+```
+INC_DIRS         = -I"$(VSHELL)/include" -I"$(MB7707)/pc/include" -I$(ROOT)/deps/connector
+LIB_DIRS         = -L"$(VSHELL)/lib"     -L"$(MB7707)/pc/lib"
+LIBS             = vshell.lib mb7707load.lib
+```
 
-- nmppsSubC_8s  
-Векторный сопроцессор работает только с знаковыми целыми числами.
-Так как изображение приходит в беззнаковом формате то для перевода чисел из диапазона [0..255] в [-128..127] используем функцию вычитания константы 
-**nmppsSubC_8s**
+Инициализация VSHELL проста и требует всего нескольких строчек в функции main:
+```cpp
+...
+	if(!VS_Init())	// Init VSHELL library
+		return 0;
 
+	if(!VS_Bind("../../../../input/bugs720x576x20.avi"))	// Set video sequence for playback
+		return 0;
+
+	int width =VS_GetWidth (VS_SOURCE);	
+	int height=VS_GetHeight(VS_SOURCE);
+	int size  =width*height;
+
+    VS_CreateImage("Source Image", 1, width, height, VS_RGB8, 0);	// Create window for 8-bit source grayscale image
+	VS_CreateImage("Sobel  Image", 2, width, height, VS_RGB8, 0);	// Create window for 8-bit result grayscale image
+...
+```	
+Более подробную документацию на VSHELL можно найти в /deps/VSHELL/doc
+
+Модифицируем ответную часть хост-приложения на бесконечный цикл передачи кадров в функции **main**
+
+```cpp
+...
+while(VS_Run())	{
+	VS_GetGrayData(VS_SOURCE, srcImg8);	// Get image from video stream
+	VS_SetData(1, srcImg8);				// Put source image in window N1
+
+	Connector.WriteMemBlock((unsigned*)srcImg8, srcAddr, size/4);	// Send image to shared memory of nmc 
+	Connector.Sync(0);												// Barrier sync - force nmc to wait while new image is coming 
+	//... wait while sobel runs on board
+
+	unsigned t=Connector.Sync(0);									// Barrier sync - signal from nmc that sobel-filter is finished
+	Connector.ReadMemBlock ((unsigned*)dstImg8, dstAddr, size/4);	// Read result image
+		
+	if (t==0xDEADB00F)
+		VS_Text("Memory allocation error in sobel!\n");
+	VS_SetData(2, dstImg8);
+	VS_Text("%u clocks per frame , %d clocks per pixel, %f fps\r\n", t, t/size, 320000000.0/t );
+	VS_Draw(VS_DRAW_ALL);
+}
+...
+```	
+
+> Для своей работы VSHELL использует vshell.dll , необходимо убедиться, что путь к этой dll прописан в %PATH%
 
 #### Запуск
-Запуск программы осуществляется через **make run** из папки *mb7707/pc/make_vs08* или *mb7707/pc/make_vs13* в зависимости от версии Visual Studio.
-Запустив полученную программу получим производительность:
-- 4868121 clocks per frame 
-- 57 clocks per pixel
-- 65.733781 fps   
+После запуска нажимаем кнопку "play", должен появиться следующий результат:
+![Рис.1](http://savepic.su/5888492.jpg)
 
-Как видно из полученной производительности векторизация вычислений ускорило программу в 250 раз 
-
- 
+Полученная производительность:  
+- 21629749 clocks per frame 
+- 52.16 clocks per pixel
+- 14.79 fps
 
 
 

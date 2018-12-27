@@ -1,7 +1,5 @@
-#include "nmplv.h"
-#include "nmpls.h"
-#include "malloc32.h"
-#include "nmplv/vArithmetics.h"
+#include "nmpli.h"
+#include "nmpp.h"		
 
 
 int sobelH[3]={
@@ -16,7 +14,7 @@ int sobelV[3]={
 //		1,0,-1
 };
 
-bool sobel( const unsigned char *source, unsigned char *result, int width, int height)
+int sobel( const nm8u *source, nm8u *result, int width,int height)
 {
 	int size=width*height;
 	NmppsFrame_16s frame;
@@ -62,5 +60,5 @@ bool sobel( const unsigned char *source, unsigned char *result, int width, int h
 	nmppsFIRFree(pFIRState121);
 	nmppsFIRFree(pFIRState101);
 	
-	return nmppsMallocSuccess();
+	return !nmppsMallocSuccess();
 }

@@ -16,8 +16,8 @@ LIB_DIRS = -L"$(NMPP)/lib"  -L"$(MC5103)/lib" -L$(HAL)/lib
 LIBS     = hal-mc5103.lib mc5103lib.lib nmpp-nmc3.lib libint05.lib  
 TARGET   = main.abs
 CFG      = mc5103brd.cfg
-HEAP    ?= -heap=163840 -heap1=16384 -heap2=16384 -heap3=16384
-#            [L00]:64kB   [L01]:64kB  [G00]:64kB   [G01]:64kB
+HEAP    ?= -heap=4194304 -heap1=16384 -heap2=16384 -heap3=16384
+#            [L00]:16MB   [L01]:64kB  [G00]:64kB   [G01]:64kB
 
 SRC_DIRS = .. ../.. $(SRC_DEPS)
 

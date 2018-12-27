@@ -12,8 +12,8 @@ LIB_DIRS = -L"$(NMPP)/lib"  -L"$(MB7707)/lib" -L$(HAL)/lib
 LIBS     = hal-mb7707.lib  mb7707lib.lib nmpp-nmc3.lib libint_soc.lib 
 TARGET   = main.abs
 CFG      = mb7707brd.cfg
-HEAP    ?= -heap=163840 -heap1=16384 -heap2=16384 -heap3=16384
-#            [L00]:640kB   [L01]:64kB  [G00]:64kB   [G01]:64kB
+HEAP    ?= -heap=4194304 -heap1=16384 -heap2=16384 -heap3=16384
+#            [L00]:16MB   [L01]:64kB  [G00]:64kB   [G01]:64kB
 
 SRC_DIRS = .. ../.. $(SRC_DEPS)
 
