@@ -99,7 +99,7 @@ int main()
 	halHostRingBufferInit(srcRingBuffer, srcRingBufferAddr);
 	halHostRingBufferInit(dstRingBuffer, dstRingBufferAddr);
 	
-	//_beginthread(threadPop , 0, NULL);
+	_beginthread(threadPop , 0, NULL);
 
 	outBuffer = new HalRingBuffer;
 	int * buffer = new int[srcRingBuffer->size * 256];
