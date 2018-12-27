@@ -1,9 +1,7 @@
 #include <time.h>
 #include "sobel.h"
-#include "nmplv.h"
+#include "nmpp.h"
 #include "easypgm.h"
-
-
 
 #pragma data_section ".data_shared_src.bss"
 	long long src_pgm_file[1920*1080/8+64/8];
@@ -14,7 +12,7 @@ int main()
 {  
 	int width ;
 	int height;
-
+	
 	// parse pgm header	
 	int src_pgm_header_len=read_pgm_header(src_pgm_file,width,height);
 	if (src_pgm_header_len==0){
@@ -31,10 +29,6 @@ int main()
 	sobel.filter(src,dst);
 	clock_t t1=clock();
 
-	#ifdef TEST_MODE
-	return 0;
-	#else 
-	return t1-t0; 
-	#endif
+	return 0;//t1-t0; 
 } 
 

@@ -49,7 +49,7 @@ int CBaseSobel::init(int Width, int Height){
 	
 
 	
-int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
+int CBaseSobel::filter( const nm8u *source, nm8u *result)
 {
 	if (nmppsMallocSuccess()){
 		
