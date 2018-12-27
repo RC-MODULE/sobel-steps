@@ -1,5 +1,6 @@
 #include "nmpli.h"
-#include "malloc32.h"
+#include "nmpp.h"		
+
 
 int sobelH[9]={
 		1, 2, 1,
@@ -13,7 +14,7 @@ int sobelV[9]={
 		1, 0,-1
 };
 
-bool sobel( const unsigned char *source, unsigned char *result, int width,int height)
+int sobel( const nm8u *source, nm8u *result, int width,int height)
 {
 	NmppiFilterState *pHorizontState;
 	NmppiFilterState *pVerticalState;
@@ -25,7 +26,7 @@ bool sobel( const unsigned char *source, unsigned char *result, int width,int he
 	nm16s* verticalOut= nmppsMalloc_16s(size);	// Allocate temporary buffer
 
 	if (nmppsMallocFail())			// Check all allocation are successful
-		return false;
+		return -1;
 	
 	nmppsSubC_8s((nm8s*)source, 128, (nm8s*)source, size);	// Transform dynamic range 0..255 to -128..+127
 
@@ -43,5 +44,5 @@ bool sobel( const unsigned char *source, unsigned char *result, int width,int he
 	nmppsFree(verticalOut);
 	nmppiFilterFree(pHorizontState);
 	nmppiFilterFree(pVerticalState);
-	return true;
+	return 0;
 }
