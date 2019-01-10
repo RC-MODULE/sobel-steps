@@ -56,7 +56,9 @@ int CBaseSobel::init(int Width, int Height ){
 
 }
 	
-int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
+
+	
+int CBaseSobel::filter( const nm8u *source, nm8u *result)
 {
 	nmppsSubC_8s((nm8s*)source,128,signedImg,size);	// Transform dynamic range 0..255 to -128..+127
 
@@ -82,7 +84,7 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result)
 	nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
 
 	
-	return true;
+	return 0;
 }
 
 CSobel::CSobel(){
@@ -103,11 +105,11 @@ int CSobel::init (int Width, int Height){
 	return isReady;
 }
 
-int CSobel::filter ( const unsigned char *source, unsigned char *result){
+int CSobel::filter ( const nm8u *source, nm8u *result){
 	
 	for(int slice=0; slice<sliceCount; slice++){
-		unsigned char* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
-		unsigned char* sliceDstImg8= nmppsAddr_8u(result,slice*size);
+		nm8u* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
+		nm8u* sliceDstImg8= nmppsAddr_8u(result,slice*size);
 		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
 	}
 	return true;

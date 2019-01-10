@@ -30,7 +30,7 @@ class CBaseSobel {
 	NmppsFIRState* pFIRState121;
 	NmppsFIRState* pFIRState101;
 
-	
+
 public:
 	int wrapSize;				// size of image with 2 boundary lines
 	int size;					// image size 
@@ -42,7 +42,7 @@ public:
 	CBaseSobel(int Width, int Height);
 	~CBaseSobel();
 	int init(int Width, int Height);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const nm8u *source, nm8u *result);
 };
 
 class CSobel: public CBaseSobel {
@@ -53,7 +53,7 @@ public:
 	CSobel(int Width, int Height);
 	~CSobel();
 	int init(int Width, int Height);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const nm8u *source, nm8u *result);
 };
 
 #endif
