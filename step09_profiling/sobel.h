@@ -18,11 +18,9 @@
 
 
 class CBaseSobel {
-
 	NmppsFrame_8s   signedFrame;		// Framed temporary buffer
 	nm8s*  signedImgUpLine	;	// 1 line up offset 
-	nm8s*  signedImg		;	// 
-
+	nm8s*  signedImg;
 	NmppsFrame_16s  horizontTmpFrame;	// Framed Temporary buffer
 	nm16s* horizontTmpUpLine;	// 1 line up offset 
 	nm16s* horizontTmp		;	// 
@@ -34,7 +32,7 @@ class CBaseSobel {
 	NmppsFIRState* pFIRState121;
 	NmppsFIRState* pFIRState101;
 
-	
+
 public:
 	int frameSize;				// size of image with 2 boundary lines
 	int size;					// image size 
@@ -46,7 +44,7 @@ public:
 	CBaseSobel(int Width, int Height);
 	~CBaseSobel();
 	int init(int Width, int Height);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const nm8u *source, nm8u *result);
 };
 
 class CSobel: public CBaseSobel {
@@ -57,7 +55,7 @@ public:
 	CSobel(int Width, int Height);
 	~CSobel();
 	int init(int Width, int Height);
-	int filter( const unsigned char *source, unsigned char *result);
+	int filter( const nm8u *source, nm8u *result);
 };
 
 #endif
