@@ -84,24 +84,24 @@ int read_pgm_header(void* header, int& width, int& height){
 	
 	// read height
 	len=0;
-//	do {
-//		symbol=nmppsGet_8u(addr,pos++); 
-//		str[len++]=symbol;
-//		if (len>64)	return 0;
-//	} while (symbol!=0x0A);
-//	str[len-1]=0;
-//	height=atoi(str);
-//	
-//	
-//	// read max gray
-//	len=0;
-//	do {
-//		symbol=nmppsGet_8u(addr,pos++); 
-//		str[len++]=symbol;
-//		if (len>32)	return 0;
-//	}while (symbol!=0x0A);
-//	str[len-1]=0;
-//	int max_gray=atoi(str);
+	do {
+		symbol=nmppsGet_8u(addr,pos++); 
+		str[len++]=symbol;
+		if (len>64)	return 0;
+	} while (symbol!=0x0A);
+	str[len-1]=0;
+	height=atoi(str);
+	
+	
+	// read max gray
+	len=0;
+	do {
+		symbol=nmppsGet_8u(addr,pos++); 
+		str[len++]=symbol;
+		if (len>32)	return 0;
+	}while (symbol!=0x0A);
+	str[len-1]=0;
+	int max_gray=atoi(str);
 	//return header->max_gray;
 	
 	//*data=(long*)VEC_Addr(addr,pos/4);
