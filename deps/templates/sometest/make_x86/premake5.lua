@@ -6,7 +6,7 @@ ROOT = "../../.."
 	project "test-x86"
       kind "ConsoleApp"
       language "C++"
-      files { "../*.cpp","../../*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
+      files { "../*.cpp","../../*.cpp","../../*.h","../../src/pc/*.*","../../src/common/*.*",ROOT.."/deps/EasyBMP/*.cpp" }
 	  links { "nmpp-x86","vshell"} 
 	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(VSHELL)/lib"}
 	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../..","$(VSHELL)/include"}

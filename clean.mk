@@ -1,5 +1,5 @@
 kill: clean
-	-$(OS_RM) *.vcproj *.sln *.vcxproj *.db output output.264 
+	-$(OS_RM) *.vcproj *.sln *.vcxproj *.db output output.264 *.pgm	
 
 clean:
 	-$(OS_RM) *.abs *.elf *.ncb *.map *.elf *.suo *.user *.filters *.cache *.db .* *.opendb  $(TARGET) $(TARGET_X86) *.opendb *.bmp

@@ -4,8 +4,6 @@
 #include "sobel.h"
 #pragma code_section ".text_sobel"
 
-
-
 extern "C" {
 	void add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
 	extern long long sobel_weights121[24];
@@ -85,7 +83,7 @@ int CBaseSobel::filter( const nm8u *source, nm8u *result)
 
 	nmppsClipConvertAddC_16s8s((nm16s*)verticalOut,8,0,(nm8s*)result, size, pClipConvertState);
 	
-	return true;
+	return 0;
 }
 
 CSobel::CSobel(){
@@ -107,7 +105,7 @@ int CSobel::init (int Width, int Height){
 	return isReady;
 }
 
-int CSobel::filter ( const unsigned char *source, unsigned char *result){
+int CSobel::filter ( const nm8u *source, nm8u *result){
 	
 	for(int slice=0; slice<sliceCount; slice++){
 		nm8u* sliceSrcImg8= nmppsAddr_8u(source,slice*size);

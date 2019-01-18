@@ -5,7 +5,7 @@
 #pragma code_section ".text_sobel"
 
 extern "C" {
-
+	void add2VW (nm16s *pSrcVec0,nm16s *pSrcVec1, nm16s *pSrcVec2, nm16s *pDstVec, int nSize) ;
 	extern long long sobel_weights121[24];
 	extern long long sobel_weights101[24];
 	extern long long sobel_weights101v[30];
@@ -15,131 +15,77 @@ extern "C" {
 	void filter3v( const nm16s *source, nm16s *result, int width, int height, void* weights);
 };
 
-//CBaseSobel::CBaseSobel(){
-//	isReady=false;
-//}
-
-//CBaseSobel::CBaseSobel(int Width, int Height){
-//	init(Width, Height);
-//}
-#define NMPPS_MALLOC_OR_EXIT_16S(size) \
-	nmppsMalloc_16s(size); \
-	if (nmppsMallocFail()) return -1; 
-
-#define NMPPS_MALLOC_OR_EXIT_8S(size) \
-	nmppsMalloc_8s(size); \
-	if (nmppsMallocFail()) return -1; 
-	
-void Sobel::free(){
-	/*
-	nmppsFree(pool1);
-	nmppsFree(pool2);
-	nmppsFree(pool3);
-	nmppsFree(pClipConvertState);
-	*/
+CBaseSobel::CBaseSobel(){
+	isReady=false;
 }
 
-int Sobel::initAlloc(int Width, int Height){
+CBaseSobel::CBaseSobel(int Width, int Height){
+	init(Width, Height);
+}
+
+CBaseSobel::~CBaseSobel(){
+	nmppsFreeFrame(&signedFrame);
+	nmppsFreeFrame(&horizontTmpFrame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFree(pClipConvertState);
+}
+
+
+int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
 	frameSize=size+2*width;
 	isReady	=false;	
 
-	pool1= nmppsMalloc_16s(frameSize);
-	pool2= nmppsMalloc_16s(frameSize);
-	pool3= nmppsMalloc_16s(frameSize);
+	signedImg			= nmppsMallocFrame_8s(size,width,&signedFrame);
+	signedImgUpLine	 	= nmppsAddr_8s(signedImg,-width);
+		
+	horizontTmp		 	= nmppsMallocFrame_16s(size, width, &horizontTmpFrame); 
+	horizontTmpUpLine	= nmppsAddr_16s(horizontTmp,-width); 
+	horizontTmpDnLine	= nmppsAddr_16s(horizontTmp,+width);
 
-	signedImgUpLine	 = (nm8s*)pool1;
-	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);
+	horizontOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	verticalOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer
 	
-	horizontTmpUpLine= (nm16s*)pool2; 
-	horizontTmp		 = nmppsAddr_16s(horizontTmpUpLine, width); 
-	
-	verticalTmpUpLine= (nm16s*)pool3; 
-	verticalTmp		 = nmppsAddr_16s(verticalTmpUpLine, width); 
 	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
 
-	
-	horizontOut		 = (nm16s*)pool3;
-	verticalOut		 = (nm16s*)pool1;
-	horizontAbs      = (nm16s*)pool2;
-	verticalAbs      = (nm16s*)pool3;
-	summ			 = (nm16s*)pool1;
 
-	if (nmppsMallocSuccess())
-		return 0;
-	else {
-		free();
-		return -1;
-	}
+	isReady=nmppsMallocSuccess();
+	return isReady;
 
-	return 0;
-}
-int Sobel::filterFinal( const unsigned char *source, unsigned char *result, int finalHeight)
-{
-	int originFrameSize= frameSize;
-	int originSize     = size;
-	int originHeight   = height;
-
-	frameSize= finalHeight*width;
-	size     = frameSize;
-	height   = finalHeight;
-
-	int ret=filter( source, result);
-
-	frameSize= originFrameSize;
-	size     = originSize;
-	height   = originHeight;
-	
-	return ret;
 }
 	
-int Sobel::filter( const unsigned char *source, unsigned char *result)
+	
+int CBaseSobel::filter( const nm8u *source, nm8u *result)
 {
-	signedImgUpLine         =NMPPS_MALLOC_OR_EXIT_8S(frameSize);
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
 	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-	horizontTmpUpLine		= NMPPS_MALLOC_OR_EXIT_16S(frameSize);
-	filter3h(signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
-	
-	horizontOut		 		= NMPPS_MALLOC_OR_EXIT_16S(size);
+	filter3h ( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
+	// here was: 
+	//nmppsSub_16s(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
 	filter3v(horizontTmpUpLine, horizontOut,  width, height, sobel_weights101v);
-	nmppsFree(horizontTmpUpLine);
-	
-	horizontAbs		 		= NMPPS_MALLOC_OR_EXIT_16S(size);
-	nmppsAbs_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
-	nmppsFree(horizontOut);
 
 	// vertical edge selection 
-	verticalTmpUpLine		= NMPPS_MALLOC_OR_EXIT_16S(frameSize);
-	filter3h(signedImgUpLine, verticalTmpUpLine, frameSize, sobel_weights101);
-	nmppsFree(signedImgUpLine);
-	
-	verticalOut		 		= NMPPS_MALLOC_OR_EXIT_16S(size);
-	filter3v(verticalTmpUpLine, verticalOut, width, height, sobel_weights121v);
-	nmppsFree(verticalTmpUpLine);
-	
-	verticalAbs		 		= NMPPS_MALLOC_OR_EXIT_16S(size);
-	nmppsAbs1_16s(verticalOut, verticalAbs,size);	// Calculate absolute value 
-	nmppsFree(verticalOut);
+	filter3h(signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights101);
 
-	// summa
-	summ		 				= NMPPS_MALLOC_OR_EXIT_16S(size);
-	nmppsAdd_16s(horizontAbs, verticalAbs, summ,size);		// Add 
-	nmppsFree(horizontAbs);
-	nmppsFree(verticalAbs);
-	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
-	nmppsClipConvertAddC_16s8s(summ,8,0,(nm8s*)result, size, pClipConvertState);
+	// here was: 
+	//add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);
+	filter3v(horizontTmpUpLine, verticalOut, width, height, sobel_weights121v);
 	
-	nmppsFree(summ);
-	nmppsClipConvertAddCFree(pClipConvertState);
+	nmppsAbs1_16s(horizontOut, horizontOut,size);	// Calculate absolute value 
+	nmppsAbs1_16s(verticalOut, verticalOut,size);	// Calculate absolute value 
+
+	nmppsAdd_16s(horizontOut,verticalOut,verticalOut,size);		// Add 
+
+	nmppsClipConvertAddC_16s8s((nm16s*)verticalOut,8,0,(nm8s*)result, size, pClipConvertState);
 	
 	return 0;
 }
-/*
+
 CSobel::CSobel(){
 	
 }
@@ -151,38 +97,21 @@ CSobel::~CSobel(){
 CSobel::CSobel (int Width, int Height){
 	init(Width, Height);
 }
-*/
-int SobelCuts::initAlloc (int Width, int Height, int sliceHeight){
-	fullHeight=Height;
-	// try to find maximum slice height to fit in internal memory
-	if (sliceHeight==0){
-		for(int sliceHeight=(Height+29)/30*30; sliceHeight>=30; sliceHeight-=30){
-			if (Sobel::initAlloc(Width, sliceHeight)==0)
-				return 0;
-		}
-	}
-	else 
-		return Sobel::initAlloc(Width, sliceHeight);
-	return -1;
+
+int CSobel::init (int Width, int Height){
+	int sliceHeight=60;
+	sliceCount =Height/sliceHeight;
+	CBaseSobel::init(Width, sliceHeight);
+	return isReady;
 }
 
-int SobelCuts::filter ( const unsigned char *source, unsigned char *result)
-{
-	int residualHeight=fullHeight-2;
-	source=nmppsAddr_8u(source,width);
-	result=nmppsAddr_8u(result,width);
-	while (residualHeight>height){
-		if (nmppsMallocResetPos())			return -2;
-		if (Sobel::filter(source, result))	return -1;
-		source = nmppsAddr_8u(source, size);
-		result = nmppsAddr_8u(result, size);
-		residualHeight-=height;
-	}
-	if (residualHeight>0){
-		if (nmppsMallocResetPos())			return -2;
-		return filterFinal(source, result, residualHeight);
-	}
+int CSobel::filter ( const nm8u *source, nm8u *result){
 	
-	return 0;
+	for(int slice=0; slice<sliceCount; slice++){
+		nm8u* sliceSrcImg8= nmppsAddr_8u(source,slice*size);
+		nm8u* sliceDstImg8= nmppsAddr_8u(result,slice*size);
+		CBaseSobel::filter(sliceSrcImg8, sliceDstImg8);
+	}
+	return true;
 
 }

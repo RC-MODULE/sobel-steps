@@ -5,7 +5,7 @@ solution "test_mc7601"
 	configurations { "Debug", "Release" }
 	project "test_mc7601"
       kind "Makefile"
-      files { "../*.cpp","../../*.cpp",ROOT.."/deps/EasyBMP/*.cpp", "*.cfg", "Makefile"  }
+      files { "../*.cpp","../../*.cpp","../../*.h",ROOT.."/deps/EasyBMP/*.cpp", "*.cfg", "Makefile"  }
 	  includedirs {"$(NMPP)/include","$(HAL)/include"}
 	  configuration "Debug"
 		   buildcommands {"make DEBUG=y -f Makefile"}

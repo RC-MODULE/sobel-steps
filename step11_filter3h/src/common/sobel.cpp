@@ -101,7 +101,7 @@ int CBaseSobel::filter( const nm8u *source, nm8u *result)
 
 	nmppsClipConvertAddC_16s8s((nm16s*)verticalOut,8,0,(nm8s*)result, size, pClipConvertState);
 	
-	return true;
+	return 0;
 }
 
 CSobel::CSobel(){

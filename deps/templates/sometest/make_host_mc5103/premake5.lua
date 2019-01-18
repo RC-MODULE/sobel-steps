@@ -7,7 +7,7 @@ solution "app_mc5103"
 	project "host"
       kind "ConsoleApp"
       language "C++"
-      files { "../pc-src/*.cpp","../../*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
+      files { "../pc-src/*.cpp","../../*.cpp", "../src/nm/*.cpp","../src/common/*.cpp",ROOT.."/deps/EasyBMP/*.cpp" }
 	  links { "nmpp-x86","vshell","mc5103load"} 
 	  libdirs { "$(NMPP)/lib","$(HAL)/lib","$(MC5103)/libload","$(VSHELL)/lib"}
 	  includedirs { "$(NMPP)/include","$(HAL)/include",ROOT.."/deps/EasyBMP","../..","$(VSHELL)/include"}
@@ -30,7 +30,7 @@ solution "app_mc5103"
 	configurations { "Debug", "Release" }
 	project "target"
       kind "Makefile"
-      files { "../nm-src/*.cpp", "../../*.cpp", "*.cfg", "Makefile0" }
+      files { "./*.asm","../nm-src/*.cpp", "../../*.cpp", "../src/nm/*.*","../src/common/*.*","*.cfg", "Makefile0" }
 	  includedirs {"$(NMPP)/include","$(HAL)/include"}
 	  configuration "Debug"
 		   buildcommands {"make DEBUG=y -f Makefile0"}

@@ -53,7 +53,7 @@ int save_pgm_header(void* header, int width, int height, char* copyright)
 }
 
 int read_pgm_header(void* header, int& width, int& height){
-	char str[16];
+	char str[64];	
 	char symbol;
 	int  pos=0;
 	nm8u* addr=(nm8u*)header;
@@ -63,7 +63,8 @@ int read_pgm_header(void* header, int& width, int& height){
 	symbol=nmppsGet_8u(addr,pos++); if (symbol!='5')  return 0;
 	symbol=nmppsGet_8u(addr,pos++); if (symbol!=0x0A) return 0;
 	
-	
+	width =0;
+	height=0;
 	// skip comment
 	do {
 		symbol=nmppsGet_8u(addr,pos++); 
@@ -78,28 +79,29 @@ int read_pgm_header(void* header, int& width, int& height){
 		if (len>32)	return 0;
 	} while (symbol!=' ');
 	str[len-1]=0;
+	//
 	width=atoi(str);
 	
 	// read height
 	len=0;
-	do {
-		symbol=nmppsGet_8u(addr,pos++); 
-		str[len++]=symbol;
-		if (len>64)	return 0;
-	} while (symbol!=0x0A);
-	str[len-1]=0;
-	height=atoi(str);
-	
-	
-	// read max gray
-	len=0;
-	do {
-		symbol=nmppsGet_8u(addr,pos++); 
-		str[len++]=symbol;
-		if (len>32)	return 0;
-	}while (symbol!=0x0A);
-	str[len-1]=0;
-	int max_gray=atoi(str);
+//	do {
+//		symbol=nmppsGet_8u(addr,pos++); 
+//		str[len++]=symbol;
+//		if (len>64)	return 0;
+//	} while (symbol!=0x0A);
+//	str[len-1]=0;
+//	height=atoi(str);
+//	
+//	
+//	// read max gray
+//	len=0;
+//	do {
+//		symbol=nmppsGet_8u(addr,pos++); 
+//		str[len++]=symbol;
+//		if (len>32)	return 0;
+//	}while (symbol!=0x0A);
+//	str[len-1]=0;
+//	int max_gray=atoi(str);
 	//return header->max_gray;
 	
 	//*data=(long*)VEC_Addr(addr,pos/4);

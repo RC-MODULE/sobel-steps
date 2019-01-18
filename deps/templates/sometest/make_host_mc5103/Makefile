@@ -12,17 +12,18 @@ vs2015:
 vs2005:
 	premake5 vs2005
 	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(HOST).vcproj
-
-$(EXE): vs2015
+	$(MAKE) -f Makefile0
 	
 .PHONY: run 
 	
-run:	
+run:	$(TARGET)
 	$(EXE)
 	
-	
-$(TARGET): 	
-	
+proflist:
+	$(MAKE) -f Makefile0 proflist
+		
+target $(TARGET): 	
+	$(MAKE) -f Makefile0
 	
 	
 include $(ROOT)/clean.mk	
