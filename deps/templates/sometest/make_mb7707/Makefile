@@ -29,7 +29,7 @@ $(TARGET): $(SRC_CPP) $(SRC_ASM) $(CFG) Makefile
 PATH:=$(MB7707)/bin;$(PATH)
 
 run: $(TARGET)
-	mb7707run -i -a$(MB7707_MAC) $(TARGET) $(RUN_OPT_MB7707)
+	mb7707run -i -a$(MB7707MAC) $(TARGET) $(RUN_OPT_MB7707)
 	
 vs2015:  
 	premake5 vs2015

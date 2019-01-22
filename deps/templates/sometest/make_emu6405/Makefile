@@ -11,14 +11,14 @@ include $(ROOT)/global.mk
 PROJECT  = test_emu6405
 INC_DIRS = -I"$(NMPP)/include" -I"$(MC5103)/include" -I"$(HAL)/include" -I../.. -I$(ROOT)/deps/EasyPGM
 LIB_DIRS = -L"$(NMPP)/lib"  -L$(HAL)/lib
-LIBS     = nmpp-nmc3.lib libint05.lib  
+LIBS     = hal-mc5103.lib nmpp-nmc3.lib libint05.lib  
 TARGET   = main.abs
 CFG      = emu6405.cfg
 #-heap=16384 -heap1=16384 -heap2=16384 -heap3=16384
 HEAP    ?= -heap=16384 -heap1=16384 -heap2=16384 -heap3=16384
 #            [L00]:64kB   [L01]:64kB  [G00]:64kB   [G01]:64kB
 
-SRC_DIRS = .. ../.. $(SRC_DEPS)
+SRC_DIRS = . .. ../.. ../../src/nm ../../src/common $(SRC_DEPS)
 
 SRC_CPP  = $(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
@@ -27,7 +27,7 @@ SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
 VPATH    = $(subst -L,,$(LIB_DIRS)) $(NEURO)/lib
 
 $(TARGET): $(SRC_CPP) $(SRC_ASM) $(CFG) Makefile 
-	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) $(NEURO)/crt/clock.asm -6405 -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) $(HEAP)
+	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) -6405 -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) $(HEAP) -full_names
 
 run: $(TARGET) 
 	nm6405emurun ./$(TARGET) 
@@ -40,6 +40,14 @@ vs2005:
 	premake5 vs2005
 	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(PROJECT).vcproj
 	
+
+proflist:
+	tclsh $(HAL)/script/generate_proflist.tcl proflist_generated.asm   
+	@echo "========= first pass compiling ==========================="
+	$(MAKE) 
+	tclsh $(HAL)/script/generate_proflist.tcl proflist_generated.asm .main.map
+	$(OS_RM) $(TARGET)
+	@echo "========================================================="	
 
 	
 -include $(ROOT)/local.mk

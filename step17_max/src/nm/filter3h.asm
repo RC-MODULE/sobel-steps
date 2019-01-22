@@ -72,6 +72,8 @@ data ".data_sobel_weights101"
 							00000_0000_0000_0000hl,
 							00000_0000_0000_0000hl
 							);
+
+							
 end ".data_sobel_weights101";
 
 begin ".text_sobel"

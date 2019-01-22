@@ -59,7 +59,7 @@ $(PATH);
    OS_WHICH =$(windir)/system32/where
  
 
-  MB7707_MAC ?= 1A-2B-3C-4D-5E-6F
+  MB7707MAC ?= 1A-2B-3C-4D-5E-6F
 else
   ARM_CC   = arm-module-linux-gnueabi-gcc 
   define OS_PATH
@@ -88,7 +88,7 @@ else
   OS_TODIR = -C
   PATH    := $(NEURO)/bin:$(MC5103)/bin:$(MB7707)/bin:$(PATH)
   LD_LIBRARY_PATH = $(MC5103)/bin:$(MB7707)/bin
-  MB7707_MAC = eth0
+  MB7707MAC = eth0
 endif
 
 #PLATFORMS = vs8 mc5103 emu6405  mb7707 mc12101 gcc mc12101_nmpu1_gcc mc12101_nmpu1 

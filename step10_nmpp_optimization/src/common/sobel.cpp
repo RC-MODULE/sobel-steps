@@ -31,34 +31,14 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 }
 
 CBaseSobel::~CBaseSobel(){
-//	nmppsFreeFrame(&signedFrame);
-//	nmppsFreeFrame(&horizontTmpFrame);
-//	nmppsFree(horizontOut);
-//	nmppsFree(verticalOut);
-//	nmppsFIRFree(pFIRState121);
-//	nmppsFIRFree(pFIRState101);
-	//if (pClipConvertState)
-		//nmppsFree(pClipConvertState);
+	nmppsFreeFrame(&signedFrame);
+	nmppsFreeFrame(&horizontTmpFrame);
+	nmppsFree(horizontOut);
+	nmppsFree(verticalOut);
+	nmppsFIRFree(pFIRState121);
+	nmppsFIRFree(pFIRState101);
+	nmppsFree(pClipConvertState);
 }
-
-#ifdef __NM__
-extern "C" nm64u VEC_TBL_Diagonal_01h_G[8];		
-#endif
-
-void nmppsClipConvertAddCInitAlloc_16s8s_(NmppsWeightState** ppState)
-{
-	*ppState=nmppsMalloc_64u(8);
-	#ifdef __NM__
-//	if (*ppState)
-	//	memcpy(*ppState,VEC_TBL_Diagonal_01h_G,16);
-	#endif
-}
-void nmppsClipConvertAddCFree_(NmppsWeightState* pState)
-{
-	if (pState)
-		nmppsFree(pState);
-}
-
 
 
 int CBaseSobel::init(int Width, int Height ){
@@ -68,28 +48,20 @@ int CBaseSobel::init(int Width, int Height ){
 	frameSize=size+2*width;
 	isReady	=false;	
 
-//	signedImg			= nmppsMallocFrame_8s(size,width,&signedFrame);
+	signedImg			= nmppsMallocFrame_8s(size,width,&signedFrame);
 	signedImgUpLine	 	= nmppsAddr_8s(signedImg,-width);
 		
-//	horizontTmp		 	= nmppsMallocFrame_16s(size, width, &horizontTmpFrame); 
+	horizontTmp		 	= nmppsMallocFrame_16s(size, width, &horizontTmpFrame); 
 	horizontTmpUpLine	= nmppsAddr_16s(horizontTmp,-width); 
 	horizontTmpDnLine	= nmppsAddr_16s(horizontTmp,+width);
 
-//	horizontOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer 
-//printf("%x\n",horizontOut);
-//	verticalOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer
-//	nm64u *pp=nmppsMalloc_64u(8);
-//printf("==%x\n",pp);
-	pClipConvertState=0;
-	//printf("%x\n",pClipConvertState);
-	pClipConvertState=nmppsMalloc_64u(8);
-	//nmppsClipConvertAddCInitAlloc_16s8s_(&pClipConvertState);
+	horizontOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer 
+	verticalOut			= nmppsMalloc_16s(size);	// Allocate temporary buffer
 	
-//	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
-//	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
-	printf("%x\n",pClipConvertState);
-	nmppsFree(pClipConvertState);
-	//nmppsFree(pp);
+	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
+	
+	nmppsFIRInitAlloc_8s16s(&pFIRState121,sobelH,3);
+	nmppsFIRInitAlloc_8s16s(&pFIRState101,sobelV,3);
 	
 	isReady=nmppsMallocSuccess();
 	return isReady;
@@ -102,15 +74,14 @@ int CBaseSobel::filter( const nm8u *source, nm8u *result)
 {
 	
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
-return 0;
 	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 
 	// horizontal edge selection 
-//	nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState121);
+	nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState121);
 	nmppsSub_16s(horizontTmpUpLine, horizontTmpDnLine, horizontOut, size);
 
 	// vertical edge selection 
-//	nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState101);
+	nmppsFIR_8s16s(signedImgUpLine, horizontTmpUpLine, frameSize, pFIRState101);
 	
 	// here was: nmppsAdd4V_16s(lines, verticalOut, size); 
 	add2VW (horizontTmp, horizontTmpUpLine,horizontTmpDnLine,verticalOut, size);
@@ -125,7 +96,7 @@ return 0;
 	// here was: nmppsClipPowC_16s(verticalOut,8,verticalOut,size);	// Thresh function to leave pixels in 0..255 range
 	// here was: nmppsConvert_16s8s(verticalOut, (nm8s*)result, size);				// Convert from 16-bit packed data to 8-bit packed data
 	
-//	nmppsClipConvertAddC_16s8s((nm16s*)verticalOut,8,0,(nm8s*)result, size, pClipConvertState);
+	nmppsClipConvertAddC_16s8s((nm16s*)verticalOut,8,0,(nm8s*)result, size, pClipConvertState);
 	
 	return 0;
 }

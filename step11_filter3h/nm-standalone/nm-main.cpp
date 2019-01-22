@@ -14,13 +14,11 @@ int main()
 {  
 	int width ;
 	int height;
-	
 	halProfilerEnable();
+	
 	// parse pgm header	
 	int src_pgm_header_len=read_pgm_header(src_pgm_file,width,height);
-	if (src_pgm_header_len==0)
-	{
-		//return -1;
+	if (src_pgm_header_len==0){
 		width=128;	// use default value if pgm-header is invalid
 		height=128;	// use default value if pgm-header is invalid
 	}
@@ -30,14 +28,14 @@ int main()
 	
 	// Sobel filtration
 	CSobel sobel(width, height);
-		
+	
+	
 	clock_t t0=clock();
 	sobel.filter(src,dst);
 	clock_t t1=clock();
 
-
 	nmprofiler_print2tbl();	
-	
+	printf("the end\n");
 	return 0;//t1-t0; 
 } 
 

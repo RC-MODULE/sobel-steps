@@ -15,13 +15,13 @@ extern "C" {
 	void filter3v( const nm16s *source, nm16s *result, int width, int height, void* weights);
 };
 
-//CBaseSobel::CBaseSobel(){
-//	isReady=false;
-//}
+CBaseSobel::CBaseSobel(){
+	isReady=false;
+}
 
-//CBaseSobel::CBaseSobel(int Width, int Height){
-//	init(Width, Height);
-//}
+CBaseSobel::CBaseSobel(int Width, int Height){
+	init(Width, Height);
+}
 
 void Sobel::free(){
 //	nmppsFree(pool1);
@@ -30,7 +30,7 @@ void Sobel::free(){
 //	nmppsFree(pClipConvertState);
 }
 
-int Sobel::initAlloc(int Width, int Height){
+int CBaseSobel::initAlloc(int Width, int Height){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
@@ -66,7 +66,7 @@ int Sobel::initAlloc(int Width, int Height){
 	}
 	return 0;
 }
-int Sobel::filterFinal( const nm8u *source, nm8u *result, int finalHeight)
+int CBaseSobel::filterFinal( const nm8u *source, nm8u *result, int finalHeight)
 {
 	int originFrameSize= frameSize;
 	int originSize     = size;
@@ -107,7 +107,7 @@ int CBaseSobel::filter( const nm8u *source, nm8u *result)
 	
 	return true;
 }
-/*
+
 CSobel::CSobel(){
 	
 }
@@ -116,12 +116,11 @@ CSobel::~CSobel(){
 
 }
 
-Sobel::Sobel (int Width, int Height){
+CSobel::CSobel (int Width, int Height){
 	init(Width, Height);
 }
-*/
 
-int SobelCuts::initAlloc (int Width, int Height, int sliceHeight){
+int CSobel::initAlloc (int Width, int Height, int sliceHeight){
 	fullHeight=Height;
 	// try to find maximum slice height to fit in internal memory
 	if (sliceHeight==0){
@@ -135,7 +134,7 @@ int SobelCuts::initAlloc (int Width, int Height, int sliceHeight){
 	return -1;
 }
 
-int SobelCuts::filter ( const nm8u *source, nm8u *result)
+int CSobel::filter ( const nm8u *source, nm8u *result)
 {
 	int residualHeight=fullHeight-2;
 	source=nmppsAddr_8u(source,width);

@@ -23,19 +23,25 @@ CBaseSobel::CBaseSobel(int Width, int Height){
 	init(Width, Height);
 }
 
+
 CBaseSobel::~CBaseSobel(){
-	if (pool1) 	free32(pool1);
-	if (pool2)  free32(pool2);
-	if (pool3) 	free32(pool3);
+	deinit();
 }
 
+int CBaseSobel::deinit(){
+	if (pool1)	free32(pool1); pool1=0;
+	if (pool2)	free32(pool2); pool2=0;
+	if (pool3)	free32(pool3); pool3=0;
+	if (pClipConvertState) free(pClipConvertState);  pClipConvertState=0;
+	return 0;
+}
+	
 int CBaseSobel::init(int Width, int Height ){
 	width	=Width;
 	height	=Height;
 	size	=width*height;
 	frameSize=size+2*width;
-	isReady	=true; //false;	
-/*
+	
 	pool1= malloc32(frameSize/2, HEAP_1);
 	pool2= malloc32(frameSize/2, HEAP_2);
 	pool3= malloc32(frameSize/2, HEAP_3);
@@ -48,6 +54,8 @@ int CBaseSobel::init(int Width, int Height ){
 	
 	verticalTmpUpLine= (nm16s*)pool3; 
 	verticalTmp		 = nmppsAddr_16s(verticalTmpUpLine, width); 
+	nmppsClipConvertAddCInitAlloc_16s8s(&pClipConvertState);
+
 	
 	horizontOut		 = (nm16s*)pool3;
 	verticalOut		 = (nm16s*)pool1;
@@ -55,19 +63,17 @@ int CBaseSobel::init(int Width, int Height ){
 	verticalAbs      = (nm16s*)pool3;
 	summ			 = (nm16s*)pool1;
 
-	isReady= (pool1!=0) && (pool2!=0) && (pool3!=0);
+	isReady= (pool1!=0) && (pool2!=0) && (pool3!=0) && (pClipConvertState!=0);
 		
 	if (!isReady){
-		if (pool1)	free32(pool1); pool1=0;
-		if (pool2)	free32(pool2); pool2=0;
-		if (pool3)	free32(pool3); pool3=0;
+		deinit();
 	}
-*/
+
 	return isReady;
 }
 
 	
-int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int customHeight)
+int CBaseSobel::filter( const nm8u *source, nm8u *result, int customHeight)
 {
 	int height  ;
 	int frameSize;
@@ -83,42 +89,15 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int 
 		height  = CBaseSobel::height;
 	}
 	
-
-
-	pool1= malloc32(frameSize/2, HEAP_1);
-	pool2= malloc32(frameSize/2, HEAP_2);
-	pool3= malloc32(frameSize/2, HEAP_3);
-/*
-	signedImgUpLine	 = (nm8s*)pool1;
-	signedImg		 = nmppsAddr_8s(signedImgUpLine,+width);
-
-	horizontTmpUpLine= (nm16s*)pool2; 
-	horizontTmp		 = nmppsAddr_16s(horizontTmpUpLine, width); 
-
-	verticalTmpUpLine= (nm16s*)pool3; 
-	verticalTmp		 = nmppsAddr_16s(verticalTmpUpLine, width); 
-
-	horizontOut		 = (nm16s*)pool3;
-	verticalOut		 = (nm16s*)pool1;
-	horizontAbs      = (nm16s*)pool2;
-	verticalAbs      = (nm16s*)pool3;
-	summ			 = (nm16s*)pool1;
-
-	isReady= (pool1!=0) && (pool2!=0) && (pool3!=0);
-
-	//if (!isReady){
-	//}
-
-
-
-
+	
 	nm8s* sourceUpLine=nmppsAddr_8s((nm8s*)source,-width);
 	nmppsSubC_8s(sourceUpLine, 128, signedImgUpLine, frameSize);	// Transform dynamic range 0..255 to -128..+127
 
+	
 	// horizontal edge selection 
 	filter3h( signedImgUpLine, horizontTmpUpLine, frameSize, sobel_weights121);
 	filter3v(horizontTmpUpLine, horizontOut,  width, height, sobel_weights101v);
-	nmppsAbs_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
+	nmppsAbs1_16s(horizontOut, horizontAbs,size);	// Calculate absolute value 
 
 	// vertical edge selection 
 	filter3h(signedImgUpLine, verticalTmpUpLine, frameSize, sobel_weights101);
@@ -128,11 +107,9 @@ int CBaseSobel::filter( const unsigned char *source, unsigned char *result, int 
 	// summ
 	nmppsAdd_16s(horizontAbs, verticalAbs,(nm16s*)summ,size);		// Add 
 	nmppsClipConvertAddC_16s8s((nm16s*)summ,8,0,(nm8s*)result, size, pClipConvertState);
-*/	
-	if (pool1)	free32(pool1); pool1=0;
-	if (pool2)	free32(pool2); pool2=0;
-	if (pool3)	free32(pool3); pool3=0;
 
+	
+	return 1;
 
 	return true;
 }
@@ -159,7 +136,7 @@ int CSobel::init (int Width, int Height){
 	return isReady;
 }
 
-int CSobel::filter ( const unsigned char *source, unsigned char *result){
+int CSobel::filter ( const nm8u *source, nm8u *result){
 	int residualHeight=fullHeight;
 	while (residualHeight>height){
 		CBaseSobel::filter(source, result);

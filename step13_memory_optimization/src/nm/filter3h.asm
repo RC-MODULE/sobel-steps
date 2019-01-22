@@ -12,7 +12,8 @@
 //********************************************************************************
 
 
-data ".data_sobel_weights121"
+data ".data_sobel"
+
     global _sobel_weights121: long[24] = (	
 							0000_0000_0000_0001hl, 
 							0000_0000_0001_0002hl, 
@@ -41,9 +42,7 @@ data ".data_sobel_weights121"
 							0000_0000_0000_0000hl,
 							0000_0000_0000_0000hl
 							);
-end ".data_sobel_weights121";	
-
-data ".data_sobel_weights101"
+	
 	global _sobel_weights101: long[24] = (	
 							00000_0000_0000_0001hl, 
 							00000_0000_0001_0000hl, 
@@ -72,7 +71,9 @@ data ".data_sobel_weights101"
 							00000_0000_0000_0000hl,
 							00000_0000_0000_0000hl
 							);
-end ".data_sobel_weights101";
+
+							
+end ".data_sobel";
 
 begin ".text_sobel"
 
