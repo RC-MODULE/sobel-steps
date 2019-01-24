@@ -21,7 +21,7 @@
 //	}
 //	return 0;
 //}
-
+extern "C"{
 
 void sobel( const nm8u *source, nm8u *result, int height, SobelCoreSpec* spec){
 	int  residualHeight=height;
@@ -46,6 +46,8 @@ void sobel( const nm8u *source, nm8u *result, int height, SobelCoreSpec* spec){
 	}
 }
 
+
+};
 //void sobelFree(SobelCoreSpec* spec){
 //	sobelCoreFree(spec);
 //}

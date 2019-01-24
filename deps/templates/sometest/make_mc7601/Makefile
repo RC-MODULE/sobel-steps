@@ -25,7 +25,7 @@ SRC_ASM  = $(wildcard $(addsuffix /*.asm,$(SRC_DIRS)))
 VPATH    = $(subst -L,,$(LIB_DIRS)) $(NEURO)/lib
 
 $(TARGET): $(SRC_CPP) $(SRC_ASM) $(CFG) Makefile 
-	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) -soc -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) $(HEAP)
+	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) -soc -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) $(HEAP) -full_names
 
 
 PATH:=$(MC5103)/bin;$(PATH)

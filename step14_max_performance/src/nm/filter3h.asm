@@ -79,7 +79,7 @@ begin ".text_sobel"
 
 macro FILTER_REP(N)
 	rep 24 wfifo = [ar3++], ftw,wtw;
-	rep N  ram   = [ar0++], ftw,wtw with vsum , data, 0;
+	rep N  data,ram   = [ar0++], ftw,wtw with vsum , data, 0;
 	delayed goto ar2;	
 		rep N [ar4++gr4]=afifo,ftw,wtw with vsum , ram,  0;
 		rep N data = [ar1++] with vsum , data, afifo;
@@ -114,7 +114,7 @@ global _filter3h: label;
     ar3 = gr3 with gr7--;
 	<Next32>
 		rep 24 wfifo = [ar3++], ftw,wtw;
-		rep 32 ram   = [ar0++], ftw,wtw with vsum , data, 0;
+		rep 32 data,ram  = [ar0++], ftw,wtw with vsum , data, 0;
 		rep 32 [ar4++gr4]=afifo,ftw,wtw with vsum , ram,  0;
 		ar3 = gr3;
     if > delayed goto Next32 with gr7--;
